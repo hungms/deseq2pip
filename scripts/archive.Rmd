@@ -1,0 +1,39 @@
+### Set count matrix input
+
+```{r}
+#| vscode: {languageId: r}
+counts <- read.csv("../../data/GSE224465_CBCC.tsv", sep = "\t", row.names = 1)
+counts %>% head(.) %>% show(.)
+```
+
+```{r}
+#| vscode: {languageId: r}
+gene_sym_vec <- counts$gene_name
+counts <- counts[3:ncol(counts)]
+counts %>% head(.) %>% show(.)
+```
+
+```{r}
+#| vscode: {languageId: r}
+summarized_counts <- summarize_isoforms(counts, gene_sym_vec = gene_sym_vec, normalized = F)
+summarized_counts %>% head(.) %>% show(.)
+```
+
+Build DESeq2 Object.
+
+```{r}
+#| vscode: {languageId: r}
+meta <- data.frame(samples = colnames(summarized_counts)) %>%
+    mutate(
+        condition = gsub("\\..*", "",  samples),
+        celltype = ifelse(str_detect(samples, "CC"), "CC", "CB"))
+    
+dds <- DESeqDataSetFromMatrix(countData = summarized_counts,
+                              colData = meta,
+                              design = ~ condition)
+
+colData(dds)$condition <- factor(colData(dds)$condition, c("WT", "C", "K", "CK"))
+colData(dds)$celltype <- factor(colData(dds)$celltype, c("CB", "CC"))
+                      
+dds
+```

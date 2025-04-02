@@ -1,0 +1,63 @@
+---
+title: Get Started
+vignette: >
+  %\VignetteIndexEntry{Get Started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+author: "`r 'Author: Matthew Hung'`"
+date: "`r paste('Last Updated:', format(Sys.Date(), '%Y/%m/%d'))`"
+output:
+  html_document:
+    code_folding: hide
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+```{r}
+#| vscode: {languageId: r}
+# load deseq2pip  
+library(deseq2pip)
+
+# create a directory for results, currently set to tempdir()
+save_dir <- "/Users/hungm/Documents/development/deseq2pip/tests/pipeline/"
+dir.create(save_dir, recursive = TRUE)
+```
+
+## Load DESeq2 object from nfcore pipeline
+```{r}
+# load example DESeq2 object
+rdata <- system.file("data", "GSE189410.Rdata", package = "deseq2pip")
+tx2gene <- gzfile(system.file("data", "GSE189410_tx2gene.tsv.gz", package = "deseq2pip"))
+dds <- import_nfcore_dds(rdata = rdata, tx2gene = tx2gene)
+assay(dds)[1:5, 1:5]
+```
+
+## Set group variable to compare between
+```{r}
+# set group variable to compare between, with the first level set as the reference
+dds$Group2 <- factor(dds$Group2, c('IgM', 'IgG', 'IgA'))
+
+# set dds design with desired variables
+design(dds) <- ~ Group2
+```
+
+## Run deseq2 pipeline
+```{r}
+#| vscode: {languageId: r}
+# run deseq2pip
+run_deseq2_pip(
+    dds,
+    experiment = "GSE189410",
+    remove_xy = TRUE,
+    remove_mt = TRUE,
+    org = "mouse",
+    group_by = "Group2",
+    save_dir = save_dir)
+```
+
+```{r}
+#| vscode: {languageId: r}
+sessionInfo()
+```

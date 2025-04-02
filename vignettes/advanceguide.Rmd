@@ -1,0 +1,272 @@
+---
+title: Advance Guide
+vignette: >
+  %\VignetteIndexEntry{Advance Guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+author: "`r 'Author: Matthew Hung'`"
+date: "`r paste('Last Updated:', format(Sys.Date(), '%Y/%m/%d'))`"
+output:
+  html_document:
+    code_folding: hide
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+First, load the deseq2pip package:
+
+```{r}
+#| vscode: {languageId: r}
+library(deseq2pip)
+```
+
+## Data Import and Setup
+
+Let's import and prepare your data. We'll use the example dataset GSE189410 to demonstrate the workflow:
+```{r}
+#| vscode: {languageId: r}
+# load example DESeq2 object
+rdata <- system.file("data", "GSE189410.Rdata", package = "deseq2pip")
+tx2gene <- gzfile(system.file("data", "GSE189410_tx2gene.tsv.gz", package = "deseq2pip"))
+dds <- import_nfcore_dds(rdata = rdata, tx2gene = tx2gene)
+assay(dds)[1:5, 1:5]
+
+# set group variable to compare between, with the first level set as the reference
+dds$Group2 <- factor(dds$Group2, c('IgM', 'IgG', 'IgA'))
+
+# set dds design with desired variables
+# for more information about setting contrasts in DESeq2, see: https://github.com/tavareshugo/tutorial_DESeq2_contrasts?tab=readme-ov-file
+design(dds) <- ~ Group2
+```
+
+
+## Run DESeq2 pipeline
+
+The run_deseq2_pip() function is a wrapper function that runs the complete RNA-seq analysis for **every comparison pair** in the specified group variable.
+
+The analysis for each comparison pair can be broken down into three modules:
+
+1. Quality Control: Filters genes, generates QC/PCA/distance plots, and saves expression data
+2. Differential Expression Analysis: Performs DESeq2 analysis, functional gene annotation, and creates volcano plots
+3. GSEA Analysis: Find enriched pathways using MSigDB collections and prepare results for EnrichmentMap visualization
+
+For our example dataset, we hqf3 3 comparison pairs in the group variable `Group2`: `IgM` vs `IgG`, `IgM` vs `IgA`, and `IgG` vs `IgA`.
+
+Here's how to run the complete pipeline with a single command:
+*Note: Repeating run_deseq2_pip will overwrite the existing files if the same directory name is used. To prevent this, please specify a different save_dir directory.*
+```{r}
+#| vscode: {languageId: r}
+# run deseq2 pipeline
+#run_deseq2_pip(dds, experiment = "GSE189410", org = "mouse", group_by = "Group2", remove_xy = TRUE, remove_mt = TRUE, save_dir = "/Users/hungm/Documents/development/deseq2pip/tests/pipeline/")
+```
+
+This will create a directory structure under the specified save directory:
+* qc_results/ contains QC plots and expression data
+* `Group2`/ contains directories for each comparison pair
+
+```{r}
+# show directory structure
+#fs::dir_tree("/Users/hungm/Documents/development/deseq2pip/tests/pipeline/", recurse = 1)
+```
+
+For each comparison pair, the directory contains:
+  * diffexp_deseq2_wald.tsv: Dataframe of differential expression results and gene annotation
+  * diffexp_volcano.pdf: Volcano plot of the differential expression results
+  * outputs for each gene set collection (HALLMARK, GOBP, KEGG, REACTOME, TFT, BIOCARTA):
+    * gsea_*.rds: RDS file of gseaResult class object
+    * gsea_*.tsv: TSV file of GSEA results
+    * gsea_*_barplot.pdf: Barplots for the top N terms from GSEA results
+```{r}
+# show directory structure for a specific comparison pair
+#fs::dir_tree("/Users/hungm/Documents/development/deseq2pip/tests/pipeline/Group2/IgA_vs_IgG/")
+```
+
+
+## Run individual modules
+
+After an initial run of the DESeq2 pipeline, you may wish to run a specific module using different parameters or comparison groups without repeating the entire pipeline.
+
+Here's how to run each module separately.
+```{r}
+#| vscode: {languageId: r}
+# set global arguments
+save_dir <- "/Users/hungm/Documents/development/deseq2pip/tests/module/"
+group_by <- "Group2"
+org <- "mouse"
+group_dir <- paste0(save_dir, "/", group_by, "/")
+
+# Module 1: Quality Control
+#dds <- run_qc_pip(dds, experiment = "GSE189410", org = org, group_by = group_by, remove_xy = T, remove_mt = T, save_dir = save_dir)
+
+# Module 2: Differential Expression Analysis
+#res <- run_diffexp_pip(dds, org = org, group_by = group_by, save_dir = group_dir)
+
+# Module 3: GSEA Analysis
+#run_gsea_pip(res = res, org = org, save_dir = group_dir)
+```
+
+
+Below is a breakdown of the list of processes performed in each module.
+
+
+## Module 1: Quality Control
+
+The `run_qc_pip()` module contains a sequence of subprocesses that performs quality control checks on the data.
+
+
+### Remove XY and MT genes
+If your data contains samples taken from both males and females that you are not interested in, you can optionally remove gender-specific genes on X and Y chromosomes. This can be done with the `remove_xy_genes()` function.
+
+This is optional but recommended if you see a gender-specific effect in downstream PCA and distance analysis.
+
+```{r}
+#| vscode: {languageId: r}
+# remove XY genes (Optional)
+dds <- remove_xy_genes(dds, org = "mouse")
+dds
+```
+
+Similarly, if your data contains mitochondrial genes that you are not interested in, you can optionally remove them with the `remove_mt_genes()` function.
+
+```{r}
+#| vscode: {languageId: r}
+# remove MT genes (Optional)
+dds <- remove_mt_genes(dds, org = "mouse")
+any(str_detect(rownames(dds), "^[Mm][Tt]-"))
+dds
+```
+
+
+### Remove lowly expressed genes
+RNA-seq is a high-throughput technology that can be noisy, and certain genes are poorly captured from RNA-seq. To control for this, we will remove these genes to improve statistical power for subsequent analysis.
+
+By default we keep genes with at least 5% of total expression (`remove_low_expression(..., quantile = 0.05)`). The gene must also be expressed in at least n replicates, where n is the minimum replicates in the group.
+
+```{r}
+#| vscode: {languageId: r}
+# remove low expression genes
+dds <- remove_low_expression(dds, quantile = 0.05, group_by = "Group2", save_plot = FALSE)
+```
+
+
+### Check library size distribution
+Expression of genes may vary between samples, and this may be due to sample/batch quality issues. 
+
+Here we draw a boxplot representing expression level of every gene and compare the gene expression distribution from each sample using the `check_library()` function.
+
+If the boxplots show little variation in expression level across samples, this indicates that the samples are of high quality and suitable for differential expression analysis. 
+
+Otherwise, one should consider removing the samples with low quality or perform batch correction downstream to address quality issues. This will address technical variation between samples/batches and improve the statistical power for true biological variations.
+
+```{r}
+#| vscode: {languageId: r}
+# check library size distribution
+check_library(dds, save_plot = FALSE)
+```
+
+### Run PCA and distance analysis
+Next we visualize the relationship between samples/groups using PCA and distance analysis using the `run_pca()` and `run_distance()` functions. 
+
+If there are true biological variability between groups, replicas from the same group should cluster closely in the PCA plot and have lower distance values in the distance heatmap.
+
+Again, one should consider sample/batch quality if the samples do not separate as expected.
+
+```{r}
+#| vscode: {languageId: r}
+# run PCA for the samples with group information
+run_pca(dds, group_by = "Group2", size = 4, save_data = FALSE, save_plot = FALSE)
+
+# run distance analysis between samples
+run_distance(dds, save_data = FALSE, save_plot = FALSE)
+```
+
+
+## Module 2: Differential Expression Analysis
+
+The `run_diffexp_pip()` module performs statistical analysis to identify differentially expressed genes between groups using `DESeq2::DESeq2()` function, with p-values were generated using Wald test. 
+
+
+### Main function
+
+The main function in the module is the `run_diffexp_list()` function, which by default will perform all pairwise comparisons between groups in the DESeq2 object.
+
+This returns a single dataframe all metrics from `DESeq2::results()`, and the differentially expressed genes for each comparison is separated by `comparison` column. Additionally, chromosome loci and functional annotations of each gene was added to the dataframe using the `strpip::run_annotation()` function (see https://github.com/hungms/strpip).
+
+```{r}
+#| vscode: {languageId: r}
+# run differential expression analysis
+res <- run_diffexp_list(dds, group_by = "Group2", save_data = FALSE)
+head(res)
+```
+
+### Generating volcano plots
+
+The module also includes the `plot_volcano_list()` function, which is a wrapper for the `plot_volcano()` command to generate volcano plots for all comparisons.
+
+Here we will use `plot_volcano()` to generate a single volcano plot for the `IgA_vs_IgG` comparison as a demonstration.
+```{r}
+# generate volcano plot for all comparisons; skipped here
+#plot_volcano_list(res, save_plot = FALSE)
+
+# Generate volcano plot for the "IgA_vs_IgG" comparison
+res.IgA_vs_IgG <- res %>% filter(comparison == "IgA_vs_IgG")
+plot_volcano_list(res.IgA_vs_IgG, save_plot = FALSE)
+```
+
+
+## Module 3: GSEA Analysis
+
+The final `run_gsea_pip()` module performs gene set enrichment analysis to identify biological pathways and processes using a list of MSigDB gene set collections (HALLMARK, GOBP, KEGG, REACTOME, TFT, BIOCARTA). Gene sets must have at least 10 and no more than 1000 genes to be tested.
+
+
+### Main function
+The main function in the module is the `run_gsea_list()` function, which will perform GSEA analysis using the differential expression results from the `run_diffexp_list()` function. This is done for all pairwise comparisons between groups specified in the `comparison` column.
+
+This returns a list of gseaResult class objects for each gene set collection and comparison.
+
+```{r}
+#| vscode: {languageId: r}
+# run gsea analysis
+gsea.list <- run_gsea_list(res, org = "mouse", save_data = FALSE)
+names(gsea.list)
+```
+
+When `save_data = TRUE`, individual gsea results that were saved in the `gsea_results` directory can be read back in using the `read_gsea_tsv_list()` function. 
+
+Here we will retrieve the gsea results for the `IgA_vs_IgG` comparison using GOBP collection.
+```{r}
+#| vscode: {languageId: r}
+# read gsea results from saved files
+#gsea.df <- read_gsea_tsv_list()
+#gsea.df %>% head(.)
+
+# read gsea results for the "IgA_vs_IgG" comparison
+gsea.IgA_vs_IgG.gobp <- gsea.list[[which(names(gsea.list) == "IgA_vs_IgG_GOBP")]]@result
+gsea.IgA_vs_IgG.gobp %>% head(.)
+```
+
+### Generate barplots
+
+The module also includes the `plot_gsea_barplot_list()` function, which is a wrapper for the `plot_gsea_barplot()` command to generate barplots for all comparisons.
+
+Here we will use `plot_gsea_barplot()` to generate a single barplot for the `IgA_vs_IgG` comparison using GOBP collection as a demonstration. By default, the barplot will show the top 10 upregulated and downregulated terms.
+```{r}
+# generate barplot for all comparisons; skipped here
+#plot_gsea_barplot_list(gsea.df, save_plot = FALSE)
+
+# Generate barplot for the "IgA_vs_IgG" comparison
+plot_gsea_barplot(gsea.IgA_vs_IgG.gobp, n = 10, save_plot = FALSE)
+```
+
+
+### Format files for EnrichmentMap
+
+Finally the module will run `format_enrichmentmap()` which creates a enrichmentmap directory containing files formated for EnrichmentMap visualization.
+
+By default, the function will only use the HALLMARK, GOBP, KEGG and REACTOME collections. We will skip this step here.
+
+```{r}
+#format_enrichmentmap(collection = c("HALLMARK", "GOBP", "KEGG", "REACTOME"))
+```

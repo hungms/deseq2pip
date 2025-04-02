@@ -1,0 +1,50 @@
+url: https://hungms.github.io/deseq2pip/
+authors:
+  Matthew Hung:
+    href: https://hungms.github.io/Portfolio/
+template:
+  bootstrap: 5
+  bootswatch: flatly
+navbar:
+  structure:
+    left:
+    - intro
+    - articles
+    - reference
+    - news
+    right:
+    - search
+    - github
+    - lightswitch
+articles:
+- title: Articles
+  navbar: ~
+  contents:
+  - advanceguide
+  - gseadatabase
+reference:
+- title: Pipeline Functions
+  contents:
+  - matches("run_deseq2pip")
+  - matches("pip")
+  - ends_with("_list")
+- title: Quality Control
+  contents:
+  - starts_with("remove_")
+  - matches("library")
+  - ends_with("pca")
+  - ends_with("distance")
+- title: Functional Analysis
+  contents:
+  - ends_with("_diffexp")
+  - ends_with("_gsea")
+- title: Plot Functions
+  contents: starts_with("plot_")
+- title: Format Functions
+  contents:
+  - starts_with("import_")
+  - starts_with("read_")
+  - starts_with("save_")
+  - matches("summarize_genes")
+  - matches("enrichmentmap")
+

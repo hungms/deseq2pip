@@ -1,0 +1,22 @@
+
+```{r}
+#| vscode: {languageId: r}
+library(deseq2pip)
+```
+
+```{r}
+# Use example data
+rdata_file <- system.file("rawdata", "GSE189410.Rdata", package = "deseq2pip")
+load(rdata_file)
+```
+
+```{r}
+# set group variable to compare between
+dds <- dds[,which(str_detect(colnames(dds), "BM_"))]
+dds$condition <- paste0(dds$Group1, "_", dds$Group2) # make grouping variable
+dds$condition <- factor(dds$condition, c('BM_IgM', 'BM_IgG', 'BM_IgA')) # se
+```
+
+```{r}
+save(dds, file = "inst/data/GSE189410.Rdata")
+```

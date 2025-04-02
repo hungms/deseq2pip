@@ -1,0 +1,49 @@
+Package: deseq2pip
+Title: DESeq2 Pipeline for RNA-seq Analysis
+Version: 0.1.0
+Authors@R: 
+    person(given = "Miu Shing", family = "Hung", email = "matthewhungms@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0009-0004-0412-4374"))
+Description: A comprehensive pipeline for RNA-seq data analysis combining DESeq2-based 
+    differential expression analysis with downstream functional analysis and visualization. 
+    The package provides a modular yet integrated workflow for quality control, 
+    differential expression analysis, gene set enrichment analysis (GSEA), and 
+    visualization of results.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+URL: https://hungms.github.io/deseq2pip/
+BugReports: https://github.com/hungms/deseq2pip/issues
+LazyData: true
+biocViews: Software
+VignetteBuilder: knitr
+Depends: 
+    R (>= 4.0.0)
+Imports:
+    biomaRt,
+    clusterProfiler,
+    DESeq2,
+    dplyr,
+    fgsea,
+    forcats,
+    ggalt,
+    ggplot2,
+    ggplotify,
+    ggpubr,
+    grid,
+    msigdbr,
+    pheatmap,
+    plotr,
+    scales,
+    stringr,
+    strpip,
+    tibble,
+    tidyr
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat
+Remotes: 
+    hungms/plotr,
+    hungms/strpip
+BuildVignettes: no
