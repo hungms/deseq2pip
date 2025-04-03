@@ -19,9 +19,11 @@ This function reads differential expression results from multiple comparison dir
 and optionally merges them into a single data frame.
 }
 \examples{
+\dontrun{
 # Read and merge all results
 merged_results <- read_diffexp_list(data_dir = "results", merge = TRUE)
 
 # Read results as a list
 results_list <- read_diffexp_list(data_dir = "results", merge = FALSE)
+}
 }

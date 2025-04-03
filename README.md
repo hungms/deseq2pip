@@ -1,4 +1,4 @@
-# deseq2pip: A Streamlined DESeq2 Pipeline for RNA-seq Analysis
+# deseq2pip: A DESeq2 Pipeline for RNA/ATAC-seq Analysis
 
 [![R-CMD-check](https://github.com/hungms/deseq2pip/workflows/R-CMD-check/badge.svg)](https://github.com/hungms/deseq2pip/actions)
 [![pkgdown](https://github.com/hungms/deseq2pip/workflows/pkgdown/badge.svg)](https://github.com/hungms/deseq2pip/actions)
@@ -39,6 +39,10 @@ For detailed usage and documentation of all functions, please visit our latest [
   - Customizable gene expression plots
   - GSEA barplots for pathway visualization
   - Support for output formatting for Cytoscape EnrichmentMap
+
+
+## Workflow
+![deseq2pip workflow](deseq2pip_workflow.png)
 
 ## Installation
 
@@ -88,6 +92,7 @@ save_dir <- "/Users/hungm/Documents/development/deseq2pip/tests/pipeline/"
 # Run the complete pipeline
 run_deseq2_pip(
     dds,
+    assaytype = "RNA",
     experiment = "GSE189410",
     remove_xy = TRUE,
     remove_mt = TRUE,

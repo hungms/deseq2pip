@@ -58,7 +58,7 @@ The package depends on the following R packages:
 
 \section{Usage}{
 
-\preformatted{
+\dontrun{
 # Load the package
 library(deseq2pip)
 

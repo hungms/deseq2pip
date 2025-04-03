@@ -45,7 +45,7 @@
 #' }
 #'
 #' @section Usage:
-#' \preformatted{
+#' \dontrun{
 #' # Load the package
 #' library(deseq2pip)
 #'

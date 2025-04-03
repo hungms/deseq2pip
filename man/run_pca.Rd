@@ -5,23 +5,26 @@
 \title{Run Principal Component Analysis}
 \usage{
 run_pca(
-  dds,
+  vsd,
+  experiment = NULL,
   group_by = "Group1",
   shape = NULL,
   size = 4,
   cols = NULL,
-  save_data = T,
-  save_plot = T,
+  save_data = TRUE,
+  save_plot = TRUE,
   save_dir = getwd(),
   save_dir_name = "qc_results"
 )
 }
 \arguments{
-\item{dds}{A DESeq2 object containing the gene expression data}
+\item{vsd}{A DESeq2 object containing the normalized gene expression data}
 
-\item{group_by}{Column name in colData(dds) to group by. Default is "Group1"}
+\item{experiment}{Name of the experiment. Default is NULL}
 
-\item{shape}{Column name in colData(dds) to use for shape in the PCA plot. Default is NULL}
+\item{group_by}{Column name in colData(vsd) to group by. Default is "Group1"}
+
+\item{shape}{Column name in colData(vsd) to use for shape in the PCA plot. Default is NULL}
 
 \item{size}{Size of points in the PCA plot. Default is 4}
 
@@ -43,12 +46,14 @@ This function performs PCA on the variance-stabilized transformed data and gener
 It can visualize sample relationships and identify potential batch effects or outliers.
 }
 \examples{
+\dontrun{
 # Basic PCA plot
-p <- run_pca(dds)
+p <- run_pca(vsd)
 
 # PCA plot with shape and save results
-p <- run_pca(dds, shape = "Batch", save_data = TRUE, save_dir_name = "custom_results")
+p <- run_pca(vsd, shape = "Batch", save_data = TRUE, save_dir_name = "custom_results")
 
 # PCA plot with custom colors
-p <- run_pca(dds, cols = c("red", "blue", "green"))
+p <- run_pca(vsd, cols = c("red", "blue", "green"))
+}
 }

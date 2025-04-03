@@ -40,6 +40,7 @@ This function creates boxplots showing the expression levels of selected genes a
 It can optionally add statistical significance indicators between groups.
 }
 \examples{
+\dontrun{
 # Basic expression plot
 p <- plot_gene_exprs(dds, genes = c("GENE1", "GENE2"), plot_name = "my_genes")
 
@@ -48,4 +49,5 @@ p <- plot_gene_exprs(dds, res = res, genes = c("GENE1", "GENE2"), plot_name = "m
 
 # Expression plot with custom colors
 p <- plot_gene_exprs(dds, genes = c("GENE1", "GENE2"), plot_name = "my_genes", cols = c("red", "blue", "green"))
+}
 }

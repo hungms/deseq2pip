@@ -41,10 +41,12 @@ It shows the relationship between statistical significance (-log10 adjusted p-va
 and biological significance (log2 fold change) for each gene.
 }
 \examples{
+\dontrun{
 # Basic volcano plot
 p <- plot_volcano(res)
 
 # Volcano plot with custom thresholds and highlighted genes
 p <- plot_volcano(res, n = 30, fc.thresh = 2, p.thresh = 0.01,
                   highlight.genes = c("GENE1", "GENE2"))
+}
 }

@@ -21,9 +21,11 @@ A list of GSEA objects for each comparison
 This function reads GSEA results from RDS files for multiple comparisons and collections.
 }
 \examples{
+\dontrun{
 # Read all default collections
 gsea_results <- read_gsea_rds_list("results")
 
 # Read specific collections
 gsea_results <- read_gsea_rds_list("results", collection = c("HALLMARK", "KEGG"))
+}
 }

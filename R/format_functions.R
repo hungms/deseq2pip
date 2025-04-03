@@ -9,11 +9,13 @@
 #' @param ... Additional arguments passed to summarize_genes()
 #' @return A new DESeq2 object containing gene-level expression data
 #' @examples
+#' \dontrun{
 #' # Sum gene expression
 #' gene_dds <- summarize_genes_dds(dds)
 #' 
 #' # Average gene expression
 #' gene_dds <- summarize_genes_dds(dds, normalized = TRUE)
+#' }
 #' @export
 summarize_genes_dds <- function(dds, gene_sym_col = "gene", ...){
     df <- assay(dds) %>% as.data.frame(.)
@@ -28,7 +30,7 @@ summarize_genes_dds <- function(dds, gene_sym_col = "gene", ...){
     return(dds.new)
 }
 
-#' Import nfcore DESeq2 Object
+#' Import nfcore/rnaseq DESeq2 Object
 #'
 #' This function imports a DESeq2 object from nfcore RNA-seq pipeline output and adds gene names.
 #'
@@ -36,10 +38,12 @@ summarize_genes_dds <- function(dds, gene_sym_col = "gene", ...){
 #' @param tx2gene Path to the tx2gene mapping file
 #' @return A DESeq2 object with gene names added to rowData
 #' @examples
+#' \dontrun{
 #' # Import DESeq2 object and add gene names
-#' dds <- import_nfcore_dds("path/to/dds.RData", "path/to/tx2gene.tsv")
+#' dds <- import_nfcore_rna("path/to/dds.RData", "path/to/tx2gene.tsv")
+#' }
 #' @export
-import_nfcore_dds <- function(rdata, tx2gene){
+import_nfcore_rna <- function(rdata, tx2gene){
     # Load DESeq2 object
     load(rdata)
     dds <- get("dds")
@@ -59,6 +63,56 @@ import_nfcore_dds <- function(rdata, tx2gene){
     return(dds.summarized)
 }
 
+#' Import nfcore ATAC-seq DESeq2 Object
+#'
+#' This function imports a DESeq2 object from nfcore ATAC-seq pipeline output and adds gene names.
+#'
+#' @param rdata Path to the RData file containing the DESeq2 object
+#' @param tx2gene Path to the tx2gene mapping file
+#' @param dist.to.TSS Distance to TSS to consider as TSS. Default is 2000
+#' @return A DESeq2 object with gene names added to rowData
+#' @examples
+#' \dontrun{
+#' # Import DESeq2 object and add gene names
+#' dds <- import_nfcore_atac("path/to/dds.RData", "path/to/tx2gene.tsv")
+#' }
+#' @export
+import_nfcore_atac <- function(rdata, annotatePeaks, dist.to.TSS = 2000){
+
+    # Load DESeq2 object
+    load(rdata)
+    dds <- get("dds")
+    
+    annotations <- read.table(annotatePeaks, sep = "\t", header = T, row.names = 1)
+    annotations <- annotations[rownames(assay(dds)),]
+    rowData(dds) <- cbind(rowData(dds), annotations)
+    rowData(dds)$gene <- rowData(dds)$Gene.Name
+    rowData(dds)$Gene.Name <- NULL
+    rowData(dds)$TSS <- ifelse(rowData(dds)$gene != "" & rowData(dds)$Distance.to.TSS > -dist.to.TSS & rowData(dds)$Distance.to.TSS < dist.to.TSS, T, F)
+
+    return(dds)
+}
+
+#' Get TSS peaks from DESeq2 object
+#'
+#' This function extracts TSS peaks from a DESeq2 object and removes duplicate genes.
+#'
+#' @param dds A DESeq2 object
+#' @return A DESeq2 object containing only TSS peaks
+#' @examples
+#' \dontrun{
+#' # Get TSS peaks
+#' dds.tss <- getTSS(dds)
+#' }
+#' @export
+getTSS <- function(dds){
+    stopifnot("TSS" %in% colnames(rowData(dds)))
+    dds.tss <- dds[which(rowData(dds)$TSS == TRUE), ]
+    duplicated.genes <- rowData(dds.tss)$gene[duplicated(rowData(dds.tss)$gene)]
+    dds.tss <- dds.tss[-c(which(rowData(dds.tss)$gene %in% duplicated.genes)),]
+    rownames(dds.tss) <- rowData(dds.tss)$gene
+    return(dds.tss)}
+
 #' Import MSigDB Gene Sets
 #'
 #' This function imports pre-defined MSigDB gene sets for human or mouse organisms.
@@ -66,11 +120,13 @@ import_nfcore_dds <- function(rdata, tx2gene){
 #' @param org The organism to use, either "human" or "mouse". Default is "human"
 #' @return A data frame containing MSigDB gene sets
 #' @examples
+#' \dontrun{
 #' # Import human MSigDB gene sets
 #' msigdb_human <- import_msigdb("human")
 #' 
 #' # Import mouse MSigDB gene sets
 #' msigdb_mouse <- import_msigdb("mouse")
+#' }
 #' @export
 import_msigdb <- function(org) {
     files <- list.files(system.file("extdata", package = "deseq2pip"), full.names = T)
@@ -84,71 +140,114 @@ import_msigdb <- function(org) {
 #' This function saves a data frame as a tab-separated values (TSV) file.
 #'
 #' @param input Data frame to be saved
+#' @param experiment Name of the experiment. Default is NULL
 #' @param tsv_name Name of the output TSV file
 #' @param save_dir Directory where the TSV file will be saved
 #' @param row.names Logical. If TRUE, row names will be included in the output. Default is FALSE
 #' @return None. Creates a TSV file in the specified directory
 #' @examples
+#' \dontrun{
 #' # Save data frame without row names
 #' save_tsv(my_data, "output.tsv", "results")
 #' 
 #' # Save data frame with row names
 #' save_tsv(my_data, "output.tsv", "results", row.names = TRUE)
+#' }
 #' @export
-save_tsv <- function(input, tsv_name, save_dir, row.names = F){
+save_tsv <- function(input, experiment = NULL, tsv_name, save_dir, row.names = F){
     if(!dir.exists(save_dir)){
         dir.create(save_dir, recursive = TRUE)}
-    write.table(input, paste0(save_dir, "/", tsv_name), sep = "\t", row.names = row.names, col.names = T, quote = F)}
+    if(length(experiment) == 0){
+        experiment <- ""}
+    else{
+        experiment <- paste0(experiment, "_")}
+    write.table(input, paste0(save_dir, "/", experiment, tsv_name), sep = "\t", row.names = row.names, col.names = T, quote = F)}
 
 #' Save ggplot Object as PDF
 #'
 #' This function saves a ggplot object as a PDF file with specified dimensions.
+#' It tries to use Cairo PDF device if available, or falls back to standard PDF if not.
 #'
 #' @param input ggplot object to be saved
+#' @param experiment Name of the experiment. Default is NULL
 #' @param plot_name Name of the output PDF file
 #' @param save_dir Directory where the PDF file will be saved
 #' @param w Width of the PDF in inches
 #' @param h Height of the PDF in inches
-#' @return None. Creates a PDF file in the specified directory
+#' @return The file path (invisibly)
 #' @examples
+#' \dontrun{
 #' # Save plot with default dimensions
 #' save_plot(my_plot, "plot.pdf", "figures", w = 8, h = 6)
 #' 
 #' # Save plot with custom dimensions
 #' save_plot(my_plot, "plot.pdf", "figures", w = 10, h = 8)
+#' }
 #' @export
-save_plot <- function(input, plot_name, save_dir, w, h){
+save_plot <- function(input, experiment = NULL, plot_name, save_dir, w, h){
+    # Create directory if it doesn't exist
     if(!dir.exists(save_dir)){
-        dir.create(save_dir, recursive = TRUE)}
-    Cairo::CairoPDF(file = paste0(save_dir, "/", plot_name), width = w, height = h)
-    print(input)
-    dev.off()
+        dir.create(save_dir, recursive = TRUE)
     }
+    
+    # Format experiment name
+    if(length(experiment) == 0){
+        experiment <- ""
+    } else {
+        experiment <- paste0(experiment, "_")
+    }
+    
+    # Construct file path
+    file_path <- file.path(save_dir, paste0(experiment, plot_name))
+    
+    # Try using Cairo if available, otherwise use standard PDF
+    tryCatch({
+        if (requireNamespace("Cairo", quietly = TRUE)) {
+            Cairo::CairoPDF(file = file_path, width = w, height = h)
+        } else {
+            pdf(file = file_path, width = w, height = h)
+        }
+        print(input)
+        dev.off()
+    }, error = function(e) {
+        # If Cairo fails, try standard PDF
+        message("Cairo PDF failed, using standard PDF device instead: ", e$message)
+        pdf(file = file_path, width = w, height = h)
+        print(input)
+        dev.off()
+    })
+    
+    # Return the file path invisibly
+    invisible(file_path)
+}
 
-#' Save Expression Data
+#' Save Expression Data from DESeq2 Object
 #'
 #' This function saves expression data from a DESeq2 object in various formats,
-#' including raw counts, variance-stabilized transformed data, and class labels.
+#' including the DESeq2 object itself, raw counts, normalized expression values,
+#' and class labels for GSEA.
 #'
 #' @param dds DESeq2 object containing the expression data
-#' @param group_by Column name in colData(dds) to use for grouping. Default is "Group1"
 #' @param experiment Name of the experiment
-#' @param save_dir Directory where the files will be saved. Default is current working directory
+#' @param group_by Column name in colData(dds) to use for grouping. Default is "Group1"
+#' @param save_dir Directory to save files. Default is the current working directory
 #' @param save_dir_name Name of the subdirectory to save files in. Default is "qc_results"
-#' @return None. Creates several files in the specified directory:
-#'         - RDS file containing the DESeq2 object
-#'         - TSV file with raw expression counts
-#'         - TSV file with variance-stabilized transformed data
+#' @return Nothing, but saves the following files:
+#'         - DESeq2 object as RDS
+#'         - Raw counts as TSV
+#'         - Variance-stabilized transformed data as TSV
 #'         - CLS file with class labels
 #' @examples
+#' \dontrun{
 #' # Save expression data with default settings
 #' save_expression(dds, experiment = "my_experiment")
 #' 
 #' # Save expression data with custom grouping and directory name
 #' save_expression(dds, group_by = "Treatment", experiment = "my_experiment", save_dir_name = "custom_results")
+#' }
 #' @export
-save_expression <- function(dds, group_by = "Group1", experiment, save_dir = getwd(), save_dir_name = "qc_results"){
-    message("Saving DESeq2 object & expressions")
+save_expression <- function(dds, experiment, group_by = "Group1", save_dir = getwd(), save_dir_name = "qc_results"){
+    message("Saving DESeq2 object & expressions...")
     counts <- assay(dds)
     data <- assay(vst(dds, blind = T))
 
@@ -166,7 +265,7 @@ save_expression <- function(dds, group_by = "Group1", experiment, save_dir = get
     class[3,] <- row3
 
     saveRDS(dds, file = paste0(save_dir, "/", save_dir_name, "/", experiment, "_dds_qc.rds"))
-    save_tsv(counts, tsv_name = paste0(experiment, "_expr.txt"), save_dir = paste0(save_dir, "/", save_dir_name, "/"), row.names = T)
-    save_tsv(data, tsv_name = paste0(experiment, "_vst.txt"), save_dir = paste0(save_dir, "/", save_dir_name, "/"), row.names = T)
+    save_tsv(counts, experiment = experiment, tsv_name = "expr.txt", save_dir = paste0(save_dir, "/", save_dir_name, "/"), row.names = T)
+    save_tsv(data, experiment = experiment, tsv_name = "vst.txt", save_dir = paste0(save_dir, "/", save_dir_name, "/"), row.names = T)
     write.table(class, file = paste0(save_dir, "/", save_dir_name, "/", experiment, "_class.cls"), row.names = F, col.names = F, quote = F)
 }

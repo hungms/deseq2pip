@@ -19,22 +19,27 @@ knitr:
 #| vscode: {languageId: r}
 # load deseq2pip  
 library(deseq2pip)
+```
 
+## Run deseq2pip on RNA-seq data
+```{r}
+#| vscode: {languageId: r}
 # create a directory for results, currently set to tempdir()
-save_dir <- "/Users/hungm/Documents/development/deseq2pip/tests/pipeline/"
+# save_dir <- "/Users/hungm/Documents/development/deseq2pip/tests/rnaseq/pipeline/"
+save_dir <- tempdir()
 dir.create(save_dir, recursive = TRUE)
 ```
 
-## Load DESeq2 object from nfcore pipeline
+### Load DESeq2 object from nfcore pipeline
 ```{r}
 # load example DESeq2 object
-rdata <- system.file("data", "GSE189410.Rdata", package = "deseq2pip")
-tx2gene <- gzfile(system.file("data", "GSE189410_tx2gene.tsv.gz", package = "deseq2pip"))
-dds <- import_nfcore_dds(rdata = rdata, tx2gene = tx2gene)
+rdata <- system.file("data", "GSE189410.dds.RData", package = "deseq2pip")
+tx2gene <- gzfile(system.file("data", "GSE189410.tx2gene.tsv.gz", package = "deseq2pip"))
+dds <- import_nfcore_rna(rdata = rdata, tx2gene = tx2gene)
 assay(dds)[1:5, 1:5]
 ```
 
-## Set group variable to compare between
+### Set group variable to compare between
 ```{r}
 # set group variable to compare between, with the first level set as the reference
 dds$Group2 <- factor(dds$Group2, c('IgM', 'IgG', 'IgA'))
@@ -43,12 +48,14 @@ dds$Group2 <- factor(dds$Group2, c('IgM', 'IgG', 'IgA'))
 design(dds) <- ~ Group2
 ```
 
-## Run deseq2 pipeline
+### Run deseq2 pipeline
 ```{r}
 #| vscode: {languageId: r}
 # run deseq2pip
 run_deseq2_pip(
     dds,
+    assaytype = "RNA",
+    batch = NULL,
     experiment = "GSE189410",
     remove_xy = TRUE,
     remove_mt = TRUE,
@@ -57,7 +64,49 @@ run_deseq2_pip(
     save_dir = save_dir)
 ```
 
+## Run deseq2pip on ATAC-seq data
+
 ```{r}
 #| vscode: {languageId: r}
-sessionInfo()
+# create a directory for results, currently set to tempdir()
+# save_dir <- "/Users/hungm/Documents/development/deseq2pip/tests/atacseq/pipeline/"
+save_dir <- tempdir()
+dir.create(save_dir, recursive = TRUE)
+```
+
+### Load DESeq2 object from nfcore pipeline
+```{r}
+# load example DESeq2 object
+rdata <- system.file("data", "GSE224512.dds.RData", package = "deseq2pip")
+annotatePeaks <- gzfile(system.file("data", "GSE224512.annotatePeaks.txt.gz", package = "deseq2pip"))
+dds <- import_nfcore_atac(rdata = rdata, annotatePeaks = annotatePeaks)
+assay(dds)[1:5, 1:5]
+
+# subset groups for brevity
+dds <- dds[, dds$Group1 %in% c("WT", 'BC', 'BCK')]
+```
+
+### Set group variable to compare between
+```{r}
+# set group variable to compare between, with the first level set as the reference
+dds$Group1 <- factor(dds$Group1, c("WT", 'BC', 'BCK'))
+
+# set dds design with desired variables
+design(dds) <- ~ Group1
+```
+
+### Run deseq2 pipeline
+```{r}
+#| vscode: {languageId: r}
+# run deseq2pip
+run_deseq2_pip(
+    dds,
+    assaytype = "ATAC",
+    batch = NULL,
+    experiment = "GSE224512",
+    remove_xy = TRUE,
+    remove_mt = TRUE,
+    org = "mouse",
+    group_by = "Group1",
+    save_dir = save_dir)
 ```

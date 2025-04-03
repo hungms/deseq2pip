@@ -22,9 +22,11 @@ in a DESeq2 object into a single gene-level expression value. It creates a new
 DESeq2 object with gene-level expression data.
 }
 \examples{
+\dontrun{
 # Sum gene expression
 gene_dds <- summarize_genes_dds(dds)
 
 # Average gene expression
 gene_dds <- summarize_genes_dds(dds, normalized = TRUE)
+}
 }

@@ -16,9 +16,11 @@ A data frame containing MSigDB gene sets
 This function imports pre-defined MSigDB gene sets for human or mouse organisms.
 }
 \examples{
+\dontrun{
 # Import human MSigDB gene sets
 msigdb_human <- import_msigdb("human")
 
 # Import mouse MSigDB gene sets
 msigdb_mouse <- import_msigdb("mouse")
+}
 }

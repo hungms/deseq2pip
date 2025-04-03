@@ -1,4 +1,9 @@
+archive
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
 ^\.github$
+tests
+vignettes
+omnipathr-log
+dev

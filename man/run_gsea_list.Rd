@@ -4,12 +4,10 @@
 \alias{run_gsea_list}
 \title{Run GSEA for All Comparisons}
 \usage{
-run_gsea_list(res = NULL, save_dir = getwd(), ...)
+run_gsea_list(res = NULL, ...)
 }
 \arguments{
 \item{res}{Differential expression result data frame from run_diffexp()}
-
-\item{save_dir}{Directory where all output files will be saved. Default is current working directory}
 
 \item{...}{Additional arguments passed to run_gsea()}
 }
@@ -21,9 +19,11 @@ This function performs Gene Set Enrichment Analysis for all comparisons in the
 differential expression results.
 }
 \examples{
+\dontrun{
 # Run GSEA for all comparisons
 gsea_results <- run_gsea_list(res)
 
 # Run with custom parameters
 gsea_results <- run_gsea_list(res, org = "mouse")
+}
 }

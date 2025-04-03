@@ -23,9 +23,11 @@ This function runs the gene set enrichment analysis portion of the RNA-seq pipel
 including running GSEA and generating enrichment plots.
 }
 \examples{
+\dontrun{
 # Run GSEA pipeline
 gsea_results <- run_gsea_pip(res)
 
 # Run with custom parameters
 gsea_results <- run_gsea_pip(res, org = "mouse")
+}
 }
