@@ -20,8 +20,9 @@ articles:
 - title: Articles
   navbar: ~
   contents:
-  - advanceguide
-  - gseadatabase
+  - rna_guide
+  - gsea_collection
+  - session_info
 reference:
 - title: Pipeline Functions
   contents:
@@ -43,6 +44,7 @@ reference:
 - title: Format Functions
   contents:
   - starts_with("import_")
+  - starts_with("get")
   - starts_with("read_")
   - starts_with("save_")
   - matches("summarize_genes")

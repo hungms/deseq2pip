@@ -44,6 +44,7 @@ to identify enriched gene sets in the differential expression results. It can us
 either pre-defined MSigDB gene sets or custom gene sets.
 }
 \examples{
+\dontrun{
 # Run GSEA with default MSigDB gene sets
 gsea_results <- run_gsea(res)
 
@@ -52,4 +53,5 @@ gsea_results <- run_gsea(res, custom_msigdb = "path/to/custom_sets.tsv")
 
 # Run GSEA for mouse data
 gsea_results <- run_gsea(res, org = "mouse")
+}
 }

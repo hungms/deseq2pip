@@ -6,13 +6,16 @@
 \usage{
 check_library(
   dds,
-  save_plot = T,
+  experiment = NULL,
+  save_plot = TRUE,
   save_dir = getwd(),
   save_dir_name = "qc_results"
 )
 }
 \arguments{
 \item{dds}{A DESeq2 object containing the gene expression data}
+
+\item{experiment}{Name of the experiment. Default is NULL}
 
 \item{save_plot}{Logical. If TRUE, saves the library size plot to PDF. Default is TRUE}
 
@@ -28,9 +31,11 @@ This function generates a boxplot showing the distribution of expression values 
 It helps identify potential outliers or quality issues in the sequencing libraries.
 }
 \examples{
+\dontrun{
 # Generate and display plot
 p <- check_library(dds)
 
 # Generate and save plot
 p <- check_library(dds, save_plot = TRUE, save_dir_name = "custom_results")
+}
 }

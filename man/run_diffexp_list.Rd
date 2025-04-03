@@ -4,7 +4,7 @@
 \alias{run_diffexp_list}
 \title{Run Differential Expression Analysis for All Comparisons}
 \usage{
-run_diffexp_list(dds, org = "human", group_by = "Group1", ...)
+run_diffexp_list(dds, group_by = "Group1", ...)
 }
 \arguments{
 \item{dds}{DESeq2 object containing the expression data}
@@ -12,8 +12,6 @@ run_diffexp_list(dds, org = "human", group_by = "Group1", ...)
 \item{group_by}{Column name in colData(dds) to use for grouping. Default is "Group1"}
 
 \item{...}{Additional arguments passed to run_diffexp()}
-
-\item{save_dir}{Directory where all output files will be saved. Default is current working directory}
 }
 \value{
 A merged data frame containing differential expression results for all comparisons
@@ -23,9 +21,11 @@ This function performs differential expression analysis for all possible pairwis
 comparisons between groups in the experiment.
 }
 \examples{
+\dontrun{
 # Run differential expression for all comparisons
 res <- run_diffexp_list(dds)
 
 # Run with custom parameters
 res <- run_diffexp_list(dds, group_by = "Treatment")
+}
 }

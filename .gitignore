@@ -1,3 +1,4 @@
+archive
 tests
 dev
 docs
@@ -7,3 +8,4 @@ docs
 .httr-oauth
 .DS_Store
 .quarto
+omnipathr-log

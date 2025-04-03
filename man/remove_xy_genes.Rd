@@ -4,7 +4,7 @@
 \alias{remove_xy_genes}
 \title{Remove XY Chromosome Genes from DESeq2 Object}
 \usage{
-remove_xy_genes(dds, org = "human", host = NULL)
+remove_xy_genes(dds, org = "human", ...)
 }
 \arguments{
 \item{dds}{A DESeq2 object containing the gene expression data}
@@ -19,9 +19,11 @@ This function removes genes located on the X and Y chromosomes from a DESeq2 obj
 It uses the Ensembl database to identify genes on these chromosomes.
 }
 \examples{
+\dontrun{
 # For human data
 dds_filtered <- remove_xy_genes(dds, org = "human")
 
 # For mouse data
 dds_filtered <- remove_xy_genes(dds, org = "mouse")
+}
 }

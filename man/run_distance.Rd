@@ -5,16 +5,19 @@
 \title{Calculate and Plot Sample Distances}
 \usage{
 run_distance(
-  dds,
-  save_data = T,
-  save_plot = T,
+  vsd,
+  experiment = NULL,
+  save_data = TRUE,
+  save_plot = TRUE,
   save_dir = getwd(),
   save_dir_name = "qc_results",
   ...
 )
 }
 \arguments{
-\item{dds}{A DESeq2 object containing the gene expression data}
+\item{vsd}{A DESeq2 object containing the normalized gene expression data}
+
+\item{experiment}{Name of the experiment. Default is NULL}
 
 \item{save_data}{Logical. If TRUE, saves distance matrix to TSV. Default is TRUE}
 
@@ -34,9 +37,11 @@ This function calculates the Euclidean distance between samples based on their e
 and generates a heatmap visualization. It helps identify sample relationships and potential outliers.
 }
 \examples{
+\dontrun{
 # Generate and display heatmap
-p <- run_distance(dds)
+p <- run_distance(vsd)
 
 # Generate and save heatmap with custom parameters
-p <- run_distance(dds, save_plot = TRUE, scale = "row", save_dir_name = "custom_results")
+p <- run_distance(vsd, save_plot = TRUE, save_dir_name = "custom_results")
+}
 }

@@ -1,0 +1,114 @@
+---
+title: Build GSEA Gene Set Collections
+vignette: >
+  %\VignetteIndexEntry{Build GSEA Gene Set Collections}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+author: "`r 'Author: Matthew Hung'`"
+date: "`r paste('Last Updated:', format(Sys.Date(), '%Y/%m/%d'))`"
+output:
+  html_document:
+    code_folding: hide
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+```{r}
+#| vscode: {languageId: r}
+suppressPackageStartupMessages(library(deseq2pip))
+
+## create a temporary directory for the GSEA database files
+temp_dir <- tempdir()
+#temp_dir <- "/Users/hungm/Documents/development/deseq2pip/inst/extdata/"
+```
+
+
+## Create gene set collections for `run_gsea()`
+```{r}
+#| vscode: {languageId: r}
+
+# create gene set collections for human and mouse
+collection_name <- c("HALLMARK", "GOBP", "KEGG", "REACTOME", "BIOCARTA", "TFT")
+for(i in c("hs_gs", "mm_gs")){
+    if(i == "hs_gs"){
+        org = "Homo sapiens"}
+    else if(i == "mm_gs"){
+        org = "Mus musculus"}
+    gs <- list()
+
+    # c1 gene set
+    HM<-msigdbr(species = org, category ="H")
+    gs[[1]] <- HM %>% dplyr::select(., gs_name, gene_symbol) %>% mutate(collection = collection_name[1])
+
+    # c5 gene set
+    GO<-msigdbr(species = org, category ="C5")
+    gs[[2]] <-GO %>% dplyr::select(., gs_name, gene_symbol) %>% filter(stringr::str_detect(gs_name, 'GOBP')) %>% mutate(collection = collection_name[2])
+
+    # c2 gene set
+    C2<-msigdbr(species = org, category ="C2")
+    gs[[3]] <-C2 %>% dplyr::select(., gs_name, gene_symbol) %>% filter(stringr::str_detect(gs_name, 'KEGG')) %>% mutate(collection = collection_name[3])
+    gs[[4]] <-C2 %>% dplyr::select(., gs_name, gene_symbol) %>% filter(stringr::str_detect(gs_name, 'REACTOME')) %>% mutate(collection = collection_name[4])
+    gs[[5]] <-C2 %>% dplyr::select(., gs_name, gene_symbol) %>% filter(stringr::str_detect(gs_name, 'BIOCARTA')) %>% mutate(collection = collection_name[5])
+
+    # c3 gene set
+    TFT <-msigdbr(species = org, category ="C3")
+    gs[[6]] <-TFT %>% dplyr::select(., gs_name, gene_symbol) %>% mutate(collection = collection_name[6])
+
+    gs <- bind_rows(gs)
+    assign(i, gs)}
+
+# Save TSV files to temporary directory
+write.table(mm_gs, file.path(temp_dir, "20250319_mouse_msigdbr.tsv"), sep = "\t", quote = F, row.names = F)
+write.table(hs_gs, file.path(temp_dir, "20250319_human_msigdbr.tsv"), sep = "\t", quote = F, row.names = F)
+```
+
+```{r}
+#| vscode: {languageId: r}
+# show the first few rows of the human and mouse gene set collections
+head(hs_gs)
+head(mm_gs)
+```
+
+
+## Create GMT files for EnrichmentMap
+```{r}
+#| vscode: {languageId: r}
+# convert mouse gene set collection to a list of gene symbols
+gs_name <- mm_gs$gs_name
+mm_gs_list <- mm_gs %>%
+    select(-c(collection, gs_name)) %>%
+    .$gene_symbol %>%
+    split(., gs_name)
+mm_gs_list %>% head(.)
+```
+
+```{r}
+#| vscode: {languageId: r}
+# convert human gene set collection to a list of gene symbols
+gs_name <- hs_gs$gs_name
+hs_gs_list <- hs_gs %>%
+    select(-c(collection, gs_name)) %>%
+    .$gene_symbol %>%
+    split(., gs_name)
+hs_gs_list %>% head(.)
+```
+
+```{r}
+#| vscode: {languageId: r}
+# create GMT files for mouse and human gene set collections
+write.gmt <- function(genelist, file) {
+  file_conn <- file(file, open = "wt")
+  for (set_name in names(genelist)) {
+    line <- c(set_name, set_name, genelist[[set_name]])
+    writeLines(paste(line, collapse = "\t"), file_conn)}
+  close(file_conn)}
+  
+# Save GMT files to temporary directory
+write.gmt(mm_gs_list, file.path(temp_dir, "20250319_mouse_msgidbr.gmt"))
+write.gmt(hs_gs_list, file.path(temp_dir, "20250319_human_msgidbr.gmt"))
+
+```
+
+

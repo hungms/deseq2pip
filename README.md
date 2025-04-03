@@ -1,4 +1,4 @@
-# deseq2pip: A Streamlined DESeq2 Pipeline for RNA-seq Analysis
+# deseq2pip: A DESeq2 Pipeline for RNA/ATAC-seq Analysis
 
 [![R-CMD-check](https://github.com/hungms/deseq2pip/workflows/R-CMD-check/badge.svg)](https://github.com/hungms/deseq2pip/actions)
 [![pkgdown](https://github.com/hungms/deseq2pip/workflows/pkgdown/badge.svg)](https://github.com/hungms/deseq2pip/actions)
@@ -40,6 +40,10 @@ For detailed usage and documentation of all functions, please visit our latest [
   - GSEA barplots for pathway visualization
   - Support for output formatting for Cytoscape EnrichmentMap
 
+
+## Workflow
+![deseq2pip workflow](deseq2pip_workflow.png)
+
 ## Installation
 
 ```r
@@ -74,7 +78,7 @@ library(deseq2pip)
 # load example DESeq2 object
 rdata <- system.file("data", "GSE189410.Rdata", package = "deseq2pip")
 tx2gene <- system.file("data", "GSE189410_tx2gene.tsv", package = "deseq2pip")
-dds <- import_nfcore_dds(rdata = rdata, tx2gene = tx2gene)
+dds <- import_nfcore_rna(rdata = rdata, tx2gene = tx2gene)
 
 # set group variable to compare between, with the first level set as the reference
 dds$Group2 <- factor(dds$Group2, c('IgM', 'IgG', 'IgA'))
@@ -88,6 +92,7 @@ save_dir <- "/Users/hungm/Documents/development/deseq2pip/tests/pipeline/"
 # Run the complete pipeline
 run_deseq2_pip(
     dds,
+    assaytype = "RNA",
     experiment = "GSE189410",
     remove_xy = TRUE,
     remove_mt = TRUE,

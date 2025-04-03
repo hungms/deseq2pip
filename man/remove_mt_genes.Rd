@@ -4,7 +4,7 @@
 \alias{remove_mt_genes}
 \title{Remove Mitochondrial Genes from DESeq2 Object}
 \usage{
-remove_mt_genes(dds, org = "human", host = NULL)
+remove_mt_genes(dds, org = "human", ...)
 }
 \arguments{
 \item{dds}{A DESeq2 object containing the gene expression data}
@@ -19,9 +19,11 @@ This function removes genes encoded in the mitochondrial genome from a DESeq2 ob
 It uses the Ensembl database to identify mitochondrial genes.
 }
 \examples{
+\dontrun{
 # For human data
 dds_filtered <- remove_mt_genes(dds, org = "human")
 
 # For mouse data
 dds_filtered <- remove_mt_genes(dds, org = "mouse")
+}
 }

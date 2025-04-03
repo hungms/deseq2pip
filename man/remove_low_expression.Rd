@@ -6,15 +6,18 @@
 \usage{
 remove_low_expression(
   dds,
+  experiment = NULL,
   quantile = 0.05,
   group_by = "Group1",
-  save_plot = T,
+  save_plot = TRUE,
   save_dir = getwd(),
   save_dir_name = "qc_results"
 )
 }
 \arguments{
 \item{dds}{A DESeq2 object containing the gene expression data}
+
+\item{experiment}{Name of the experiment. Default is NULL}
 
 \item{quantile}{The quantile threshold for low expression (0-1). Default is 0.05 (5th percentile)}
 
@@ -34,9 +37,11 @@ This function removes genes with low expression levels from a DESeq2 object base
 It generates a density plot of expression levels and removes genes below the specified quantile threshold.
 }
 \examples{
+\dontrun{
 # Remove bottom 5\% of genes
 dds_filtered <- remove_low_expression(dds, quantile = 0.05)
 
 # Remove bottom 10\% of genes and save plot
 dds_filtered <- remove_low_expression(dds, quantile = 0.1, save_plot = TRUE, save_dir_name = "custom_results")
+}
 }

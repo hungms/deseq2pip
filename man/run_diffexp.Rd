@@ -38,9 +38,11 @@ between two groups. It calculates fold changes, p-values, and adjusted p-values 
 each gene, and ranks genes based on their statistical and biological significance.
 }
 \examples{
+\dontrun{
 # Basic differential expression analysis
 res <- run_diffexp(dds)
 
 # Differential expression analysis with custom parameters
 res <- run_diffexp(dds, group_by = "Treatment", save_data = TRUE)
+}
 }
