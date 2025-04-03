@@ -24,9 +24,11 @@ Either a merged data frame or a list of data frames containing GSEA results
 This function reads GSEA results from TSV files for multiple comparisons and collections.
 }
 \examples{
+\dontrun{
 # Read and merge all results
 merged_gsea <- read_gsea_tsv_list("results", merge = TRUE)
 
 # Read specific collections as a list
 gsea_list <- read_gsea_tsv_list("results", collection = c("HALLMARK", "KEGG"), merge = FALSE)
+}
 }

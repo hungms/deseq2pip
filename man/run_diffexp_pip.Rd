@@ -9,6 +9,8 @@ run_diffexp_pip(dds, org = "human", group_by = "Group1", save_dir = getwd())
 \arguments{
 \item{dds}{DESeq2 object containing the expression data}
 
+\item{org}{The organism to use, either "human" or "mouse". Default is "human"}
+
 \item{group_by}{Column name in colData(dds) to use for grouping. Default is "Group1"}
 
 \item{save_dir}{Directory where all output files will be saved. Default is current working directory}
@@ -21,9 +23,11 @@ This function runs the differential expression analysis portion of the RNA-seq p
 including running DESeq2 and generating volcano plots.
 }
 \examples{
+\dontrun{
 # Run differential expression pipeline
 res <- run_diffexp_pip(dds)
 
 # Run with custom grouping
 res <- run_diffexp_pip(dds, group_by = "Treatment")
+}
 }

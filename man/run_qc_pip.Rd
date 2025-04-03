@@ -9,8 +9,8 @@ run_qc_pip(
   experiment,
   save_dir = getwd(),
   org = "human",
-  remove_xy = F,
-  remove_mt = F,
+  remove_xy = FALSE,
+  remove_mt = FALSE,
   group_by = "Group1",
   quantile = 0.05,
   save_dir_name = "qc_results"
@@ -43,6 +43,7 @@ This function runs the quality control portion of the RNA-seq analysis pipeline,
 including filtering genes, generating QC plots, and saving expression data.
 }
 \examples{
+\dontrun{
 # Run QC pipeline with default settings
 dds <- run_qc_pip(dds, experiment = "my_experiment")
 
@@ -50,4 +51,5 @@ dds <- run_qc_pip(dds, experiment = "my_experiment")
 dds <- run_qc_pip(dds, experiment = "my_experiment",
                   org = "mouse", remove_xy = TRUE,
                   save_dir_name = "custom_results")
+}
 }

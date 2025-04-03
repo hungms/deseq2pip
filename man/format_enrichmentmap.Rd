@@ -24,9 +24,11 @@ None. Creates formatted files for EnrichmentMap visualization
 This function processes and formats GSEA results for visualization in EnrichmentMap.
 }
 \examples{
+\dontrun{
 # Format all default collections
 format_enrichmentmap("results")
 
 # Format specific collections
 format_enrichmentmap("results", collection = c("HALLMARK", "KEGG"))
+}
 }
