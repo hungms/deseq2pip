@@ -7,20 +7,24 @@
 run_deseq2_pip(
   dds,
   experiment,
+  batch = NULL,
   save_dir = getwd(),
   org = "human",
-  remove_xy = F,
-  remove_mt = F,
+  remove_xy = FALSE,
+  remove_mt = FALSE,
   group_by = "Group1",
   quantile = 0.05,
   order = "rank",
-  save_dir_name = "qc_results"
+  save_dir_name = "qc_results",
+  assaytype = "RNA"
 )
 }
 \arguments{
 \item{dds}{DESeq2 object containing the expression data}
 
 \item{experiment}{Name of the experiment}
+
+\item{batch}{Column name in colData(dds) to use for batch correction. Default is NULL}
 
 \item{save_dir}{Directory where all output files will be saved. Default is current working directory}
 
@@ -37,6 +41,8 @@ run_deseq2_pip(
 \item{order}{Column name to use for ranking genes. Default is "rank"}
 
 \item{save_dir_name}{Name of the subdirectory to save files in. Default is "qc_results"}
+
+\item{assaytype}{Type of assay, either "RNA" or "ATAC". Default is "RNA"}
 }
 \value{
 The processed DESeq2 object
@@ -48,6 +54,7 @@ comparisons in the experiment. It generates various plots and saves results in
 organized directories.
 }
 \examples{
+\dontrun{
 # Run complete pipeline with default settings
 dds <- run_deseq2_pip(dds, experiment = "my_experiment")
 
@@ -56,4 +63,9 @@ dds <- run_deseq2_pip(dds, experiment = "my_experiment",
                     org = "mouse", remove_xy = TRUE,
                     group_by = "Treatment",
                     save_dir_name = "custom_results")
+
+# Run pipeline with batch correction
+dds <- run_deseq2_pip(dds, experiment = "my_experiment",
+                    batch = "Batch")
+}
 }

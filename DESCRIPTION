@@ -20,10 +20,12 @@ VignetteBuilder: knitr
 Depends: 
     R (>= 4.0.0)
 Imports:
+    ashr,
     biomaRt,
     clusterProfiler,
     DESeq2,
     dplyr,
+    enrichplot,
     fgsea,
     forcats,
     ggalt,
@@ -31,18 +33,21 @@ Imports:
     ggplotify,
     ggpubr,
     grid,
+    limma,
     msigdbr,
     pheatmap,
     plotr,
     scales,
     stringr,
     strpip,
+    sva,
     tibble,
     tidyr
 Suggests:
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    Cairo
 Remotes: 
     hungms/plotr,
     hungms/strpip

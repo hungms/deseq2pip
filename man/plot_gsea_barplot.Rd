@@ -31,9 +31,11 @@ This function creates a barplot to visualize GSEA results, showing the most sign
 gene sets in each direction (up and down-regulated).
 }
 \examples{
+\dontrun{
 # Basic GSEA plot
 p <- plot_gsea_barplot(gsea_results)
 
 # GSEA plot with more gene sets and only significant results
 p <- plot_gsea_barplot(gsea_results, n = 15, signif = TRUE)
+}
 }

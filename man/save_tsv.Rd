@@ -4,10 +4,12 @@
 \alias{save_tsv}
 \title{Save Data Frame as TSV File}
 \usage{
-save_tsv(input, tsv_name, save_dir, row.names = F)
+save_tsv(input, experiment = NULL, tsv_name, save_dir, row.names = F)
 }
 \arguments{
 \item{input}{Data frame to be saved}
+
+\item{experiment}{Name of the experiment. Default is NULL}
 
 \item{tsv_name}{Name of the output TSV file}
 
@@ -22,9 +24,11 @@ None. Creates a TSV file in the specified directory
 This function saves a data frame as a tab-separated values (TSV) file.
 }
 \examples{
+\dontrun{
 # Save data frame without row names
 save_tsv(my_data, "output.tsv", "results")
 
 # Save data frame with row names
 save_tsv(my_data, "output.tsv", "results", row.names = TRUE)
+}
 }

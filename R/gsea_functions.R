@@ -92,7 +92,6 @@ run_gsea <- function(res, org = "human", group_by = "Group1", custom_msigdb = NU
 #' differential expression results.
 #'
 #' @param res Differential expression result data frame from run_diffexp()
-#' @param save_dir Directory where all output files will be saved. Default is current working directory
 #' @param ... Additional arguments passed to run_gsea()
 #' @return A list of GSEA results for all comparisons and gene set collections
 #' @examples
@@ -102,7 +101,7 @@ run_gsea <- function(res, org = "human", group_by = "Group1", custom_msigdb = NU
 #' # Run with custom parameters
 #' gsea_results <- run_gsea_list(res, org = "mouse")
 #' @export
-run_gsea_list <- function(res = NULL, save_dir = getwd(), ...){
+run_gsea_list <- function(res = NULL, ...){
     message("Running gene set enrichment analysis...")
 
     if(length(res) == 0){
@@ -116,7 +115,7 @@ run_gsea_list <- function(res = NULL, save_dir = getwd(), ...){
     pb <- txtProgressBar(min = 0, max = length(res.list), style = 3)
     
     for(i in seq_along(res.list)){
-        gsea.list <- c(gsea.list, run_gsea(res.list[[i]], save_dir = save_dir, ...))
+        gsea.list <- c(gsea.list, run_gsea(res.list[[i]], ...))
         setTxtProgressBar(pb, i)
     }
 
@@ -235,7 +234,7 @@ format_enrichmentmap <- function(
         res <- read.table(paste0(data_dir, "/", comparison[i], "/diffexp_deseq2_wald.tsv"), sep = "\t", header = T)
         res.rank <- res %>% 
             select(gene, rank)
-        save_tsv(res.rank, tsv_name = paste0("diffexp_deseq2_wald_rank.rnk"), save_dir = paste0(save_dir, "/", comparison[i], "/enrichmentmap/"))
+        save_tsv(res.rank, tsv_name = "diffexp_deseq2_wald_rank.rnk", save_dir = paste0(save_dir, "/", comparison[i], "/enrichmentmap/"))
 
         #gsea
         collection.pattern <- paste0(collection, collapse = "|")
@@ -255,7 +254,7 @@ format_enrichmentmap <- function(
             enrichmentmap.list[[j]] <- gsea.df}
 
         enrichmentmap.merged <- bind_rows(enrichmentmap.list)
-        save_tsv(enrichmentmap.merged, tsv_name = "gsea_enrichmentmap_merged.tsv", save_dir = paste0(save_dir, "/", comparison[i], "/enrichmentmap/"))
+        save_tsv(enrichmentmap.merged, tsv_name = "enrichmentmap_merged.tsv", save_dir = paste0(save_dir, "/", comparison[i], "/enrichmentmap/"))
         }
         }
 

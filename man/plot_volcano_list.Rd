@@ -19,9 +19,11 @@ This function creates volcano plots for all comparisons in the differential
 expression results.
 }
 \examples{
+\dontrun{
 # Generate volcano plots for all comparisons
 plots <- plot_volcano_list(res)
 
 # Generate with custom parameters
 plots <- plot_volcano_list(res, n = 30, fc.thresh = 2)
+}
 }

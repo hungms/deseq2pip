@@ -1,0 +1,22 @@
+---
+title: Session Info
+vignette: >
+  %\VignetteIndexEntry{Session Info}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+author: "`r 'Author: Matthew Hung'`"
+date: "`r paste('Last Updated:', format(Sys.Date(), '%Y/%m/%d'))`"
+output:
+  html_document:
+    code_folding: hide
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+```{r}
+#| vscode: {languageId: r}
+library(deseq2pip)
+sessionInfo()
+```
