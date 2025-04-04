@@ -19,9 +19,11 @@ This function creates barplots to visualize GSEA results for all comparisons
 and gene set collections.
 }
 \examples{
+\dontrun{
 # Generate GSEA barplots for all results
 plots <- plot_gsea_barplot_list(gsea_results)
 
 # Generate with custom parameters
 plots <- plot_gsea_barplot_list(gsea_results, n = 15, signif = TRUE)
+}
 }

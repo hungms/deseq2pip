@@ -1,5 +1,3 @@
-
-
 #' Run Gene Set Enrichment Analysis
 #'
 #' This function performs Gene Set Enrichment Analysis (GSEA) using clusterProfiler
@@ -21,6 +19,7 @@
 #'         - collection name
 #'         - comparison name
 #' @examples
+#' \dontrun{
 #' # Run GSEA with default MSigDB gene sets
 #' gsea_results <- run_gsea(res)
 #' 
@@ -29,6 +28,7 @@
 #' 
 #' # Run GSEA for mouse data
 #' gsea_results <- run_gsea(res, org = "mouse")
+#' }
 #' @export
 run_gsea <- function(res, org = "human", group_by = "Group1", custom_msigdb = NULL, order = "rank", save_data = T, save_dir = getwd()){
     if(length(custom_msigdb) > 0){
@@ -95,11 +95,13 @@ run_gsea <- function(res, org = "human", group_by = "Group1", custom_msigdb = NU
 #' @param ... Additional arguments passed to run_gsea()
 #' @return A list of GSEA results for all comparisons and gene set collections
 #' @examples
+#' \dontrun{
 #' # Run GSEA for all comparisons
 #' gsea_results <- run_gsea_list(res)
 #' 
 #' # Run with custom parameters
 #' gsea_results <- run_gsea_list(res, org = "mouse")
+#' }
 #' @export
 run_gsea_list <- function(res = NULL, ...){
     message("Running gene set enrichment analysis...")
@@ -133,11 +135,13 @@ run_gsea_list <- function(res = NULL, ...){
 #' @param collection Vector of gene set collections to load. Default includes HALLMARK, GOBP, KEGG, REACTOME, BIOCARTA, and TFT
 #' @return A list of GSEA objects for each comparison
 #' @examples
+#' \dontrun{
 #' # Read all default collections
 #' gsea_results <- read_gsea_rds_list("results")
 #' 
 #' # Read specific collections
 #' gsea_results <- read_gsea_rds_list("results", collection = c("HALLMARK", "KEGG"))
+#' }
 #' @export
 read_gsea_rds_list <- function(
     data_dir = getwd(), 
@@ -173,11 +177,13 @@ read_gsea_rds_list <- function(
 #' @param merge Logical. If TRUE, returns a single merged data frame. If FALSE, returns a list of data frames
 #' @return Either a merged data frame or a list of data frames containing GSEA results
 #' @examples
+#' \dontrun{
 #' # Read and merge all results
 #' merged_gsea <- read_gsea_tsv_list("results", merge = TRUE)
 #' 
 #' # Read specific collections as a list
 #' gsea_list <- read_gsea_tsv_list("results", collection = c("HALLMARK", "KEGG"), merge = FALSE)
+#' }
 #' @export
 read_gsea_tsv_list <- function(
     data_dir = getwd(), 
@@ -214,11 +220,13 @@ read_gsea_tsv_list <- function(
 #' @param save_dir Directory where the formatted files will be saved. Default is current working directory
 #' @return None. Creates formatted files for EnrichmentMap visualization
 #' @examples
+#' \dontrun{
 #' # Format all default collections
 #' format_enrichmentmap("results")
 #' 
 #' # Format specific collections
 #' format_enrichmentmap("results", collection = c("HALLMARK", "KEGG"))
+#' }
 #' @export
 format_enrichmentmap <- function(
     data_dir = getwd(), 
@@ -268,11 +276,13 @@ format_enrichmentmap <- function(
 #' @param ... Additional arguments passed to plot_gsea_barplot()
 #' @return A list of GSEA barplots for each comparison and collection
 #' @examples
+#' \dontrun{
 #' # Generate GSEA barplots for all results
 #' plots <- plot_gsea_barplot_list(gsea_results)
 #' 
 #' # Generate with custom parameters
 #' plots <- plot_gsea_barplot_list(gsea_results, n = 15, signif = TRUE)
+#' }
 #' @export
 plot_gsea_barplot_list <- function(gsea.df, ...){
     message("Generating GSEA barplots...")

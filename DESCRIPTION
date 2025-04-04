@@ -1,6 +1,6 @@
 Package: deseq2pip
 Title: DESeq2 Pipeline for RNA-seq Analysis
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person(given = "Miu Shing", family = "Hung", email = "matthewhungms@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0009-0004-0412-4374"))
 Description: A comprehensive pipeline for RNA-seq data analysis combining DESeq2-based 

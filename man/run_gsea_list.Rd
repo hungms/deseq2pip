@@ -19,9 +19,11 @@ This function performs Gene Set Enrichment Analysis for all comparisons in the
 differential expression results.
 }
 \examples{
+\dontrun{
 # Run GSEA for all comparisons
 gsea_results <- run_gsea_list(res)
 
 # Run with custom parameters
 gsea_results <- run_gsea_list(res, org = "mouse")
+}
 }
