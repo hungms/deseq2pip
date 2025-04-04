@@ -1,0 +1,12 @@
+pandoc: 3.1.11
+pkgdown: 2.1.1
+pkgdown_sha: ~
+articles:
+  deseq2pip: deseq2pip.html
+  gsea_collection: gsea_collection.html
+  rna_guide: rna_guide.html
+  session_info: session_info.html
+last_built: 2025-04-04T14:44Z
+urls:
+  reference: https://hungms.github.io/deseq2pip/reference
+  article: https://hungms.github.io/deseq2pip/articles
