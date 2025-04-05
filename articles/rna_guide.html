@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Author: Matthew
 Hung</h4>
             
-            <h4 data-toc-skip class="date">Last Updated: 2025/04/04</h4>
+            <h4 data-toc-skip class="date">Last Updated: 2025/04/05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/hungms/deseq2pip/blob/main/vignettes/rna_guide.Rmd" class="external-link"><code>vignettes/rna_guide.Rmd</code></a></small>
       <div class="d-none name"><code>rna_guide.Rmd</code></div>
@@ -371,7 +371,7 @@ repeating the entire pipeline.</p>
 <span><span class="co"># save_dir &lt;- "/Users/hungm/Documents/development/deseq2pip/tests/rnaseq/module/"</span></span>
 <span><span class="va">save_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">save_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpFXQyNN' already</span></span>
+<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpPsoSjf' already</span></span>
 <span><span class="co">## exists</span></span></code></pre>
 <div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">group_by</span> <span class="op">&lt;-</span> <span class="st">"Group2"</span></span>
@@ -518,7 +518,7 @@ all pairwise comparisons between groups in the DESeq2 object.</p>
 for each comparison is separated by <code>comparison</code> column.
 Additionally, chromosome loci and functional annotations of each gene
 was added to the dataframe using the
-<code><a href="https://hungms.github.io/strpip/reference/run_annotation.html" class="external-link">strpip::run_annotation()</a></code> function (see <a href="https://github.com/hungms/strpip" class="external-link uri">https://github.com/hungms/strpip</a>).</p>
+<code><a href="https://hungms.github.io/deseq2pip/reference/run_annotation.html">strpip::run_annotation()</a></code> function (see <a href="https://github.com/hungms/strpip" class="external-link uri">https://github.com/hungms/strpip</a>).</p>
 <div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run differential expression analysis</span></span>
 <span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_diffexp_list.html">run_diffexp_list</a></span><span class="op">(</span><span class="va">dds</span>, group_by <span class="op">=</span> <span class="st">"Group2"</span>, save_data <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
