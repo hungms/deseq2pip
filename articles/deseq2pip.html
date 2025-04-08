@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Author: Matthew
 Hung</h4>
             
-            <h4 data-toc-skip class="date">Last Updated: 2025/04/05</h4>
+            <h4 data-toc-skip class="date">Last Updated: 2025/04/08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/hungms/deseq2pip/blob/main/vignettes/deseq2pip.Rmd" class="external-link"><code>vignettes/deseq2pip.Rmd</code></a></small>
       <div class="d-none name"><code>deseq2pip.Rmd</code></div>
@@ -73,235 +73,23 @@ Hung</h4>
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load deseq2pip  </span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hungms.github.io/deseq2pip/">deseq2pip</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'dplyr'</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     filter, lag</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:base':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     intersect, setdiff, setequal, union</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'magrittr'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:rlang':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     set_names</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:tidyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     extract</span></span></code></pre>
-<pre><code><span><span class="co">## strpip 0.1.0</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'cowplot'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:patchwork':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     align_plots</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: viridisLite</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: S4Vectors</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: stats4</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: BiocGenerics</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'BiocGenerics'</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:dplyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     combine, intersect, setdiff, union</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     IQR, mad, sd, var, xtabs</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:base':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     anyDuplicated, aperm, append, as.data.frame, basename, cbind,</span></span>
-<span><span class="co">##     colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,</span></span>
-<span><span class="co">##     get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,</span></span>
-<span><span class="co">##     match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,</span></span>
-<span><span class="co">##     Position, rank, rbind, Reduce, rownames, sapply, saveRDS, setdiff,</span></span>
-<span><span class="co">##     table, tapply, union, unique, unsplit, which.max, which.min</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'S4Vectors'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:tidyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     expand</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:dplyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     first, rename</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:utils':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     findMatches</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:base':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     expand.grid, I, unname</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: IRanges</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'IRanges'</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:dplyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     collapse, desc, slice</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: GenomicRanges</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: GenomeInfoDb</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'GenomicRanges'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:magrittr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     subtract</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: SummarizedExperiment</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: MatrixGenerics</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: matrixStats</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'matrixStats'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:dplyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     count</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'MatrixGenerics'</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:matrixStats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,</span></span>
-<span><span class="co">##     colCounts, colCummaxs, colCummins, colCumprods, colCumsums,</span></span>
-<span><span class="co">##     colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,</span></span>
-<span><span class="co">##     colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,</span></span>
-<span><span class="co">##     colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,</span></span>
-<span><span class="co">##     colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,</span></span>
-<span><span class="co">##     colWeightedMeans, colWeightedMedians, colWeightedSds,</span></span>
-<span><span class="co">##     colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,</span></span>
-<span><span class="co">##     rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,</span></span>
-<span><span class="co">##     rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,</span></span>
-<span><span class="co">##     rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,</span></span>
-<span><span class="co">##     rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,</span></span>
-<span><span class="co">##     rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,</span></span>
-<span><span class="co">##     rowWeightedMads, rowWeightedMeans, rowWeightedMedians,</span></span>
-<span><span class="co">##     rowWeightedSds, rowWeightedVars</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: Biobase</span></span></code></pre>
-<pre><code><span><span class="co">## Welcome to Bioconductor</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     Vignettes contain introductory material; view with</span></span>
-<span><span class="co">##     'browseVignettes()'. To cite Bioconductor, see</span></span>
-<span><span class="co">##     'citation("Biobase")', and for packages 'citation("pkgname")'.</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'Biobase'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:MatrixGenerics':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     rowMedians</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:matrixStats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     anyMissing, rowMedians</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:rlang':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     exprs</span></span></code></pre>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hungms.github.io/deseq2pip/">deseq2pip</a></span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by</span></span>
 <span><span class="co">## 'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'</span></span></code></pre>
-<pre><code><span><span class="co">## Registered S3 methods overwritten by 'ggalt':</span></span>
-<span><span class="co">##   method                  from   </span></span>
-<span><span class="co">##   grid.draw.absoluteGrob  ggplot2</span></span>
-<span><span class="co">##   grobHeight.absoluteGrob ggplot2</span></span>
-<span><span class="co">##   grobWidth.absoluteGrob  ggplot2</span></span>
-<span><span class="co">##   grobX.absoluteGrob      ggplot2</span></span>
-<span><span class="co">##   grobY.absoluteGrob      ggplot2</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'ggalt'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:rlang':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     bytes</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span></code></pre>
-<pre><code><span><span class="co">## clusterProfiler v4.14.6 Learn more at https://yulab-smu.top/contribution-knowledge-mining/</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Please cite:</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## T Wu, E Hu, S Xu, M Chen, P Guo, Z Dai, T Feng, L Zhou, W Tang, L Zhan,</span></span>
-<span><span class="co">## X Fu, S Liu, X Bo, and G Yu. clusterProfiler 4.0: A universal</span></span>
-<span><span class="co">## enrichment tool for interpreting omics data. The Innovation. 2021,</span></span>
-<span><span class="co">## 2(3):100141</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'clusterProfiler'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:IRanges':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     slice</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:S4Vectors':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     rename</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:biomaRt':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     select</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:stats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     filter</span></span></code></pre>
-<pre><code><span><span class="co">## For full functionality, please install the 'msigdbdf' package with:</span></span>
-<span><span class="co">## install.packages('msigdbdf', repos = 'https://igordot.r-universe.dev')</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'ggpubr'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:plotr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     get_palette</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:cowplot':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     get_legend</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'scales'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:viridis':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     viridis_pal</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'limma'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:DESeq2':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     plotMA</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:BiocGenerics':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     plotMA</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: mgcv</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: nlme</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'nlme'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:IRanges':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     collapse</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:dplyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     collapse</span></span></code></pre>
-<pre><code><span><span class="co">## This is mgcv 1.9-1. For overview type 'help("mgcv-package")'.</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: genefilter</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'genefilter'</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:MatrixGenerics':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     rowSds, rowVars</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:matrixStats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     rowSds, rowVars</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:patchwork':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     area</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: BiocParallel</span></span></code></pre>
-<pre><code><span><span class="co">## enrichplot v1.26.6 Learn more at https://yulab-smu.top/contribution-knowledge-mining/</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Please cite:</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Guangchuang Yu. Gene Ontology Semantic Similarity Analysis Using</span></span>
-<span><span class="co">## GOSemSim. In: Kidder B. (eds) Stem Cell Transcriptional Networks.</span></span>
-<span><span class="co">## Methods in Molecular Biology. 2020, 2117:207-215. Humana, New York, NY.</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'enrichplot'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:ggpubr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     color_palette</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'deseq2pip'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:cowplot':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     save_plot</span></span></code></pre>
 <div class="section level2">
 <h2 id="run-deseq2pip-on-rna-seq-data">Run deseq2pip on RNA-seq data<a class="anchor" aria-label="anchor" href="#run-deseq2pip-on-rna-seq-data"></a>
 </h2>
-<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create a directory for results, currently set to tempdir()</span></span>
 <span><span class="co"># save_dir &lt;- "/Users/hungm/Documents/development/deseq2pip/tests/rnaseq/pipeline/"</span></span>
 <span><span class="va">save_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">save_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpY4tAB6' already</span></span>
+<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpchnxsX' already</span></span>
 <span><span class="co">## exists</span></span></code></pre>
 <div class="section level3">
 <h3 id="load-deseq2-object-from-nfcore-pipeline">Load DESeq2 object from nfcore pipeline<a class="anchor" aria-label="anchor" href="#load-deseq2-object-from-nfcore-pipeline"></a>
 </h3>
-<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load example DESeq2 object</span></span>
 <span><span class="va">rdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"GSE189410.dds.RData"</span>, package <span class="op">=</span> <span class="st">"deseq2pip"</span><span class="op">)</span></span>
 <span><span class="va">tx2gene</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html" class="external-link">gzfile</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"GSE189410.tx2gene.tsv.gz"</span>, package <span class="op">=</span> <span class="st">"deseq2pip"</span><span class="op">)</span><span class="op">)</span></span>
@@ -317,7 +105,7 @@ Hung</h4>
 <div class="section level3">
 <h3 id="set-group-variable-to-compare-between">Set group variable to compare between<a class="anchor" aria-label="anchor" href="#set-group-variable-to-compare-between"></a>
 </h3>
-<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># set group variable to compare between, with the first level set as the reference</span></span>
 <span><span class="va">dds</span><span class="op">$</span><span class="va">Group2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">dds</span><span class="op">$</span><span class="va">Group2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'IgM'</span>, <span class="st">'IgG'</span>, <span class="st">'IgA'</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -327,7 +115,7 @@ Hung</h4>
 <div class="section level3">
 <h3 id="run-deseq2-pipeline">Run deseq2 pipeline<a class="anchor" aria-label="anchor" href="#run-deseq2-pipeline"></a>
 </h3>
-<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run deseq2pip</span></span>
 <span><span class="fu"><a href="../reference/run_deseq2_pip.html">run_deseq2_pip</a></span><span class="op">(</span></span>
 <span>    <span class="va">dds</span>,</span>
@@ -340,8 +128,8 @@ Hung</h4>
 <span>    group_by <span class="op">=</span> <span class="st">"Group2"</span>,</span>
 <span>    save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Running quality control pipeline...</span></span></code></pre>
-<pre><code><span><span class="co">## Removing XY genes...</span></span></code></pre>
-<pre><code><span><span class="co">## Removing MT genes...</span></span></code></pre>
+<pre><code><span><span class="co">## Removing 4050 XY genes out of 54513 total genes...</span></span></code></pre>
+<pre><code><span><span class="co">## Removing 37 MT genes out of 50463 total genes...</span></span></code></pre>
 <pre><code><span><span class="co">## Filtering genes with low expressions...</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-1.png" width="700"><img src="deseq2pip_files/figure-html/unnamed-chunk-5-2.png" width="700"></p>
 <pre><code><span><span class="co">## Saving DESeq2 object &amp; expressions...</span></span></code></pre>
@@ -368,6 +156,7 @@ Hung</h4>
 <pre><code><span><span class="co">## using 'ashr' for LFC shrinkage. If used in published research, please cite:</span></span>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
+<pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: The OmnipathR package is needed for annotation functions. Please</span></span>
 <span><span class="co">## install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |=======================                                               |  33%</span></span></code></pre>
@@ -380,6 +169,7 @@ Hung</h4>
 <pre><code><span><span class="co">## using 'ashr' for LFC shrinkage. If used in published research, please cite:</span></span>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
+<pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: The OmnipathR package is needed for annotation functions. Please</span></span>
 <span><span class="co">## install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |===============================================                       |  67%</span></span></code></pre>
@@ -392,61 +182,62 @@ Hung</h4>
 <pre><code><span><span class="co">## using 'ashr' for LFC shrinkage. If used in published research, please cite:</span></span>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
+<pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: The OmnipathR package is needed for annotation functions. Please</span></span>
 <span><span class="co">## install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |======================================================================| 100%</span></span></code></pre>
 <pre><code><span><span class="co">## Generating MA plots...</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |                                                                      |   0%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 1096 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 1100 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |=======================                                               |  33%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 1694 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 1681 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |===============================================                       |  67%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 768 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 764 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |======================================================================| 100%</span></span></code></pre>
 <pre><code><span><span class="co">## Generating volcano plots...</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |                                                                      |   0%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 36490 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 33847 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 53097 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 49953 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: ggrepel: 37 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 36490 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 33847 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 53097 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 49953 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: ggrepel: 35 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-8.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |=======================                                               |  33%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 35583 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 32240 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 52390 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 49251 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: ggrepel: 30 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 35583 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 32240 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 52390 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 49251 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: ggrepel: 23 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-9.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |===============================================                       |  67%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 38113 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 34709 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 53040 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 49894 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: ggrepel: 39 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 38113 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 34709 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 53040 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 49894 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 36 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 35 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-10.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |======================================================================| 100%</span></span></code></pre>
@@ -456,42 +247,42 @@ Hung</h4>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (34.18% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (33.26% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (34.18% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (33.26% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (34.18% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (33.26% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (34.18% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (33.26% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (34.18% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (33.26% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (34.18% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (33.26% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
@@ -499,42 +290,42 @@ Hung</h4>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.33% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.36% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.33% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.36% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.33% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.36% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.33% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.36% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.33% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.36% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.33% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.36% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
@@ -542,42 +333,42 @@ Hung</h4>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.6% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.64% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.6% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.64% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.6% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.64% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.6% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.64% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.6% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.64% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.6% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.64% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
@@ -586,9 +377,9 @@ Hung</h4>
 <pre><code><span><span class="co">##   |                                                                              |                                                                      |   0%</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
 <span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 3 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 3 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-11.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |====                                                                  |   6%</span></span></code></pre>
@@ -600,10 +391,11 @@ Hung</h4>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-12.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |========                                                              |  11%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"): Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
+<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-13.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |============                                                          |  17%</span></span></code></pre>
@@ -611,8 +403,9 @@ Hung</h4>
 <span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-14.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |================                                                      |  22%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"): Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
+<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
 <span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
@@ -633,31 +426,35 @@ Hung</h4>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-18.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |===============================                                       |  44%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"): Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
+<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-19.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |===================================                                   |  50%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"): Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
+<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
 <span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-20.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |=======================================                               |  56%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"): Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
+<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-21.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |===========================================                           |  61%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"): Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
+<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 8 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 8 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-22.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |===============================================                       |  67%</span></span></code></pre>
@@ -665,8 +462,9 @@ Hung</h4>
 <span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-23.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |===================================================                   |  72%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"): Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
+<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
 <span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
@@ -692,21 +490,22 @@ Hung</h4>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-27.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |==================================================================    |  94%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"): Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
+<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-28.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |======================================================================| 100%</span></span></code></pre>
 <pre><code><span><span class="co">## Formatting for enrichmentmap...</span></span></code></pre>
 <pre><code><span><span class="co">## Complete; returning DESeq2 object...</span></span></code></pre>
 <pre><code><span><span class="co">## class: DESeqDataSet </span></span>
-<span><span class="co">## dim: 53571 11 </span></span>
+<span><span class="co">## dim: 50426 11 </span></span>
 <span><span class="co">## metadata(1): version</span></span>
 <span><span class="co">## assays(1): counts</span></span>
-<span><span class="co">## rownames(53571): 0610005C13Rik 0610006L08Rik ... snoZ159 snoZ196</span></span>
-<span><span class="co">## rowData names(0):</span></span>
+<span><span class="co">## rownames(50426): 0610005C13Rik 0610006L08Rik ... snoZ159 snoZ196</span></span>
+<span><span class="co">## rowData names(1): gene</span></span>
 <span><span class="co">## colnames(11): BM_IgA_1 BM_IgA_2 ... BM_IgM_3 BM_IgM_4</span></span>
 <span><span class="co">## colData names(6): sample Group1 ... sizeFactor condition</span></span></code></pre>
 </div>
@@ -714,17 +513,17 @@ Hung</h4>
 <div class="section level2">
 <h2 id="run-deseq2pip-on-atac-seq-data">Run deseq2pip on ATAC-seq data<a class="anchor" aria-label="anchor" href="#run-deseq2pip-on-atac-seq-data"></a>
 </h2>
-<div class="sourceCode" id="cb319"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb252"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create a directory for results, currently set to tempdir()</span></span>
 <span><span class="co"># save_dir &lt;- "/Users/hungm/Documents/development/deseq2pip/tests/atacseq/pipeline/"</span></span>
 <span><span class="va">save_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">save_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpY4tAB6' already</span></span>
+<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpchnxsX' already</span></span>
 <span><span class="co">## exists</span></span></code></pre>
 <div class="section level3">
 <h3 id="load-deseq2-object-from-nfcore-pipeline-1">Load DESeq2 object from nfcore pipeline<a class="anchor" aria-label="anchor" href="#load-deseq2-object-from-nfcore-pipeline-1"></a>
 </h3>
-<div class="sourceCode" id="cb321"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb254"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load example DESeq2 object</span></span>
 <span><span class="va">rdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"GSE224512.dds.RData"</span>, package <span class="op">=</span> <span class="st">"deseq2pip"</span><span class="op">)</span></span>
 <span><span class="va">annotatePeaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html" class="external-link">gzfile</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"GSE224512.annotatePeaks.txt.gz"</span>, package <span class="op">=</span> <span class="st">"deseq2pip"</span><span class="op">)</span><span class="op">)</span></span>
@@ -736,14 +535,14 @@ Hung</h4>
 <span><span class="co">## Interval_3      16       9      14       9      15</span></span>
 <span><span class="co">## Interval_4       7      16      17      20      16</span></span>
 <span><span class="co">## Interval_5       3       4       4       6       6</span></span></code></pre>
-<div class="sourceCode" id="cb323"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb256"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># subset groups for brevity</span></span>
 <span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="va">dds</span><span class="op">[</span>, <span class="va">dds</span><span class="op">$</span><span class="va">Group1</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">'BC'</span>, <span class="st">'BCK'</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="set-group-variable-to-compare-between-1">Set group variable to compare between<a class="anchor" aria-label="anchor" href="#set-group-variable-to-compare-between-1"></a>
 </h3>
-<div class="sourceCode" id="cb324"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb257"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># set group variable to compare between, with the first level set as the reference</span></span>
 <span><span class="va">dds</span><span class="op">$</span><span class="va">Group1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">dds</span><span class="op">$</span><span class="va">Group1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">'BC'</span>, <span class="st">'BCK'</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -753,7 +552,7 @@ Hung</h4>
 <div class="section level3">
 <h3 id="run-deseq2-pipeline-1">Run deseq2 pipeline<a class="anchor" aria-label="anchor" href="#run-deseq2-pipeline-1"></a>
 </h3>
-<div class="sourceCode" id="cb325"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb258"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run deseq2pip</span></span>
 <span><span class="fu"><a href="../reference/run_deseq2_pip.html">run_deseq2_pip</a></span><span class="op">(</span></span>
 <span>    <span class="va">dds</span>,</span>
@@ -766,8 +565,8 @@ Hung</h4>
 <span>    group_by <span class="op">=</span> <span class="st">"Group1"</span>,</span>
 <span>    save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Running quality control pipeline...</span></span></code></pre>
-<pre><code><span><span class="co">## Removing XY genes...</span></span></code></pre>
-<pre><code><span><span class="co">## Removing MT genes...</span></span></code></pre>
+<pre><code><span><span class="co">## Removing 3331 XY genes out of 74851 total genes...</span></span></code></pre>
+<pre><code><span><span class="co">## Removing 2 MT genes out of 71520 total genes...</span></span></code></pre>
 <pre><code><span><span class="co">## Filtering genes with low expressions...</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-9-1.png" width="700"><img src="deseq2pip_files/figure-html/unnamed-chunk-9-2.png" width="700"></p>
 <pre><code><span><span class="co">## Saving DESeq2 object &amp; expressions...</span></span></code></pre>
@@ -824,56 +623,52 @@ Hung</h4>
 <pre><code><span><span class="co">##   |                                                                              |======================================================================| 100%</span></span></code></pre>
 <pre><code><span><span class="co">## Generating MA plots...</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |                                                                      |   0%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 340 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 334 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |=======================                                               |  33%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 3651 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 3657 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |===============================================                       |  67%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 6951 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 6878 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |======================================================================| 100%</span></span></code></pre>
 <pre><code><span><span class="co">## Generating volcano plots...</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |                                                                      |   0%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 2824 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 10773 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 72613 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 69361 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 26 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 29 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 2824 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 10773 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 72613 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 69361 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 25 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 28 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-9-7.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |=======================                                               |  33%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 23960 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 22885 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 72498 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 69430 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 32 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 23960 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 22885 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 72498 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 69430 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 18 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-9-8.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |===============================================                       |  67%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 9870 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 8081 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 72626 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 69364 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 32 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 33 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 9870 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 8081 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 72626 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 69364 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 30 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 31 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-9-9.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |======================================================================| 100%</span></span></code></pre>
@@ -934,45 +729,45 @@ Hung</h4>
 <pre><code><span><span class="co">## Warning: ggrepel: 14 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |=======================                                               |  33%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 1600 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 1589 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |===============================================                       |  67%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 1875 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 1840 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |======================================================================| 100%</span></span></code></pre>
 <pre><code><span><span class="co">## Generating volcano plots...</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |                                                                      |   0%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 248 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 12717 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 12372 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 248 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 12717 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 12372 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-9-15.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |=======================                                               |  33%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 1234 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 1201 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 12677 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 12331 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: ggrepel: 7 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 1234 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 1201 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 12677 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 12331 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 6 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 5 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-9-16.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |===============================================                       |  67%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 247 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 241 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 12717 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 12371 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 247 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 241 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 12717 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 12371 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-9-17.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |======================================================================| 100%</span></span></code></pre>
@@ -1018,7 +813,7 @@ Hung</h4>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in fgseaMultilevel(pathways = pathways, stats = stats, minSize =</span></span>
-<span><span class="co">## minSize, : There were 3 pathways for which P-values were not calculated</span></span>
+<span><span class="co">## minSize, : There were 4 pathways for which P-values were not calculated</span></span>
 <span><span class="co">## properly due to unbalanced (positive and negative) gene-level statistic values.</span></span>
 <span><span class="co">## For such pathways pval, padj, NES, log2err are set to NA. You can try to</span></span>
 <span><span class="co">## increase the value of the argument nPermSimple (for example set it nPermSimple</span></span>
@@ -1064,12 +859,15 @@ Hung</h4>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in fgseaMultilevel(pathways = pathways, stats = stats, minSize =</span></span>
-<span><span class="co">## minSize, : There were 5 pathways for which P-values were not calculated</span></span>
+<span><span class="co">## minSize, : There were 3 pathways for which P-values were not calculated</span></span>
 <span><span class="co">## properly due to unbalanced (positive and negative) gene-level statistic values.</span></span>
 <span><span class="co">## For such pathways pval, padj, NES, log2err are set to NA. You can try to</span></span>
 <span><span class="co">## increase the value of the argument nPermSimple (for example set it nPermSimple</span></span>
-<span><span class="co">## = 10000)</span></span>
-<span><span class="co">## Warning in fgseaMultilevel(pathways = pathways, stats = stats, minSize =</span></span>
+<span><span class="co">## = 10000)</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in fgseaMultilevel(pathways = pathways, stats = stats, minSize =</span></span>
+<span><span class="co">## minSize, : For some of the pathways the P-values were likely overestimated. For</span></span>
+<span><span class="co">## such pathways log2err is set to NA.</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in fgseaMultilevel(pathways = pathways, stats = stats, minSize =</span></span>
 <span><span class="co">## minSize, : For some pathways, in reality P-values are less than 1e-10. You can</span></span>
 <span><span class="co">## set the `eps` argument to zero for better estimation.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
@@ -1114,9 +912,9 @@ Hung</h4>
 <pre><code><span><span class="co">##   |                                                                              |                                                                      |   0%</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
 <span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 4 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 4 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-9-18.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |====                                                                  |   6%</span></span></code></pre>
@@ -1143,15 +941,17 @@ Hung</h4>
 <span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-9-22.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |===================                                                   |  28%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"): Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
+<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 3 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 3 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-9-23.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |=======================                                               |  33%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"): Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
+<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
 <span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
@@ -1159,14 +959,15 @@ Hung</h4>
 <pre><code><span><span class="co">##   |                                                                              |===========================                                           |  39%</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
 <span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 3 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 3 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-9-25.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |===============================                                       |  44%</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"): Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span>
-<span><span class="co">## Removed 3 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
+<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 3 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
 <span><span class="co">## Removed 3 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
@@ -1201,6 +1002,10 @@ Hung</h4>
 <pre><code><span><span class="co">##   |                                                                              |======================================================                |  78%</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
 <span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## (`geom_text()`).</span></span>
+<span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-9-32.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |==========================================================            |  83%</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
@@ -1209,9 +1014,9 @@ Hung</h4>
 <pre><code><span><span class="co">##   |                                                                              |==============================================================        |  89%</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
 <span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 7 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 8 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 7 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 8 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-9-34.png" width="700"></p>
 <pre><code><span><span class="co">##   |                                                                              |==================================================================    |  94%</span></span></code></pre>
@@ -1226,11 +1031,11 @@ Hung</h4>
 <pre><code><span><span class="co">## Formatting for enrichmentmap...</span></span></code></pre>
 <pre><code><span><span class="co">## TSS peak analysis complete; returning DESeq2 object...</span></span></code></pre>
 <pre><code><span><span class="co">## class: DESeqDataSet </span></span>
-<span><span class="co">## dim: 72693 13 </span></span>
+<span><span class="co">## dim: 69431 13 </span></span>
 <span><span class="co">## metadata(1): version</span></span>
 <span><span class="co">## assays(2): counts vst</span></span>
-<span><span class="co">## rownames(72693): Interval_1 Interval_2 ... Interval_74850</span></span>
-<span><span class="co">##   Interval_74851</span></span>
+<span><span class="co">## rownames(69431): Interval_1 Interval_2 ... Interval_74799</span></span>
+<span><span class="co">##   Interval_74821</span></span>
 <span><span class="co">## rowData names(19): Chr Start ... gene TSS</span></span>
 <span><span class="co">## colnames(13): WT_REP4 BCK_REP5 ... BC_REP2 BC_REP1</span></span>
 <span><span class="co">## colData names(4): sample Group1 Group2 sizeFactor</span></span></code></pre>

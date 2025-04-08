@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Author: Matthew
 Hung</h4>
             
-            <h4 data-toc-skip class="date">Last Updated: 2025/04/05</h4>
+            <h4 data-toc-skip class="date">Last Updated: 2025/04/08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/hungms/deseq2pip/blob/main/vignettes/rna_guide.Rmd" class="external-link"><code>vignettes/rna_guide.Rmd</code></a></small>
       <div class="d-none name"><code>rna_guide.Rmd</code></div>
@@ -73,227 +73,15 @@ Hung</h4>
     
 <p>First, load the deseq2pip package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hungms.github.io/deseq2pip/">deseq2pip</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'dplyr'</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     filter, lag</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:base':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     intersect, setdiff, setequal, union</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'magrittr'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:rlang':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     set_names</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:tidyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     extract</span></span></code></pre>
-<pre><code><span><span class="co">## strpip 0.1.0</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'cowplot'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:patchwork':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     align_plots</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: viridisLite</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: S4Vectors</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: stats4</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: BiocGenerics</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'BiocGenerics'</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:dplyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     combine, intersect, setdiff, union</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     IQR, mad, sd, var, xtabs</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:base':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     anyDuplicated, aperm, append, as.data.frame, basename, cbind,</span></span>
-<span><span class="co">##     colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,</span></span>
-<span><span class="co">##     get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,</span></span>
-<span><span class="co">##     match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,</span></span>
-<span><span class="co">##     Position, rank, rbind, Reduce, rownames, sapply, saveRDS, setdiff,</span></span>
-<span><span class="co">##     table, tapply, union, unique, unsplit, which.max, which.min</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'S4Vectors'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:tidyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     expand</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:dplyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     first, rename</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:utils':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     findMatches</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:base':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     expand.grid, I, unname</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: IRanges</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'IRanges'</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:dplyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     collapse, desc, slice</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: GenomicRanges</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: GenomeInfoDb</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'GenomicRanges'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:magrittr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     subtract</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: SummarizedExperiment</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: MatrixGenerics</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: matrixStats</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'matrixStats'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:dplyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     count</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'MatrixGenerics'</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:matrixStats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,</span></span>
-<span><span class="co">##     colCounts, colCummaxs, colCummins, colCumprods, colCumsums,</span></span>
-<span><span class="co">##     colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,</span></span>
-<span><span class="co">##     colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,</span></span>
-<span><span class="co">##     colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,</span></span>
-<span><span class="co">##     colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,</span></span>
-<span><span class="co">##     colWeightedMeans, colWeightedMedians, colWeightedSds,</span></span>
-<span><span class="co">##     colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,</span></span>
-<span><span class="co">##     rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,</span></span>
-<span><span class="co">##     rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,</span></span>
-<span><span class="co">##     rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,</span></span>
-<span><span class="co">##     rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,</span></span>
-<span><span class="co">##     rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,</span></span>
-<span><span class="co">##     rowWeightedMads, rowWeightedMeans, rowWeightedMedians,</span></span>
-<span><span class="co">##     rowWeightedSds, rowWeightedVars</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: Biobase</span></span></code></pre>
-<pre><code><span><span class="co">## Welcome to Bioconductor</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     Vignettes contain introductory material; view with</span></span>
-<span><span class="co">##     'browseVignettes()'. To cite Bioconductor, see</span></span>
-<span><span class="co">##     'citation("Biobase")', and for packages 'citation("pkgname")'.</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'Biobase'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:MatrixGenerics':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     rowMedians</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:matrixStats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     anyMissing, rowMedians</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:rlang':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     exprs</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hungms.github.io/deseq2pip/">deseq2pip</a></span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by</span></span>
 <span><span class="co">## 'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'</span></span></code></pre>
-<pre><code><span><span class="co">## Registered S3 methods overwritten by 'ggalt':</span></span>
-<span><span class="co">##   method                  from   </span></span>
-<span><span class="co">##   grid.draw.absoluteGrob  ggplot2</span></span>
-<span><span class="co">##   grobHeight.absoluteGrob ggplot2</span></span>
-<span><span class="co">##   grobWidth.absoluteGrob  ggplot2</span></span>
-<span><span class="co">##   grobX.absoluteGrob      ggplot2</span></span>
-<span><span class="co">##   grobY.absoluteGrob      ggplot2</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'ggalt'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:rlang':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     bytes</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span></code></pre>
-<pre><code><span><span class="co">## clusterProfiler v4.14.6 Learn more at https://yulab-smu.top/contribution-knowledge-mining/</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Please cite:</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## T Wu, E Hu, S Xu, M Chen, P Guo, Z Dai, T Feng, L Zhou, W Tang, L Zhan,</span></span>
-<span><span class="co">## X Fu, S Liu, X Bo, and G Yu. clusterProfiler 4.0: A universal</span></span>
-<span><span class="co">## enrichment tool for interpreting omics data. The Innovation. 2021,</span></span>
-<span><span class="co">## 2(3):100141</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'clusterProfiler'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:IRanges':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     slice</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:S4Vectors':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     rename</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:biomaRt':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     select</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:stats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     filter</span></span></code></pre>
-<pre><code><span><span class="co">## For full functionality, please install the 'msigdbdf' package with:</span></span>
-<span><span class="co">## install.packages('msigdbdf', repos = 'https://igordot.r-universe.dev')</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'ggpubr'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:plotr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     get_palette</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:cowplot':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     get_legend</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'scales'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:viridis':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     viridis_pal</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'limma'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:DESeq2':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     plotMA</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:BiocGenerics':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     plotMA</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: mgcv</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: nlme</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'nlme'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:IRanges':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     collapse</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:dplyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     collapse</span></span></code></pre>
-<pre><code><span><span class="co">## This is mgcv 1.9-1. For overview type 'help("mgcv-package")'.</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: genefilter</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'genefilter'</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:MatrixGenerics':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     rowSds, rowVars</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:matrixStats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     rowSds, rowVars</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:patchwork':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     area</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: BiocParallel</span></span></code></pre>
-<pre><code><span><span class="co">## enrichplot v1.26.6 Learn more at https://yulab-smu.top/contribution-knowledge-mining/</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Please cite:</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Guangchuang Yu. Gene Ontology Semantic Similarity Analysis Using</span></span>
-<span><span class="co">## GOSemSim. In: Kidder B. (eds) Stem Cell Transcriptional Networks.</span></span>
-<span><span class="co">## Methods in Molecular Biology. 2020, 2117:207-215. Humana, New York, NY.</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'enrichplot'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:ggpubr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     color_palette</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'deseq2pip'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:cowplot':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     save_plot</span></span></code></pre>
 <div class="section level2">
 <h2 id="data-import-and-setup">Data Import and Setup<a class="anchor" aria-label="anchor" href="#data-import-and-setup"></a>
 </h2>
 <p>Let’s import and prepare your data. We’ll use the example dataset
 GSE189410 to demonstrate the workflow:</p>
-<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load example DESeq2 object</span></span>
 <span><span class="va">rdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"GSE189410.dds.RData"</span>, package <span class="op">=</span> <span class="st">"deseq2pip"</span><span class="op">)</span></span>
 <span><span class="va">tx2gene</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html" class="external-link">gzfile</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"GSE189410.tx2gene.tsv.gz"</span>, package <span class="op">=</span> <span class="st">"deseq2pip"</span><span class="op">)</span><span class="op">)</span></span>
@@ -305,7 +93,7 @@ GSE189410 to demonstrate the workflow:</p>
 <span><span class="co">## 0610009B22Rik      102       93      124      128      126</span></span>
 <span><span class="co">## 0610009E02Rik       50       11       22       13       21</span></span>
 <span><span class="co">## 0610009L18Rik        5       10        3        4        3</span></span></code></pre>
-<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># set group variable to compare between, with the first level set as the reference</span></span>
 <span><span class="va">dds</span><span class="op">$</span><span class="va">Group2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">dds</span><span class="op">$</span><span class="va">Group2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'IgM'</span>, <span class="st">'IgG'</span>, <span class="st">'IgA'</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -337,14 +125,14 @@ variable <code>Group2</code>: <code>IgM</code> vs <code>IgG</code>,
 <em>Note: Repeating run_deseq2_pip will overwrite the existing files if
 the same directory name is used. To prevent this, please specify a
 different save_dir directory.</em></p>
-<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run deseq2 pipeline</span></span>
 <span><span class="co">#run_deseq2_pip(dds, experiment = "GSE189410", org = "mouse", group_by = "Group2", remove_xy = TRUE, remove_mt = TRUE, save_dir = "/Users/hungm/Documents/development/deseq2pip/tests/pipeline/")</span></span></code></pre></div>
 <p>This will create a directory structure under the specified save
 directory: * qc_results/ contains QC plots and expression data *
 batch_corrected/ contains batch corrected plots and expression data *
 <code>Group2</code>/ contains directories for each comparison pair</p>
-<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># show directory structure</span></span>
 <span><span class="co">#fs::dir_tree("/Users/hungm/Documents/development/deseq2pip/tests/pipeline/", recurse = 1)</span></span></code></pre></div>
 <p>For each comparison pair, the directory contains: *
@@ -355,7 +143,7 @@ differential expression results * outputs for each gene set collection
 file of gseaResult class object </em> gsea_<em>.tsv: TSV file of GSEA
 results </em> gsea_*_barplot.pdf: Barplots for the top N terms from GSEA
 results</p>
-<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># show directory structure for a specific comparison pair</span></span>
 <span><span class="co">#fs::dir_tree("/Users/hungm/Documents/development/deseq2pip/tests/pipeline/Group2/IgA_vs_IgG/")</span></span></code></pre></div>
 </div>
@@ -366,14 +154,14 @@ results</p>
 specific module using different parameters or comparison groups without
 repeating the entire pipeline.</p>
 <p>Here’s how to run each module separately.</p>
-<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># set global arguments</span></span>
 <span><span class="co"># save_dir &lt;- "/Users/hungm/Documents/development/deseq2pip/tests/rnaseq/module/"</span></span>
 <span><span class="va">save_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">save_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpPsoSjf' already</span></span>
+<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpktrRN0' already</span></span>
 <span><span class="co">## exists</span></span></code></pre>
-<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">group_by</span> <span class="op">&lt;-</span> <span class="st">"Group2"</span></span>
 <span><span class="va">batch</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
 <span><span class="va">org</span> <span class="op">&lt;-</span> <span class="st">"mouse"</span></span>
@@ -405,38 +193,38 @@ genes on X and Y chromosomes. This can be done with the
 <code><a href="../reference/remove_xy_genes.html">remove_xy_genes()</a></code> function.</p>
 <p>This is optional but recommended if you see a gender-specific effect
 in downstream PCA and distance analysis.</p>
-<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># remove XY genes (Optional)</span></span>
 <span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/remove_xy_genes.html">remove_xy_genes</a></span><span class="op">(</span><span class="va">dds</span>, org <span class="op">=</span> <span class="st">"mouse"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Removing XY genes...</span></span></code></pre>
-<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## Removing 4050 XY genes out of 54513 total genes...</span></span></code></pre>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dds</span></span></code></pre></div>
 <pre><code><span><span class="co">## class: DESeqDataSet </span></span>
-<span><span class="co">## dim: 53584 11 </span></span>
+<span><span class="co">## dim: 50463 11 </span></span>
 <span><span class="co">## metadata(1): version</span></span>
 <span><span class="co">## assays(1): counts</span></span>
-<span><span class="co">## rownames(53584): 0610005C13Rik 0610006L08Rik ... snoZ159 snoZ196</span></span>
-<span><span class="co">## rowData names(0):</span></span>
+<span><span class="co">## rownames(50463): 0610005C13Rik 0610006L08Rik ... snoZ159 snoZ196</span></span>
+<span><span class="co">## rowData names(1): gene</span></span>
 <span><span class="co">## colnames(11): BM_IgA_1 BM_IgA_2 ... BM_IgM_3 BM_IgM_4</span></span>
 <span><span class="co">## colData names(6): sample Group1 ... sizeFactor condition</span></span></code></pre>
 <p>Similarly, if your data contains mitochondrial genes that you are not
 interested in, you can optionally remove them with the
 <code><a href="../reference/remove_mt_genes.html">remove_mt_genes()</a></code> function.</p>
-<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># remove MT genes (Optional)</span></span>
 <span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/remove_mt_genes.html">remove_mt_genes</a></span><span class="op">(</span><span class="va">dds</span>, org <span class="op">=</span> <span class="st">"mouse"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Removing MT genes...</span></span></code></pre>
-<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## Removing 37 MT genes out of 50463 total genes...</span></span></code></pre>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">dds</span><span class="op">)</span>, <span class="st">"^[Mm][Tt]-"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
-<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## [1] FALSE</span></span></code></pre>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dds</span></span></code></pre></div>
 <pre><code><span><span class="co">## class: DESeqDataSet </span></span>
-<span><span class="co">## dim: 53571 11 </span></span>
+<span><span class="co">## dim: 50426 11 </span></span>
 <span><span class="co">## metadata(1): version</span></span>
 <span><span class="co">## assays(1): counts</span></span>
-<span><span class="co">## rownames(53571): 0610005C13Rik 0610006L08Rik ... snoZ159 snoZ196</span></span>
-<span><span class="co">## rowData names(0):</span></span>
+<span><span class="co">## rownames(50426): 0610005C13Rik 0610006L08Rik ... snoZ159 snoZ196</span></span>
+<span><span class="co">## rowData names(1): gene</span></span>
 <span><span class="co">## colnames(11): BM_IgA_1 BM_IgA_2 ... BM_IgM_3 BM_IgM_4</span></span>
 <span><span class="co">## colData names(6): sample Group1 ... sizeFactor condition</span></span></code></pre>
 </div>
@@ -451,7 +239,7 @@ analysis.</p>
 (<code>remove_low_expression(..., quantile = 0.05)</code>). The gene
 must also be expressed in at least n replicates, where n is the minimum
 replicates in the group.</p>
-<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># remove low expression genes</span></span>
 <span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/remove_low_expression.html">remove_low_expression</a></span><span class="op">(</span><span class="va">dds</span>, quantile <span class="op">=</span> <span class="fl">0.05</span>, group_by <span class="op">=</span> <span class="st">"Group2"</span>, save_plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Filtering genes with low expressions...</span></span></code></pre>
@@ -472,7 +260,7 @@ suitable for differential expression analysis.</p>
 or perform batch correction downstream to address quality issues. This
 will address technical variation between samples/batches and improve the
 statistical power for true biological variations.</p>
-<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># check library size distribution</span></span>
 <span><span class="fu"><a href="../reference/check_library.html">check_library</a></span><span class="op">(</span><span class="va">dds</span>, save_plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
@@ -488,13 +276,13 @@ from the same group should cluster closely in the PCA plot and have
 lower distance values in the distance heatmap.</p>
 <p>Again, one should consider sample/batch quality if the samples do not
 separate as expected.</p>
-<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run PCA for the samples with group information</span></span>
 <span><span class="va">vsd</span> <span class="op">&lt;-</span> <span class="fu">vst</span><span class="op">(</span><span class="va">dds</span>, blind <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/run_pca.html">run_pca</a></span><span class="op">(</span><span class="va">vsd</span>, group_by <span class="op">=</span> <span class="st">"Group2"</span>, size <span class="op">=</span> <span class="fl">4</span>, save_data <span class="op">=</span> <span class="cn">FALSE</span>, save_plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## using ntop=500 top features by variance</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-11-1.png" width="700"><img src="rna_guide_files/figure-html/unnamed-chunk-11-2.png" width="700"></p>
-<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run distance analysis between samples</span></span>
 <span><span class="fu"><a href="../reference/run_distance.html">run_distance</a></span><span class="op">(</span><span class="va">vsd</span>, save_data <span class="op">=</span> <span class="cn">FALSE</span>, save_plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-11-3.png" width="700"></p>
@@ -519,7 +307,7 @@ for each comparison is separated by <code>comparison</code> column.
 Additionally, chromosome loci and functional annotations of each gene
 was added to the dataframe using the
 <code><a href="https://hungms.github.io/deseq2pip/reference/run_annotation.html">strpip::run_annotation()</a></code> function (see <a href="https://github.com/hungms/strpip" class="external-link uri">https://github.com/hungms/strpip</a>).</p>
-<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run differential expression analysis</span></span>
 <span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_diffexp_list.html">run_diffexp_list</a></span><span class="op">(</span><span class="va">dds</span>, group_by <span class="op">=</span> <span class="st">"Group2"</span>, save_data <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Running DESeq2 differential expression...</span></span></code></pre>
@@ -533,6 +321,7 @@ was added to the dataframe using the
 <pre><code><span><span class="co">## using 'ashr' for LFC shrinkage. If used in published research, please cite:</span></span>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
+<pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: The OmnipathR package is needed for annotation functions. Please</span></span>
 <span><span class="co">## install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |=======================                                               |  33%</span></span></code></pre>
@@ -545,6 +334,7 @@ was added to the dataframe using the
 <pre><code><span><span class="co">## using 'ashr' for LFC shrinkage. If used in published research, please cite:</span></span>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
+<pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: The OmnipathR package is needed for annotation functions. Please</span></span>
 <span><span class="co">## install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |===============================================                       |  67%</span></span></code></pre>
@@ -557,25 +347,26 @@ was added to the dataframe using the
 <pre><code><span><span class="co">## using 'ashr' for LFC shrinkage. If used in published research, please cite:</span></span>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
+<pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: The OmnipathR package is needed for annotation functions. Please</span></span>
 <span><span class="co">## install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |======================================================================| 100%</span></span></code></pre>
-<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##                  baseMean log2FoldChange     lfcSE        pvalue         padj</span></span>
-<span><span class="co">## Ighg2c...1   1.253765e+06       8.791766 0.4206648 4.492229e-101 6.944087e-97</span></span>
-<span><span class="co">## Ighg2b...2   1.815476e+06       7.717498 0.5217150  3.954784e-56 3.056653e-52</span></span>
-<span><span class="co">## Ighg3...3    3.243143e+05       7.441216 0.6943780  4.352986e-33 1.345769e-29</span></span>
-<span><span class="co">## Ighv1-83...4 1.070368e+03       4.964736 0.3841059  1.572552e-40 6.077128e-37</span></span>
-<span><span class="co">## Gm24950...5  8.711461e+01      22.079612 3.6102759  3.810199e-10 9.499687e-08</span></span>
-<span><span class="co">## Fads3...6    2.726201e+02       3.901356 0.4284228  2.684993e-21 2.964616e-18</span></span>
-<span><span class="co">##              comparison     rank     gene</span></span>
-<span><span class="co">## Ighg2c...1   IgG_vs_IgM 845.4020   Ighg2c</span></span>
-<span><span class="co">## Ighg2b...2   IgG_vs_IgM 397.5650   Ighg2b</span></span>
-<span><span class="co">## Ighg3...3    IgG_vs_IgM 214.8356    Ighg3</span></span>
-<span><span class="co">## Ighv1-83...4 IgG_vs_IgM 179.8044 Ighv1-83</span></span>
-<span><span class="co">## Gm24950...5  IgG_vs_IgM 155.0495  Gm24950</span></span>
-<span><span class="co">## Fads3...6    IgG_vs_IgM  68.3831    Fads3</span></span></code></pre>
+<span><span class="co">## Ighg2c...1   1.253765e+06       8.790573 0.4207463 5.535472e-101 8.700101e-97</span></span>
+<span><span class="co">## Ighg2b...2   1.815476e+06       7.718483 0.5212007  4.875653e-56 3.831532e-52</span></span>
+<span><span class="co">## Ighg3...3    3.243143e+05       7.444125 0.6936469  5.313505e-33 1.670247e-29</span></span>
+<span><span class="co">## Ighv1-83...4 1.070368e+03       4.965428 0.3844307  1.614707e-40 6.344586e-37</span></span>
+<span><span class="co">## Gm24950...5  8.711461e+01      22.079526 3.6103494  3.810199e-10 9.658855e-08</span></span>
+<span><span class="co">## Fads3...6    2.726201e+02       3.900797 0.4287384  2.775847e-21 3.116285e-18</span></span>
+<span><span class="co">##                  gene comparison      rank</span></span>
+<span><span class="co">## Ighg2c...1     Ighg2c IgG_vs_IgM 844.42666</span></span>
+<span><span class="co">## Ighg2b...2     Ighg2b IgG_vs_IgM 396.85838</span></span>
+<span><span class="co">## Ighg3...3       Ighg3 IgG_vs_IgM 214.22121</span></span>
+<span><span class="co">## Ighv1-83...4 Ighv1-83 IgG_vs_IgM 179.73654</span></span>
+<span><span class="co">## Gm24950...5   Gm24950 IgG_vs_IgM 154.88952</span></span>
+<span><span class="co">## Fads3...6       Fads3 IgG_vs_IgM  68.28876</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="generating-ma-plots">Generating MA plots<a class="anchor" aria-label="anchor" href="#generating-ma-plots"></a>
@@ -585,14 +376,14 @@ which is a wrapper for the <code><a href="../reference/plot_ma.html">plot_ma()</
 plots for all comparisons.</p>
 <p>Here we will use <code><a href="../reference/plot_ma.html">plot_ma()</a></code> to generate a single MA plot
 for the <code>IgA_vs_IgG</code> comparison as a demonstration.</p>
-<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># generate MA plot for all comparisons; skipped here</span></span>
 <span><span class="co">#plot_ma_list(res, save_plot = FALSE)</span></span>
 <span></span>
 <span><span class="co"># Generate MA plot for the "IgA_vs_IgG" comparison</span></span>
 <span><span class="va">res.IgA_vs_IgG</span> <span class="op">&lt;-</span> <span class="va">res</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">comparison</span> <span class="op">==</span> <span class="st">"IgA_vs_IgG"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot_ma.html">plot_ma</a></span><span class="op">(</span><span class="va">res.IgA_vs_IgG</span>, save_plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: ggrepel: 1096 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 1100 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 </div>
@@ -605,23 +396,23 @@ to generate volcano plots for all comparisons.</p>
 <p>Here we will use <code><a href="../reference/plot_volcano.html">plot_volcano()</a></code> to generate a single
 volcano plot for the <code>IgA_vs_IgG</code> comparison as a
 demonstration.</p>
-<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># generate volcano plot for all comparisons; skipped here</span></span>
 <span><span class="co">#plot_volcano_list(res, save_plot = FALSE)</span></span>
 <span></span>
 <span><span class="co"># Generate volcano plot for the "IgA_vs_IgG" comparison</span></span>
 <span><span class="va">res.IgA_vs_IgG</span> <span class="op">&lt;-</span> <span class="va">res</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">comparison</span> <span class="op">==</span> <span class="st">"IgA_vs_IgG"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res.IgA_vs_IgG</span>, save_plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: Removed 36490 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 33847 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 53097 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 49953 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: ggrepel: 37 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
-<pre><code><span><span class="co">## Warning: Removed 36490 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 33847 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 53097 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 49953 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: ggrepel: 37 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
@@ -646,7 +437,7 @@ This is done for all pairwise comparisons between groups specified in
 the <code>comparison</code> column.</p>
 <p>This returns a list of gseaResult class objects for each gene set
 collection and comparison.</p>
-<div class="sourceCode" id="cb147"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run gsea analysis</span></span>
 <span><span class="va">gsea.list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_gsea_list.html">run_gsea_list</a></span><span class="op">(</span><span class="va">res</span>, org <span class="op">=</span> <span class="st">"mouse"</span>, save_data <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Running gene set enrichment analysis...</span></span></code></pre>
@@ -654,42 +445,42 @@ collection and comparison.</p>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (34.18% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (33.26% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (34.18% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (33.26% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (34.18% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (33.26% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (34.18% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (33.26% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (34.18% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (33.26% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (34.18% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (33.26% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
@@ -697,42 +488,42 @@ collection and comparison.</p>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.33% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.36% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.33% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.36% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.33% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.36% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.33% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.36% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.33% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.36% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.33% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.36% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
@@ -740,47 +531,47 @@ collection and comparison.</p>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.6% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.64% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.6% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.64% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.6% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.64% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.6% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.64% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.6% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.64% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (36.6% of the list).</span></span>
+<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (35.64% of the list).</span></span>
 <span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">##   |                                                                              |======================================================================| 100%</span></span></code></pre>
-<div class="sourceCode" id="cb261"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">gsea.list</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##  [1] "IgA_vs_IgG_BIOCARTA" "IgA_vs_IgG_GOBP"     "IgA_vs_IgG_HALLMARK"</span></span>
 <span><span class="co">##  [4] "IgA_vs_IgG_KEGG"     "IgA_vs_IgG_REACTOME" "IgA_vs_IgG_TFT"     </span></span>
@@ -793,7 +584,7 @@ saved in the <code>gsea_results</code> directory can be read back in
 using the <code><a href="../reference/read_gsea_tsv_list.html">read_gsea_tsv_list()</a></code> function.</p>
 <p>Here we will retrieve the gsea results for the
 <code>IgA_vs_IgG</code> comparison using GOBP collection.</p>
-<div class="sourceCode" id="cb263"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb188"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># read gsea results from saved files</span></span>
 <span><span class="co">#gsea.df &lt;- read_gsea_tsv_list()</span></span>
 <span><span class="co">#gsea.df %&gt;% head(.)</span></span>
@@ -801,55 +592,62 @@ using the <code><a href="../reference/read_gsea_tsv_list.html">read_gsea_tsv_lis
 <span><span class="co"># read gsea results for the "IgA_vs_IgG" comparison</span></span>
 <span><span class="va">gsea.IgA_vs_IgG.gobp</span> <span class="op">&lt;-</span> <span class="va">gsea.list</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">gsea.list</span><span class="op">)</span> <span class="op">==</span> <span class="st">"IgA_vs_IgG_GOBP"</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">@</span><span class="va">result</span></span>
 <span><span class="va">gsea.IgA_vs_IgG.gobp</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##                                                                                  ID</span></span>
-<span><span class="co">## GOBP_CELL_DIVISION                                               GOBP_CELL_DIVISION</span></span>
-<span><span class="co">## GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION</span></span>
-<span><span class="co">## GOBP_CHROMOSOME_SEGREGATION                             GOBP_CHROMOSOME_SEGREGATION</span></span>
-<span><span class="co">## GOBP_CHROMOSOME_ORGANIZATION                           GOBP_CHROMOSOME_ORGANIZATION</span></span>
-<span><span class="co">## GOBP_HYPERSENSITIVITY                                         GOBP_HYPERSENSITIVITY</span></span>
-<span><span class="co">## GOBP_INFLAMMATORY_RESPONSE                               GOBP_INFLAMMATORY_RESPONSE</span></span>
-<span><span class="co">##                                                                         Description</span></span>
-<span><span class="co">## GOBP_CELL_DIVISION                                               GOBP_CELL_DIVISION</span></span>
-<span><span class="co">## GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION</span></span>
-<span><span class="co">## GOBP_CHROMOSOME_SEGREGATION                             GOBP_CHROMOSOME_SEGREGATION</span></span>
-<span><span class="co">## GOBP_CHROMOSOME_ORGANIZATION                           GOBP_CHROMOSOME_ORGANIZATION</span></span>
-<span><span class="co">## GOBP_HYPERSENSITIVITY                                         GOBP_HYPERSENSITIVITY</span></span>
-<span><span class="co">## GOBP_INFLAMMATORY_RESPONSE                               GOBP_INFLAMMATORY_RESPONSE</span></span>
-<span><span class="co">##                                           setSize enrichmentScore       NES</span></span>
-<span><span class="co">## GOBP_CELL_DIVISION                            607      -0.6717964 -1.960101</span></span>
-<span><span class="co">## GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION     129      -0.8234258 -2.129878</span></span>
-<span><span class="co">## GOBP_CHROMOSOME_SEGREGATION                   405      -0.7162333 -2.040690</span></span>
-<span><span class="co">## GOBP_CHROMOSOME_ORGANIZATION                  602      -0.6508279 -1.901762</span></span>
-<span><span class="co">## GOBP_HYPERSENSITIVITY                          16      -0.9697179 -1.858120</span></span>
-<span><span class="co">## GOBP_INFLAMMATORY_RESPONSE                    778      -0.6020269 -1.790665</span></span>
-<span><span class="co">##                                                 pvalue   p.adjust     qvalue</span></span>
-<span><span class="co">## GOBP_CELL_DIVISION                        5.326583e-06 0.02808175 0.02695251</span></span>
-<span><span class="co">## GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION 2.887066e-05 0.03044123 0.02921711</span></span>
-<span><span class="co">## GOBP_CHROMOSOME_SEGREGATION               2.431738e-05 0.03044123 0.02921711</span></span>
-<span><span class="co">## GOBP_CHROMOSOME_ORGANIZATION              2.020682e-05 0.03044123 0.02921711</span></span>
-<span><span class="co">## GOBP_HYPERSENSITIVITY                     2.110256e-05 0.03044123 0.02921711</span></span>
-<span><span class="co">## GOBP_INFLAMMATORY_RESPONSE                6.150163e-05 0.05403943 0.05186637</span></span>
-<span><span class="co">##                                           rank                  leading_edge</span></span>
-<span><span class="co">## GOBP_CELL_DIVISION                        2730 tags=24%, list=7%, signal=22%</span></span>
-<span><span class="co">## GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION 2686 tags=42%, list=7%, signal=39%</span></span>
-<span><span class="co">## GOBP_CHROMOSOME_SEGREGATION               2037 tags=29%, list=5%, signal=27%</span></span>
-<span><span class="co">## GOBP_CHROMOSOME_ORGANIZATION              2494 tags=31%, list=6%, signal=29%</span></span>
-<span><span class="co">## GOBP_HYPERSENSITIVITY                       23 tags=31%, list=0%, signal=31%</span></span>
-<span><span class="co">## GOBP_INFLAMMATORY_RESPONSE                2589 tags=17%, list=7%, signal=16%</span></span>
-<span><span class="co">##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             core_enrichment</span></span>
-<span><span class="co">## GOBP_CELL_DIVISION                                                                                                                                                                                                                                                                         Calm2/Vrk1/Pdgfc/Ckap5/Zwint/Mastl/Arl8b/Dynlt1b/Ccnk/Cul7/Haus3/Pdgfd/Mcmbp/Bub3/Vegfa/Rhoc/Haus1/Kntc1/Pik3cb/Ncapd2/Nsun2/Ndc80/Fgf2/Kif2a/Tubb5/Sfn/Ska2/Anapc4/Cdc25a/Ruvbl1/Hnrnpu/Kif23/Zfp207/Pkp4/Gnl3/Etv5/Map9/Brca2/Evi5/Kif18b/Bub1b/Smc4/Notch1/Kif14/Brip1/Cetn3/Tnks/Ncapg/Apc/Mapre1/Ube2s/Sgo1/Nusap1/Cenps/Pin1/Rhob/Kif20a/Prc1/Igf1r/Tipin/Orc4/Bora/Usp44/Bcar1/Ncapd3/Exoc6b/Syce2/Cdc25c/Sapcd2/Cdc7/Rcc1/Top1/Tuba1c/Hepacam2/Kif2c/Iqgap3/Itgb3bp/Cep55/Kif20b/Lef1/Nsl1/Zwilch/Tuba1b/Ttc19/Lig1/Fam83d/Bcl2l1/Cdca2/Ran/Top2a/Myc/Map10/Ccnb2/Cdc20/Aspm/Pard3b/Rb1/Incenp/Aurkb/Timeless/Spdl1/E2f8/Nek2/Stmn1/Aurka/Cenpw/Ube2c/Cenpa/Smc2/Plk1/Mis18bp1/Cks1b/E2f7/Ccna2/Spc25/Pmf1/Birc5/Fbxo5/Knstrn/Cdca3/Kif11/Cdca8/Ska1/Nek6/Ccnb1/Sgo2a/Spc24/Bub1/Tacc3/Cenpf/Cdk1/Cdca5/Ncaph/Nuf2/Cks2/Cenpe/Tpx2/Cdc6/Knl1/Tgfb2/Oip5/Ccnd2/Espl1/Ppbp</span></span>
-<span><span class="co">## GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Zwint/Gen1/Haspin/Bub3/Kntc1/Ncapd2/Ndc80/Anapc4/Hnrnpu/Zfp207/Bub1b/Smc4/Dusp1/Ncapg/Smarca2/Apc/Arid1b/Psmg2/Usp44/Ncapd3/Trip13/Kif2c/Mki67/Zwilch/Xrcc3/Cdca2/Cdc20/Rb1/Ttk/Incenp/Aurkb/Spdl1/Ube2c/Rmi2/Smc2/Plk1/Spc25/Birc5/Fbxo5/Dlgap5/Cdca8/Nek6/Ccnb1/Spc24/Bub1/Tacc3/Cenpf/Cdk1/Ncaph/Nuf2/Cenpe/Cdc6/Knl1/Espl1</span></span>
-<span><span class="co">## GOBP_CHROMOSOME_SEGREGATION                                                                                                                                                                                                                                                                                                                                                                                                                               Ndc80/Kif2a/Tubb5/M1ap/Ska2/Mlh3/Brca1/Anapc4/Senp6/Hnrnpu/Kif23/Hjurp/Zfp207/Hspa1a/Map9/Fancd2/Kif18b/Bub1b/Kif15/Mre11a/Smc4/Dusp1/Kif14/Brip1/Tnks/Cenpp/Tent4a/Ncapg/Smarca2/Apc/Mapre1/Cenpu/Sgo1/Nusap1/Cenps/Prc1/Arid1b/Rrs1/Psmg2/Uhrf1/Esco2/Usp44/Cenpn/Ncapd3/Syce2/Rcc1/Top1/Trip13/BC055324/Kif2c/Itgb3bp/Cep55/Tubgcp5/Mki67/Nsl1/Cenpm/Zwilch/Xrcc3/Fam83d/Cdca2/Ran/Top2a/Map10/Ccnb2/Cdc20/Aspm/Rb1/Ttk/Incenp/Cep85/Aurkb/Spdl1/Mybl2/Nek2/Aurka/Cenpw/Kif22/Ube2c/Rmi2/Smc2/Plk1/Spc25/Pmf1/Birc5/Fbxo5/Ndc1/Sass6/Knstrn/Dlgap5/Kif11/Cdca8/Ska1/Nek6/Ccnb1/Sgo2a/Spc24/Bub1/Tacc3/Cenpf/Cdk1/Cdca5/Cenpk/Ncaph/Nuf2/Cenpe/Tpx2/Prickle1/Cdc6/Knl1/Kif18a/Cenph/Oip5/Diaph3/Stil/Espl1/Msh5</span></span>
-<span><span class="co">## GOBP_CHROMOSOME_ORGANIZATION              Bccip/Fen1/Smarca4/Ascc3/Ino80b/Spag5/Cdk5rap2/Spo11/Smarca5/Ddx11/Hsp90aa1/Tinf2/Cenpx/Banf1/Gar1/Pura/Chek2/Psrc1/Nasp/Rad54b/Pcna/Msh6/Rif1/Zwint/Gen1/Topbp1/Recql/Haspin/Mcmbp/Bub3/H1f3/Dclre1c/Nav2/Uchl5/Hat1/Kntc1/Ncapd2/H1f4/Ndc80/Kif2a/Naa50/H3c11/Mcm2/Mcm6/Ska2/Cct3/Cct5/Mlh3/Anapc4/Ruvbl1/Senp6/Hnrnpu/Kif23/Cct2/Hjurp/Cct6a/H4c3/Zfp207/Hspa1a/Rpa3/Gnl3/Rfc5/Map9/Rtel1/Fancd2/Brca2/Kif18b/H4c4/Bub1b/Kif15/Mre11a/Smc4/Ssbp1/Dusp1/Trex1/Kif14/Zgrf1/Brip1/Zmpste24/Tnks/Cenpp/Sub1/Tent4a/Ncapg/Smarca2/Apc/Mapre1/Hmgb1/Rfc3/Nsmce1/Cct8/Sgo1/Nusap1/Slx4/Exo1/Prc1/Arid1b/Rrs1/Gins1/Psmg2/Uhrf1/Esco2/Usp44/Cenpn/Ncapd3/Polq/Hnrnpa2b1/Syce2/Apex1/Top1/Mcm4/Trip13/Nhp2/Tcp1/Kif2c/Cip2a/Itgb3bp/Cep55/Nsl1/Hnrnpa1/Pif1/Zwilch/Xrcc3/Hmgb2/Cdc45/Ran/Top2a/Myc/Map10/Mcm8/Cdc20/Rb1/Ttk/Incenp/Dscc1/Aurkb/Spdl1/Rfc4/Mybl2/Nek2/Cenpw/Kif22/Ube2c/Rmi2/Mcm5/Cenpa/Smc2/Plk1/Spc25/Birc5/Fbxo5/Ndc1/Knstrn/Dlgap5/Dna2/Mcm3/Kif11/Cdca8/Ska1/Nek6/Ccnb1/Sgo2a/Rad54l/Spc24/Bub1/Tacc3/H1f5/Cenpf/Cdk1/Cdca5/Cenpk/Ncaph/Rad51/Nuf2/Cenpe/Tpx2/Prickle1/Cdc6/Gins2/Knl1/Kif18a/Cenph/Oip5/Espl1/Msh5</span></span>
-<span><span class="co">## GOBP_HYPERSENSITIVITY                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Il20rb/Ighg3/Ighg2b/Ighg2c/Ighg1</span></span>
-<span><span class="co">## GOBP_INFLAMMATORY_RESPONSE                                                                                                                                                                                                                                                                                                                                                        Fpr1/Irf5/Abcc1/Mmp8/Gpx1/Fn1/Csf1r/Ifi205/Nr1h3/Tnfsf11/Tnfrsf11a/Gbp2/Il4ra/Hspg2/Zeb2/Itgb2/Hck/Park7/Ccr6/Abcd2/Stap1/Esr1/Mapk8/Chuk/Ptprc/Tlr3/Cx3cr1/Dpep1/Cd96/Rps19/C5ar1/Rasgrp1/Mmp9/Ecm1/Fancd2/Ccl25/Rel/Cxcr2/Notch1/Trex1/Tnfrsf1a/Alox5ap/Pld3/Cptp/Clec7a/Ifngr2/Sirpa/Hmgb1/Wnk4/Ceacam1/Il15/Tlr1/Nr1d1/Aif1/Nkg7/Lgals9/Gata3/Ccl6/Cd81/Lxn/Pomgnt1/Vcam1/Lpl/Ccr1/Ccr2/Atrn/S100a8/Gbp5/Ccl9/Ly96/Naglu/Nrros/Zbp1/Cnr2/Fabp4/Elane/Blnk/Ddt/Itgal/Mgll/Nlrp10/Mgst2/Hmgb2/Chid1/Cxcl9/S1pr3/Tlr2/Chil1/Lipa/Itgb1/Macir/Ackr2/Il1r1/Rb1/Tfrc/Socs3/Siglecg/Il6ra/Ighe/Ccr3/Tek/Tnc/Nfam1/Cxcr4/Cd68/Tyrobp/Sting1/Tlr4/Ada/Anxa1/Lrp1/Cxcr6/Tlr6/Apoe/Dab2ip/Il10/Ly86/Pbk/Cd40/Grn/B4galt1/S100a9/Chst1/Lyz2/Il10ra/Ighg3/Cd36/Pld4/Smad3/Ighg2b/Ighg2c/Ighg1/Ppbp</span></span>
-<span><span class="co">##                                           collection comparison</span></span>
-<span><span class="co">## GOBP_CELL_DIVISION                              GOBP IgA_vs_IgG</span></span>
-<span><span class="co">## GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION       GOBP IgA_vs_IgG</span></span>
-<span><span class="co">## GOBP_CHROMOSOME_SEGREGATION                     GOBP IgA_vs_IgG</span></span>
-<span><span class="co">## GOBP_CHROMOSOME_ORGANIZATION                    GOBP IgA_vs_IgG</span></span>
-<span><span class="co">## GOBP_HYPERSENSITIVITY                           GOBP IgA_vs_IgG</span></span>
-<span><span class="co">## GOBP_INFLAMMATORY_RESPONSE                      GOBP IgA_vs_IgG</span></span></code></pre>
+<pre><code><span><span class="co">##                                                                                      ID</span></span>
+<span><span class="co">## GOBP_HYPERSENSITIVITY                                             GOBP_HYPERSENSITIVITY</span></span>
+<span><span class="co">## GOBP_CELL_DIVISION                                                   GOBP_CELL_DIVISION</span></span>
+<span><span class="co">## GOBP_CHROMOSOME_SEGREGATION                                 GOBP_CHROMOSOME_SEGREGATION</span></span>
+<span><span class="co">## GOBP_CHROMOSOME_ORGANIZATION                               GOBP_CHROMOSOME_ORGANIZATION</span></span>
+<span><span class="co">## GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION     GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION</span></span>
+<span><span class="co">## GOBP_REGULATION_OF_MITOTIC_NUCLEAR_DIVISION GOBP_REGULATION_OF_MITOTIC_NUCLEAR_DIVISION</span></span>
+<span><span class="co">##                                                                             Description</span></span>
+<span><span class="co">## GOBP_HYPERSENSITIVITY                                             GOBP_HYPERSENSITIVITY</span></span>
+<span><span class="co">## GOBP_CELL_DIVISION                                                   GOBP_CELL_DIVISION</span></span>
+<span><span class="co">## GOBP_CHROMOSOME_SEGREGATION                                 GOBP_CHROMOSOME_SEGREGATION</span></span>
+<span><span class="co">## GOBP_CHROMOSOME_ORGANIZATION                               GOBP_CHROMOSOME_ORGANIZATION</span></span>
+<span><span class="co">## GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION     GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION</span></span>
+<span><span class="co">## GOBP_REGULATION_OF_MITOTIC_NUCLEAR_DIVISION GOBP_REGULATION_OF_MITOTIC_NUCLEAR_DIVISION</span></span>
+<span><span class="co">##                                             setSize enrichmentScore       NES</span></span>
+<span><span class="co">## GOBP_HYPERSENSITIVITY                            16      -0.9695308 -1.884732</span></span>
+<span><span class="co">## GOBP_CELL_DIVISION                              607      -0.6694420 -1.950377</span></span>
+<span><span class="co">## GOBP_CHROMOSOME_SEGREGATION                     405      -0.7144450 -2.019979</span></span>
+<span><span class="co">## GOBP_CHROMOSOME_ORGANIZATION                    602      -0.6489753 -1.887641</span></span>
+<span><span class="co">## GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION       129      -0.8214513 -2.126956</span></span>
+<span><span class="co">## GOBP_REGULATION_OF_MITOTIC_NUCLEAR_DIVISION     118      -0.8197642 -2.104635</span></span>
+<span><span class="co">##                                                   pvalue    p.adjust</span></span>
+<span><span class="co">## GOBP_HYPERSENSITIVITY                       1.080990e-06 0.005698980</span></span>
+<span><span class="co">## GOBP_CELL_DIVISION                          3.481226e-06 0.009176512</span></span>
+<span><span class="co">## GOBP_CHROMOSOME_SEGREGATION                 7.725985e-06 0.011781740</span></span>
+<span><span class="co">## GOBP_CHROMOSOME_ORGANIZATION                8.939105e-06 0.011781740</span></span>
+<span><span class="co">## GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION   2.686117e-05 0.023923555</span></span>
+<span><span class="co">## GOBP_REGULATION_OF_MITOTIC_NUCLEAR_DIVISION 3.163997e-05 0.023923555</span></span>
+<span><span class="co">##                                                  qvalue rank</span></span>
+<span><span class="co">## GOBP_HYPERSENSITIVITY                       0.005494843   23</span></span>
+<span><span class="co">## GOBP_CELL_DIVISION                          0.008847811 2719</span></span>
+<span><span class="co">## GOBP_CHROMOSOME_SEGREGATION                 0.011359720 2030</span></span>
+<span><span class="co">## GOBP_CHROMOSOME_ORGANIZATION                0.011359720 2272</span></span>
+<span><span class="co">## GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION   0.023066618 2675</span></span>
+<span><span class="co">## GOBP_REGULATION_OF_MITOTIC_NUCLEAR_DIVISION 0.023066618 2675</span></span>
+<span><span class="co">##                                                              leading_edge</span></span>
+<span><span class="co">## GOBP_HYPERSENSITIVITY                       tags=31%, list=0%, signal=31%</span></span>
+<span><span class="co">## GOBP_CELL_DIVISION                          tags=24%, list=7%, signal=22%</span></span>
+<span><span class="co">## GOBP_CHROMOSOME_SEGREGATION                 tags=29%, list=5%, signal=27%</span></span>
+<span><span class="co">## GOBP_CHROMOSOME_ORGANIZATION                tags=26%, list=6%, signal=25%</span></span>
+<span><span class="co">## GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION   tags=42%, list=7%, signal=39%</span></span>
+<span><span class="co">## GOBP_REGULATION_OF_MITOTIC_NUCLEAR_DIVISION tags=43%, list=7%, signal=40%</span></span>
+<span><span class="co">##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      core_enrichment</span></span>
+<span><span class="co">## GOBP_HYPERSENSITIVITY                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               Il20rb/Ighg3/Ighg2b/Ighg2c/Ighg1</span></span>
+<span><span class="co">## GOBP_CELL_DIVISION                                                                                  Calm2/Vrk1/Pdgfc/Ckap5/Zwint/Mastl/Arl8b/Dynlt1b/Ccnk/Cul7/Haus3/Mcmbp/Pdgfd/Bub3/Vegfa/Rhoc/Haus1/Kntc1/Pik3cb/Ncapd2/Nsun2/Ndc80/Fgf2/Kif2a/Tubb5/Sfn/Ska2/Anapc4/Cdc25a/Ruvbl1/Hnrnpu/Kif23/Zfp207/Pkp4/Gnl3/Etv5/Map9/Brca2/Evi5/Kif18b/Bub1b/Smc4/Notch1/Kif14/Brip1/Cetn3/Tnks/Ncapg/Apc/Mapre1/Ube2s/Sgo1/Nusap1/Cenps/Pin1/Rhob/Kif20a/Prc1/Igf1r/Tipin/Orc4/Bora/Usp44/Bcar1/Ncapd3/Exoc6b/Syce2/Cdc25c/Sapcd2/Cdc7/Rcc1/Top1/Tuba1c/Hepacam2/Kif2c/Iqgap3/Itgb3bp/Cep55/Kif20b/Lef1/Nsl1/Zwilch/Tuba1b/Ttc19/Lig1/Fam83d/Bcl2l1/Cdca2/Ran/Top2a/Myc/Map10/Ccnb2/Cdc20/Aspm/Rb1/Pard3b/Incenp/Aurkb/Timeless/Spdl1/E2f8/Nek2/Stmn1/Aurka/Cenpw/Ube2c/Cenpa/Smc2/Plk1/Mis18bp1/Cks1b/Ccna2/E2f7/Spc25/Pmf1/Birc5/Fbxo5/Knstrn/Cdca3/Kif11/Cdca8/Ska1/Nek6/Ccnb1/Sgo2a/Spc24/Bub1/Tacc3/Cenpf/Cdk1/Cdca5/Ncaph/Nuf2/Cks2/Cenpe/Tpx2/Cdc6/Knl1/Tgfb2/Oip5/Ccnd2/Espl1/Ppbp</span></span>
+<span><span class="co">## GOBP_CHROMOSOME_SEGREGATION                                                                                                                                                                                                                                        Ndc80/Kif2a/Tubb5/M1ap/Ska2/Mlh3/Brca1/Anapc4/Senp6/Hnrnpu/Kif23/Hjurp/Zfp207/Hspa1a/Map9/Fancd2/Kif18b/Bub1b/Kif15/Mre11a/Smc4/Dusp1/Kif14/Brip1/Tnks/Cenpp/Tent4a/Ncapg/Smarca2/Apc/Mapre1/Cenpu/Sgo1/Nusap1/Cenps/Prc1/Arid1b/Rrs1/Psmg2/Uhrf1/Esco2/Usp44/Cenpn/Ncapd3/Syce2/Rcc1/Top1/Trip13/BC055324/Kif2c/Itgb3bp/Cep55/Tubgcp5/Mki67/Nsl1/Cenpm/Zwilch/Xrcc3/Fam83d/Cdca2/Ran/Top2a/Map10/Ccnb2/Cdc20/Aspm/Rb1/Ttk/Incenp/Cep85/Aurkb/Spdl1/Mybl2/Nek2/Aurka/Cenpw/Kif22/Ube2c/Rmi2/Smc2/Plk1/Spc25/Pmf1/Birc5/Ndc1/Fbxo5/Sass6/Knstrn/Dlgap5/Kif11/Cdca8/Ska1/Nek6/Ccnb1/Sgo2a/Spc24/Bub1/Tacc3/Cenpf/Cdk1/Cdca5/Cenpk/Ncaph/Nuf2/Cenpe/Tpx2/Prickle1/Cdc6/Knl1/Kif18a/Cenph/Oip5/Diaph3/Stil/Espl1/Msh5</span></span>
+<span><span class="co">## GOBP_CHROMOSOME_ORGANIZATION                H1f3/Dclre1c/Nav2/Uchl5/Hat1/Kntc1/Ncapd2/H1f4/Ndc80/Kif2a/Naa50/H3c11/Mcm2/Mcm6/Ska2/Cct3/Cct5/Mlh3/Anapc4/Ruvbl1/Senp6/Hnrnpu/Kif23/Cct2/Hjurp/Cct6a/Zfp207/H4c3/Hspa1a/Rpa3/Gnl3/Rfc5/Map9/Rtel1/Fancd2/Brca2/Kif18b/H4c4/Bub1b/Kif15/Mre11a/Smc4/Ssbp1/Dusp1/Trex1/Kif14/Zgrf1/Brip1/Zmpste24/Tnks/Cenpp/Sub1/Tent4a/Ncapg/Smarca2/Apc/Mapre1/Hmgb1/Rfc3/Nsmce1/Cct8/Sgo1/Nusap1/Slx4/Exo1/Prc1/Arid1b/Rrs1/Gins1/Psmg2/Uhrf1/Esco2/Usp44/Cenpn/Ncapd3/Polq/Hnrnpa2b1/Syce2/Apex1/Top1/Mcm4/Trip13/Nhp2/Tcp1/Kif2c/Cip2a/Itgb3bp/Cep55/Nsl1/Hnrnpa1/Pif1/Zwilch/Xrcc3/Hmgb2/Cdc45/Ran/Top2a/Myc/Map10/Mcm8/Cdc20/Rb1/Ttk/Incenp/Dscc1/Aurkb/Spdl1/Rfc4/Mybl2/Nek2/Cenpw/Kif22/Ube2c/Rmi2/Mcm5/Cenpa/Smc2/Plk1/Spc25/Birc5/Ndc1/Fbxo5/Knstrn/Dlgap5/Dna2/Mcm3/Kif11/Cdca8/Ska1/Nek6/Ccnb1/Sgo2a/Rad54l/Spc24/Bub1/Tacc3/H1f5/Cenpf/Cdk1/Cdca5/Cenpk/Ncaph/Rad51/Nuf2/Cenpe/Tpx2/Prickle1/Cdc6/Gins2/Knl1/Kif18a/Cenph/Oip5/Espl1/Msh5</span></span>
+<span><span class="co">## GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             Zwint/Gen1/Haspin/Bub3/Kntc1/Ncapd2/Ndc80/Anapc4/Hnrnpu/Zfp207/Bub1b/Smc4/Dusp1/Ncapg/Smarca2/Apc/Arid1b/Psmg2/Usp44/Ncapd3/Trip13/Kif2c/Mki67/Zwilch/Xrcc3/Cdca2/Cdc20/Rb1/Ttk/Incenp/Aurkb/Spdl1/Ube2c/Rmi2/Smc2/Plk1/Spc25/Birc5/Fbxo5/Dlgap5/Cdca8/Nek6/Ccnb1/Spc24/Bub1/Tacc3/Cenpf/Cdk1/Ncaph/Nuf2/Cenpe/Cdc6/Knl1/Espl1</span></span>
+<span><span class="co">## GOBP_REGULATION_OF_MITOTIC_NUCLEAR_DIVISION                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Zwint/Gen1/Cul7/Haspin/Bub3/Kntc1/Rgcc/Ndc80/Cav2/Zfp207/Mtbp/Smpd3/Bub1b/Dusp1/Apc/Nusap1/Pin1/Psmg2/Bora/Usp44/Cdc25c/Rcc1/Trip13/Mki67/Kif20b/Zwilch/Xrcc3/Cdca2/Cdc20/Rb1/Ttk/Incenp/Aurkb/Spdl1/Nek2/Aurka/Ube2c/Plk1/Chek1/Spc25/Birc5/Fbxo5/Dlgap5/Cdca8/Ccnb1/Spc24/Bub1/Cenpf/Nuf2/Knl1/Espl1</span></span>
+<span><span class="co">##                                             collection comparison</span></span>
+<span><span class="co">## GOBP_HYPERSENSITIVITY                             GOBP IgA_vs_IgG</span></span>
+<span><span class="co">## GOBP_CELL_DIVISION                                GOBP IgA_vs_IgG</span></span>
+<span><span class="co">## GOBP_CHROMOSOME_SEGREGATION                       GOBP IgA_vs_IgG</span></span>
+<span><span class="co">## GOBP_CHROMOSOME_ORGANIZATION                      GOBP IgA_vs_IgG</span></span>
+<span><span class="co">## GOBP_REGULATION_OF_CHROMOSOME_SEGREGATION         GOBP IgA_vs_IgG</span></span>
+<span><span class="co">## GOBP_REGULATION_OF_MITOTIC_NUCLEAR_DIVISION       GOBP IgA_vs_IgG</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="generate-barplots">Generate barplots<a class="anchor" aria-label="anchor" href="#generate-barplots"></a>
@@ -861,7 +659,7 @@ command to generate barplots for all comparisons.</p>
 single barplot for the <code>IgA_vs_IgG</code> comparison using GOBP
 collection as a demonstration. By default, the barplot will show the top
 10 upregulated and downregulated terms.</p>
-<div class="sourceCode" id="cb265"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb190"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># generate barplot for all comparisons; skipped here</span></span>
 <span><span class="co">#plot_gsea_barplot_list(gsea.df, save_plot = FALSE)</span></span>
 <span></span>
@@ -879,7 +677,7 @@ creates a enrichmentmap directory containing files formated for
 EnrichmentMap visualization.</p>
 <p>By default, the function will only use the HALLMARK, GOBP, KEGG and
 REACTOME collections. We will skip this step here.</p>
-<div class="sourceCode" id="cb267"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb192"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#format_enrichmentmap(collection = c("HALLMARK", "GOBP", "KEGG", "REACTOME"))</span></span></code></pre></div>
 </div>
 </div>

@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Author: Matthew
 Hung</h4>
             
-            <h4 data-toc-skip class="date">Last Updated: 2025/04/05</h4>
+            <h4 data-toc-skip class="date">Last Updated: 2025/04/08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/hungms/deseq2pip/blob/main/vignettes/gsea_collection.Rmd" class="external-link"><code>vignettes/gsea_collection.Rmd</code></a></small>
       <div class="d-none name"><code>gsea_collection.Rmd</code></div>
@@ -72,229 +72,17 @@ Hung</h4>
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hungms.github.io/deseq2pip/">deseq2pip</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'dplyr'</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     filter, lag</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:base':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     intersect, setdiff, setequal, union</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'magrittr'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:rlang':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     set_names</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:tidyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     extract</span></span></code></pre>
-<pre><code><span><span class="co">## strpip 0.1.0</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'cowplot'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:patchwork':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     align_plots</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: viridisLite</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: S4Vectors</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: stats4</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: BiocGenerics</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'BiocGenerics'</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:dplyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     combine, intersect, setdiff, union</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     IQR, mad, sd, var, xtabs</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:base':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     anyDuplicated, aperm, append, as.data.frame, basename, cbind,</span></span>
-<span><span class="co">##     colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,</span></span>
-<span><span class="co">##     get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,</span></span>
-<span><span class="co">##     match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,</span></span>
-<span><span class="co">##     Position, rank, rbind, Reduce, rownames, sapply, saveRDS, setdiff,</span></span>
-<span><span class="co">##     table, tapply, union, unique, unsplit, which.max, which.min</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'S4Vectors'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:tidyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     expand</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:dplyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     first, rename</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:utils':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     findMatches</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:base':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     expand.grid, I, unname</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: IRanges</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'IRanges'</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:dplyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     collapse, desc, slice</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: GenomicRanges</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: GenomeInfoDb</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'GenomicRanges'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:magrittr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     subtract</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: SummarizedExperiment</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: MatrixGenerics</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: matrixStats</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'matrixStats'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:dplyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     count</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'MatrixGenerics'</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:matrixStats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,</span></span>
-<span><span class="co">##     colCounts, colCummaxs, colCummins, colCumprods, colCumsums,</span></span>
-<span><span class="co">##     colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,</span></span>
-<span><span class="co">##     colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,</span></span>
-<span><span class="co">##     colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,</span></span>
-<span><span class="co">##     colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,</span></span>
-<span><span class="co">##     colWeightedMeans, colWeightedMedians, colWeightedSds,</span></span>
-<span><span class="co">##     colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,</span></span>
-<span><span class="co">##     rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,</span></span>
-<span><span class="co">##     rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,</span></span>
-<span><span class="co">##     rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,</span></span>
-<span><span class="co">##     rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,</span></span>
-<span><span class="co">##     rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,</span></span>
-<span><span class="co">##     rowWeightedMads, rowWeightedMeans, rowWeightedMedians,</span></span>
-<span><span class="co">##     rowWeightedSds, rowWeightedVars</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: Biobase</span></span></code></pre>
-<pre><code><span><span class="co">## Welcome to Bioconductor</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     Vignettes contain introductory material; view with</span></span>
-<span><span class="co">##     'browseVignettes()'. To cite Bioconductor, see</span></span>
-<span><span class="co">##     'citation("Biobase")', and for packages 'citation("pkgname")'.</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'Biobase'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:MatrixGenerics':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     rowMedians</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:matrixStats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     anyMissing, rowMedians</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:rlang':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     exprs</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hungms.github.io/deseq2pip/">deseq2pip</a></span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by</span></span>
 <span><span class="co">## 'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'</span></span></code></pre>
-<pre><code><span><span class="co">## Registered S3 methods overwritten by 'ggalt':</span></span>
-<span><span class="co">##   method                  from   </span></span>
-<span><span class="co">##   grid.draw.absoluteGrob  ggplot2</span></span>
-<span><span class="co">##   grobHeight.absoluteGrob ggplot2</span></span>
-<span><span class="co">##   grobWidth.absoluteGrob  ggplot2</span></span>
-<span><span class="co">##   grobX.absoluteGrob      ggplot2</span></span>
-<span><span class="co">##   grobY.absoluteGrob      ggplot2</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'ggalt'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:rlang':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     bytes</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span></code></pre>
-<pre><code><span><span class="co">## clusterProfiler v4.14.6 Learn more at https://yulab-smu.top/contribution-knowledge-mining/</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Please cite:</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## T Wu, E Hu, S Xu, M Chen, P Guo, Z Dai, T Feng, L Zhou, W Tang, L Zhan,</span></span>
-<span><span class="co">## X Fu, S Liu, X Bo, and G Yu. clusterProfiler 4.0: A universal</span></span>
-<span><span class="co">## enrichment tool for interpreting omics data. The Innovation. 2021,</span></span>
-<span><span class="co">## 2(3):100141</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'clusterProfiler'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:IRanges':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     slice</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:S4Vectors':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     rename</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:biomaRt':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     select</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:stats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     filter</span></span></code></pre>
-<pre><code><span><span class="co">## For full functionality, please install the 'msigdbdf' package with:</span></span>
-<span><span class="co">## install.packages('msigdbdf', repos = 'https://igordot.r-universe.dev')</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'ggpubr'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:plotr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     get_palette</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:cowplot':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     get_legend</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'scales'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:viridis':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     viridis_pal</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'limma'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:DESeq2':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     plotMA</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:BiocGenerics':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     plotMA</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: mgcv</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: nlme</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'nlme'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:IRanges':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     collapse</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:dplyr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     collapse</span></span></code></pre>
-<pre><code><span><span class="co">## This is mgcv 1.9-1. For overview type 'help("mgcv-package")'.</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: genefilter</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'genefilter'</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:MatrixGenerics':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     rowSds, rowVars</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:matrixStats':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     rowSds, rowVars</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:patchwork':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     area</span></span></code></pre>
-<pre><code><span><span class="co">## Loading required package: BiocParallel</span></span></code></pre>
-<pre><code><span><span class="co">## enrichplot v1.26.6 Learn more at https://yulab-smu.top/contribution-knowledge-mining/</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Please cite:</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Guangchuang Yu. Gene Ontology Semantic Similarity Analysis Using</span></span>
-<span><span class="co">## GOSemSim. In: Kidder B. (eds) Stem Cell Transcriptional Networks.</span></span>
-<span><span class="co">## Methods in Molecular Biology. 2020, 2117:207-215. Humana, New York, NY.</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'enrichplot'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:ggpubr':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     color_palette</span></span></code></pre>
-<pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'deseq2pip'</span></span></code></pre>
-<pre><code><span><span class="co">## The following object is masked from 'package:cowplot':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     save_plot</span></span></code></pre>
-<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## create a temporary directory for the GSEA database files</span></span>
 <span><span class="va">temp_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#temp_dir &lt;- "/Users/hungm/Documents/development/deseq2pip/inst/extdata/"</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="create-gene-set-collections-for-run_gsea">Create gene set collections for <code>run_gsea()</code><a class="anchor" aria-label="anchor" href="#create-gene-set-collections-for-run_gsea"></a>
 </h2>
-<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create gene set collections for human and mouse</span></span>
 <span><span class="va">collection_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HALLMARK"</span>, <span class="st">"GOBP"</span>, <span class="st">"KEGG"</span>, <span class="st">"REACTOME"</span>, <span class="st">"BIOCARTA"</span>, <span class="st">"TFT"</span><span class="op">)</span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hs_gs"</span>, <span class="st">"mm_gs"</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
@@ -353,11 +141,11 @@ Hung</h4>
 <pre><code><span><span class="co">## The 'msigdbdf' package must be installed to access the full dataset.</span></span></code></pre>
 <pre><code><span><span class="co">## Please run the following command to install the 'msigdbdf' package:</span></span>
 <span><span class="co">## install.packages('msigdbdf', repos = 'https://igordot.r-universe.dev')</span></span></code></pre>
-<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Save TSV files to temporary directory</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.table</a></span><span class="op">(</span><span class="va">mm_gs</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">temp_dir</span>, <span class="st">"20250319_mouse_msigdbr.tsv"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\t"</span>, quote <span class="op">=</span> <span class="cn">F</span>, row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.table</a></span><span class="op">(</span><span class="va">hs_gs</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">temp_dir</span>, <span class="st">"20250319_human_msigdbr.tsv"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\t"</span>, quote <span class="op">=</span> <span class="cn">F</span>, row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># show the first few rows of the human and mouse gene set collections</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">hs_gs</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
@@ -369,7 +157,7 @@ Hung</h4>
 <span><span class="co">## <span style="color: #BCBCBC;">4</span> HALLMARK_ADIPOGENESIS ACADL       HALLMARK  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">5</span> HALLMARK_ADIPOGENESIS ACADM       HALLMARK  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">6</span> HALLMARK_ADIPOGENESIS ACADS       HALLMARK</span></span></code></pre>
-<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mm_gs</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
 <span><span class="co">##   gs_name               gene_symbol collection</span></span>
@@ -384,7 +172,7 @@ Hung</h4>
 <div class="section level2">
 <h2 id="create-gmt-files-for-enrichmentmap">Create GMT files for EnrichmentMap<a class="anchor" aria-label="anchor" href="#create-gmt-files-for-enrichmentmap"></a>
 </h2>
-<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># convert mouse gene set collection to a list of gene symbols</span></span>
 <span><span class="va">gs_name</span> <span class="op">&lt;-</span> <span class="va">mm_gs</span><span class="op">$</span><span class="va">gs_name</span></span>
 <span><span class="va">mm_gs_list</span> <span class="op">&lt;-</span> <span class="va">mm_gs</span> <span class="op">%&gt;%</span></span>
@@ -461,7 +249,7 @@ Hung</h4>
 <span><span class="co">##  [8] "Cd3e"    "Cd3g"    "Cd4"     "Cd4"     "Cd4"     "Cd4"     "Cd4"    </span></span>
 <span><span class="co">## [15] "Cxcr3"   "Cxcr3"   "Ifng"    "Il12rb1" "Il12rb1" "Il12rb2" "Il12rb2"</span></span>
 <span><span class="co">## [22] "Il12rb2" "Il12rb2" "Jak2"    "Nos2"    "Stat4"   "Stat4"   "Tyk2"</span></span></code></pre>
-<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># convert human gene set collection to a list of gene symbols</span></span>
 <span><span class="va">gs_name</span> <span class="op">&lt;-</span> <span class="va">hs_gs</span><span class="op">$</span><span class="va">gs_name</span></span>
 <span><span class="va">hs_gs_list</span> <span class="op">&lt;-</span> <span class="va">hs_gs</span> <span class="op">%&gt;%</span></span>
@@ -550,7 +338,7 @@ Hung</h4>
 <span><span class="co">##  [8] "CD3E"    "CD3G"    "CD4"     "CD4"     "CD4"     "CD4"     "CD4"    </span></span>
 <span><span class="co">## [15] "CXCR3"   "CXCR3"   "IFNG"    "IL12RB1" "IL12RB1" "IL12RB2" "IL12RB2"</span></span>
 <span><span class="co">## [22] "IL12RB2" "IL12RB2" "JAK2"    "NOS2"    "STAT4"   "STAT4"   "TYK2"</span></span></code></pre>
-<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create GMT files for mouse and human gene set collections</span></span>
 <span><span class="va">write.gmt</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">genelist</span>, <span class="va">file</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">file_conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html" class="external-link">file</a></span><span class="op">(</span><span class="va">file</span>, open <span class="op">=</span> <span class="st">"wt"</span><span class="op">)</span></span>
