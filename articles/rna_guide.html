@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Author: Matthew
 Hung</h4>
             
-            <h4 data-toc-skip class="date">Last Updated: 2025/04/08</h4>
+            <h4 data-toc-skip class="date">Last Updated: 2025/04/09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/hungms/deseq2pip/blob/main/vignettes/rna_guide.Rmd" class="external-link"><code>vignettes/rna_guide.Rmd</code></a></small>
       <div class="d-none name"><code>rna_guide.Rmd</code></div>
@@ -136,12 +136,12 @@ batch_corrected/ contains batch corrected plots and expression data *
 <code class="sourceCode R"><span><span class="co"># show directory structure</span></span>
 <span><span class="co">#fs::dir_tree("/Users/hungm/Documents/development/deseq2pip/tests/pipeline/", recurse = 1)</span></span></code></pre></div>
 <p>For each comparison pair, the directory contains: *
-diffexp_deseq2_wald.tsv: Dataframe of differential expression results
-and gene annotation * diffexp_volcano.pdf: Volcano plot of the
-differential expression results * outputs for each gene set collection
-(HALLMARK, GOBP, KEGG, REACTOME, TFT, BIOCARTA): * gsea_<em>.rds: RDS
-file of gseaResult class object </em> gsea_<em>.tsv: TSV file of GSEA
-results </em> gsea_*_barplot.pdf: Barplots for the top N terms from GSEA
+diffexp_DESeq2.tsv: Dataframe of differential expression results and
+gene annotation * diffexp_volcano.pdf: Volcano plot of the differential
+expression results * outputs for each gene set collection (HALLMARK,
+GOBP, KEGG, REACTOME, TFT, BIOCARTA): * gsea_<em>.rds: RDS file of
+gseaResult class object </em> gsea_<em>.tsv: TSV file of GSEA results
+</em> gsea_*_barplot.pdf: Barplots for the top N terms from GSEA
 results</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># show directory structure for a specific comparison pair</span></span>
@@ -159,7 +159,7 @@ repeating the entire pipeline.</p>
 <span><span class="co"># save_dir &lt;- "/Users/hungm/Documents/development/deseq2pip/tests/rnaseq/module/"</span></span>
 <span><span class="va">save_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">save_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/Rtmp9uQBW3' already</span></span>
+<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpTRNxRR' already</span></span>
 <span><span class="co">## exists</span></span></code></pre>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">group_by</span> <span class="op">&lt;-</span> <span class="st">"Group2"</span></span>
@@ -294,7 +294,7 @@ separate as expected.</p>
 <p>The <code><a href="../reference/run_diffexp_pip.html">run_diffexp_pip()</a></code> module performs statistical
 analysis to identify differentially expressed genes between groups using
 <code><a href="https://rdrr.io/pkg/DESeq2/man/DESeq2-package.html" class="external-link">DESeq2::DESeq2()</a></code> function, with p-values were generated
-using Wald test.</p>
+using DESeq2 test.</p>
 <div class="section level3">
 <h3 id="main-function">Main function<a class="anchor" aria-label="anchor" href="#main-function"></a>
 </h3>

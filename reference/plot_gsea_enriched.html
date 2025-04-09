@@ -52,7 +52,8 @@ It can optionally add statistical significance indicators between groups.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_gsea_enriched</span><span class="op">(</span></span>
 <span>  <span class="va">gsea</span>,</span>
 <span>  <span class="va">gene_set</span>,</span>
-<span>  title.size <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>  title <span class="op">=</span> <span class="va">gene_set</span>,</span>
+<span>  title.size <span class="op">=</span> <span class="fl">14</span>,</span>
 <span>  show.pval <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  show.fdr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  save_plot <span class="op">=</span> <span class="cn">T</span>,</span>
@@ -70,6 +71,10 @@ It can optionally add statistical significance indicators between groups.</p>
 
 <dt id="arg-gene-set">gene_set<a class="anchor" aria-label="anchor" href="#arg-gene-set"></a></dt>
 <dd><p>Name of the gene set to plot</p></dd>
+
+
+<dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
+<dd><p>Title of the plot. Default is the gene set name</p></dd>
 
 
 <dt id="arg-title-size">title.size<a class="anchor" aria-label="anchor" href="#arg-title-size"></a></dt>
