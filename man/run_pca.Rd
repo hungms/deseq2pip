@@ -10,7 +10,7 @@ run_pca(
   group_by = "Group1",
   shape = NULL,
   size = 4,
-  cols = NULL,
+  pals = NULL,
   save_data = TRUE,
   save_plot = TRUE,
   save_dir = getwd(),
@@ -28,7 +28,7 @@ run_pca(
 
 \item{size}{Size of points in the PCA plot. Default is 4}
 
-\item{cols}{Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL}
+\item{pals}{Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL}
 
 \item{save_data}{Logical. If TRUE, saves PCA results to TSV. Default is TRUE}
 
@@ -54,6 +54,6 @@ p <- run_pca(vsd)
 p <- run_pca(vsd, shape = "Batch", save_data = TRUE, save_dir_name = "custom_results")
 
 # PCA plot with custom colors
-p <- run_pca(vsd, cols = c("red", "blue", "green"))
+p <- run_pca(vsd, pals = c("red", "blue", "green"))
 }
 }

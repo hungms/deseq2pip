@@ -7,7 +7,8 @@
 plot_gsea_enriched(
   gsea,
   gene_set,
-  title.size = 8,
+  gene_set_title = NULL,
+  gene_set_title_size = 10,
   show.pval = TRUE,
   show.fdr = TRUE,
   save_plot = T,
@@ -19,7 +20,7 @@ plot_gsea_enriched(
 
 \item{gene_set}{Name of the gene set to plot}
 
-\item{title.size}{Size of the title text. Default is 8}
+\item{gene_set_title}{Title of the plot. Default is the gene set name}
 
 \item{show.pval}{Logical. If TRUE, shows p-value in the plot. Default is TRUE}
 
@@ -28,6 +29,8 @@ plot_gsea_enriched(
 \item{save_plot}{Logical. If TRUE, saves the plot to PDF. Default is TRUE}
 
 \item{save_dir}{Directory to save the plot. Default is current working directory}
+
+\item{gene_set_title.size}{Size of the title text. Default is 8}
 }
 \value{
 A ggplot object showing the GSEA enrichment plot

@@ -154,7 +154,7 @@ check_library <- function(dds, experiment = NULL, save_plot = TRUE, save_dir = g
 #' @param group_by Column name in colData(vsd) to group by. Default is "Group1"
 #' @param shape Column name in colData(vsd) to use for shape in the PCA plot. Default is NULL
 #' @param size Size of points in the PCA plot. Default is 4
-#' @param cols Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL
+#' @param pals Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL
 #' @param save_data Logical. If TRUE, saves PCA results to TSV. Default is TRUE
 #' @param save_plot Logical. If TRUE, saves the PCA plot to PDF. Default is TRUE
 #' @param save_dir Directory to save the results. Default is the current working directory
@@ -169,11 +169,14 @@ check_library <- function(dds, experiment = NULL, save_plot = TRUE, save_dir = g
 #' p <- run_pca(vsd, shape = "Batch", save_data = TRUE, save_dir_name = "custom_results")
 #' 
 #' # PCA plot with custom colors
-#' p <- run_pca(vsd, cols = c("red", "blue", "green"))
+#' p <- run_pca(vsd, pals = c("red", "blue", "green"))
 #' }
 #' @export
-run_pca <- function(vsd, experiment = NULL, group_by = "Group1", shape = NULL, size = 4, cols = NULL, save_data = TRUE, save_plot = TRUE, save_dir = getwd(), save_dir_name = "qc_results"){
+run_pca <- function(vsd, experiment = NULL, group_by = "Group1", shape = NULL, size = 4, pals = NULL, save_data = TRUE, save_plot = TRUE, save_dir = getwd(), save_dir_name = "qc_results"){
     stopifnot(length(group_by) == 1)
+    
+    if(length(pals) > 0){
+        stopifnot(all(colData(vsd)[[group_by]] %in% names(pals)))}
 
     if(length(shape) > 0){
         group_by <- c(group_by, shape)}
@@ -184,8 +187,8 @@ run_pca <- function(vsd, experiment = NULL, group_by = "Group1", shape = NULL, s
         umap_aes() +
         theme_text()
 
-    if(!is.null(cols)) {
-        p <- p + scale_color_manual(values = cols) + scale_fill_manual(values = cols)
+    if(!is.null(pals)) {
+        p <- p + scale_color_manual(values = pals) + scale_fill_manual(values = pals)
     }
 
     if(length(shape) > 0){

@@ -74,6 +74,7 @@ run_qc_pip <- function(
 #' @param batch Column name in colData(dds) to use for batch correction. Default is NULL
 #' @param save_dir Directory where all output files will be saved. Default is current working directory
 #' @param group_by Column name in colData(dds) to use for grouping. Default is "Group1"
+#' @param pals Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL
 #' @param save_dir_name Name of the subdirectory to save files in. Default is "qc_results"
 #' @return The processed DESeq2 object
 #' @examples
@@ -92,6 +93,7 @@ run_dist_pip <- function(
     save_dir = getwd(), 
     group_by = "Group1",
     batch = NULL,
+    pals = NULL,
     save_dir_name = "qc_results") {
     
     # Input validation
@@ -101,6 +103,8 @@ run_dist_pip <- function(
     stopifnot(is.factor(colData(dds)[[group_by]]))
     if(length(batch) > 0){
         stopifnot(batch %in% colnames(colData(dds)))}
+    if(length(pals) > 0){
+        stopifnot(all(colData(dds)[[group_by]] %in% names(pals)))}
     setwd(save_dir)
 
     # batch correction
@@ -150,6 +154,7 @@ run_dist_pip <- function(
             vsd = select.vsd, 
             experiment = names(vsd_list)[i], 
             group_by = group_by, 
+            pals = pals,
             size = 4, 
             save_dir = save_dir, 
             save_dir_name = save_dir_name)
@@ -268,6 +273,7 @@ run_gsea_pip <- function(
 #' @param remove_xy Logical. If TRUE, removes genes on X and Y chromosomes. Default is FALSE
 #' @param remove_mt Logical. If TRUE, removes mitochondrial genes. Default is FALSE
 #' @param group_by Column name in colData(dds) to use for grouping. Default is "Group1"
+#' @param pals Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL
 #' @param quantile Quantile threshold for filtering lowly expressed genes. Default is 0.05
 #' @param order Column name to use for ranking genes. Default is "rank"
 #' @param save_dir_name Name of the subdirectory to save files in. Default is "qc_results"
@@ -291,12 +297,13 @@ run_gsea_pip <- function(
 run_deseq2_pip <- function(
     dds,
     experiment,
+    group_by = "Group1",
+    pals = NULL,
     batch = NULL,
     save_dir = getwd(), 
     org = "human",
     remove_xy = FALSE,
     remove_mt = FALSE,
-    group_by = "Group1",
     quantile = 0.05,
     order = "rank",
     save_dir_name = "qc_results",
@@ -318,7 +325,11 @@ run_deseq2_pip <- function(
         stopifnot(batch %in% colnames(colData(dds)))}
     if(assaytype == "ATAC"){
         stopifnot("TSS" %in% colnames(rowData(dds)))}
+    if(length(pals) > 0){
+        stopifnot(all(colData(dds)[[group_by]] %in% names(pals)))}
 
+    # Display package version
+    message("Running DESeq2pip pipeline version ", packageVersion("deseq2pip"))
 
     # Run quality control pipeline
     message("Running quality control pipeline...")
@@ -339,6 +350,7 @@ run_deseq2_pip <- function(
     dds <- run_dist_pip(
         dds = dds, 
         experiment = experiment, 
+        pals = pals,
         batch = batch,
         save_dir = save_dir, 
         group_by = group_by, 

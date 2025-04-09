@@ -7,12 +7,13 @@
 run_deseq2_pip(
   dds,
   experiment,
+  group_by = "Group1",
+  pals = NULL,
   batch = NULL,
   save_dir = getwd(),
   org = "human",
   remove_xy = FALSE,
   remove_mt = FALSE,
-  group_by = "Group1",
   quantile = 0.05,
   order = "rank",
   save_dir_name = "qc_results",
@@ -24,6 +25,10 @@ run_deseq2_pip(
 
 \item{experiment}{Name of the experiment}
 
+\item{group_by}{Column name in colData(dds) to use for grouping. Default is "Group1"}
+
+\item{pals}{Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL}
+
 \item{batch}{Column name in colData(dds) to use for batch correction. Default is NULL}
 
 \item{save_dir}{Directory where all output files will be saved. Default is current working directory}
@@ -33,8 +38,6 @@ run_deseq2_pip(
 \item{remove_xy}{Logical. If TRUE, removes genes on X and Y chromosomes. Default is FALSE}
 
 \item{remove_mt}{Logical. If TRUE, removes mitochondrial genes. Default is FALSE}
-
-\item{group_by}{Column name in colData(dds) to use for grouping. Default is "Group1"}
 
 \item{quantile}{Quantile threshold for filtering lowly expressed genes. Default is 0.05}
 

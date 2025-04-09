@@ -10,6 +10,7 @@ run_dist_pip(
   save_dir = getwd(),
   group_by = "Group1",
   batch = NULL,
+  pals = NULL,
   save_dir_name = "qc_results"
 )
 }
@@ -23,6 +24,8 @@ run_dist_pip(
 \item{group_by}{Column name in colData(dds) to use for grouping. Default is "Group1"}
 
 \item{batch}{Column name in colData(dds) to use for batch correction. Default is NULL}
+
+\item{pals}{Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL}
 
 \item{save_dir_name}{Name of the subdirectory to save files in. Default is "qc_results"}
 }

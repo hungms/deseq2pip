@@ -1,3 +1,10 @@
+# deseq2pip 0.1.2
+## Enhancements
+- Change `diffexp_deseq2_wald.tsv`/`diffexp_deseq2_wald_rank.tsv` to `diffexp_DESeq2.tsv`/`diffexp_DESeq2_rank.tsv` for better readability & compatibility.
+- Improve `plot_gsea_enriched` title & subtitle specification
+- Improve `plot_gsea_barplot` title & subtitle specification
+- Improve 
+
 # deseq2pip 0.1.1
 
 ## New Features
