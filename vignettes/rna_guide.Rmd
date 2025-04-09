@@ -73,7 +73,7 @@ This will create a directory structure under the specified save directory:
 ```
 
 For each comparison pair, the directory contains:
-  * diffexp_deseq2_wald.tsv: Dataframe of differential expression results and gene annotation
+  * diffexp_DESeq2.tsv: Dataframe of differential expression results and gene annotation
   * diffexp_volcano.pdf: Volcano plot of the differential expression results
   * outputs for each gene set collection (HALLMARK, GOBP, KEGG, REACTOME, TFT, BIOCARTA):
     * gsea_*.rds: RDS file of gseaResult class object
@@ -191,7 +191,7 @@ run_distance(vsd, save_data = FALSE, save_plot = FALSE)
 
 ## Module 2: Differential Expression Analysis
 
-The `run_diffexp_pip()` module performs statistical analysis to identify differentially expressed genes between groups using `DESeq2::DESeq2()` function, with p-values were generated using Wald test. 
+The `run_diffexp_pip()` module performs statistical analysis to identify differentially expressed genes between groups using `DESeq2::DESeq2()` function, with p-values were generated using DESeq2 test. 
 
 
 ### Main function

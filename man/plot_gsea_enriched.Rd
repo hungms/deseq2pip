@@ -7,7 +7,8 @@
 plot_gsea_enriched(
   gsea,
   gene_set,
-  title.size = 8,
+  title = gene_set,
+  title.size = 14,
   show.pval = TRUE,
   show.fdr = TRUE,
   save_plot = T,
@@ -18,6 +19,8 @@ plot_gsea_enriched(
 \item{gsea}{GSEA result object from run_gsea()}
 
 \item{gene_set}{Name of the gene set to plot}
+
+\item{title}{Title of the plot. Default is the gene set name}
 
 \item{title.size}{Size of the title text. Default is 8}
 

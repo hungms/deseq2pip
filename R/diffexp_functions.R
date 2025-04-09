@@ -70,7 +70,7 @@ run_diffexp <- function(dds, org = "human", group_by = "Group1", save_data = T, 
 
     # save data
     if(save_data){
-        save_tsv(res, tsv_name = "diffexp_deseq2_wald.tsv", save_dir = paste0(save_dir, comparison, sep = "/"))}
+        save_tsv(res, tsv_name = "diffexp_DESeq2.tsv", save_dir = paste0(save_dir, comparison, sep = "/"))}
 
     return(res)
 }
@@ -150,7 +150,7 @@ read_diffexp_list <- function(data_dir = getwd(), merge = T){
     files <- c()
     for(i in seq_along(comparison)){
         files <- c(files, paste0(comparison[i], "/", list.files(paste0(data_dir, "/", comparison[i]))))}
-    files <- files[which(str_detect(files, "/diffexp_deseq2_wald.tsv"))]
+    files <- files[which(str_detect(files, "/diffexp_DESeq2.tsv"))]
     res.list <- list()
 
     for(i in seq_along(files)){

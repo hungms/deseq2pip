@@ -443,6 +443,7 @@ plot_gsea_barplot <- function(gsea.df, n = 10, signif = F, save_plot = T, save_d
 #'
 #' @param gsea GSEA result object from run_gsea()
 #' @param gene_set Name of the gene set to plot
+#' @param title Title of the plot. Default is the gene set name
 #' @param title.size Size of the title text. Default is 8
 #' @param show.pval Logical. If TRUE, shows p-value in the plot. Default is TRUE
 #' @param show.fdr Logical. If TRUE, shows FDR in the plot. Default is TRUE
@@ -450,18 +451,17 @@ plot_gsea_barplot <- function(gsea.df, n = 10, signif = F, save_plot = T, save_d
 #' @param save_dir Directory to save the plot. Default is current working directory
 #' @return A ggplot object showing the GSEA enrichment plot
 #' @export
-plot_gsea_enriched <- function(gsea, gene_set, title.size = 8, show.pval = TRUE, show.fdr = TRUE, save_plot = T, save_dir = getwd()){
+plot_gsea_enriched <- function(gsea, gene_set, title = gene_set, title.size = 14, show.pval = TRUE, show.fdr = TRUE, save_plot = T, save_dir = getwd()){
     
     comparison <- unique(gsea@result$comparison)
     stopifnot(length(comparison) == 1)
     stopifnot(gene_set %in% gsea@result$ID)
 
-    id <- which(str_detect(gsea@result$ID, gene_set))
+    id <- which(str_detect(gsea@result$ID, paste0("^", gene_set, "$")))
     plot <- gseaplot2(gsea, geneSetID = id, title = "", rel_heights = c(1, 0.2, 0.25))
 
     xmax <- min(plot[[1]]$data[[1]]) + (max(plot[[1]]$data[[1]]) - min(plot[[1]]$data[[1]]))*0.12
-    ymax1 <- min(plot[[1]]$data[[2]]) + (max(plot[[1]]$data[[2]]) - min(plot[[1]]$data[[2]]))*0.2
-    ymax2 <- min(plot[[1]]$data[[2]]) + (max(plot[[1]]$data[[2]]) - min(plot[[1]]$data[[2]]))*0.08
+    ymax <- min(plot[[1]]$data[[2]]) + (max(plot[[1]]$data[[2]]) - min(plot[[1]]$data[[2]]))*0.2
 
     nes <- signif(gsea@result$NES[id], 3)
     label <- paste0("NES = ", nes)
@@ -471,7 +471,7 @@ plot_gsea_enriched <- function(gsea, gene_set, title.size = 8, show.pval = TRUE,
     if(length(title) == 0){
         title <- gsea@result$ID[id]}
     
-    if(nrow(gsea@result) < 100){
+    if(nrow(gsea@result) < 50){
         show.fdr <- FALSE}
     if(show.pval){
         label <- paste0(label, "\np = ", pval)}
@@ -479,15 +479,21 @@ plot_gsea_enriched <- function(gsea, gene_set, title.size = 8, show.pval = TRUE,
         label <- paste0(label, "\nFDR = ", fdr)}
 
     plot[[1]] <- plot[[1]] +
-        geom_text(x = xmax, y = ymax1, label = comparison, size = 4, fontface = "bold") +
-        geom_text(x = xmax, y = ymax2, label = label, size = 3) +
-		geom_hline(yintercept = 0, linetype = "dashed") +
+        geom_text(x = xmax, y = ymax, label = label, size = 3, fontface = "italic") +
         ylab("Enrichment Score") +
         theme_border() +
         theme_text() + 
         theme_gridlines() +
-        ggtitle(gene_set) + 
-        theme(legend.position="none")
+        ggtitle(
+            title,
+            subtitle = comparison
+            ) + 
+        theme(
+            plot.title = element_text(size = title.size, hjust = 0.5, face = "bold"),
+            plot.subtitle = element_text(size = title.size*0.6, hjust = 0.5, face = "bold"),
+            axis.text.x = element_blank(),
+            axis.ticks.x = element_blank(),
+            legend.position="none")
     
     plot[[2]] <- plot[[2]] +
         theme_border() +
@@ -501,10 +507,12 @@ plot_gsea_enriched <- function(gsea, gene_set, title.size = 8, show.pval = TRUE,
         theme_border() +
         no_gridlines() +
         theme_text() +
-        no_axis_text()
+        theme(
+            axis.text.x = element_text(size = 12),
+            axis.text.y = element_blank(),
+            axis.ticks.y = element_blank())
     
     plot <- as.ggplot(plot)
-    print(plot)
     if(save_plot){
         save_plot(plot, plot_name = paste0(comparison, "_", gene_set, ".pdf"), save_dir = paste0(save_dir, "/enrichplot/"), w = 5, h = 4)}
 

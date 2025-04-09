@@ -239,10 +239,10 @@ format_enrichmentmap <- function(
         files <- list.files(paste0(data_dir, "/", comparison[i]))
 
         #diffexp
-        res <- read.table(paste0(data_dir, "/", comparison[i], "/diffexp_deseq2_wald.tsv"), sep = "\t", header = T)
+        res <- read.table(paste0(data_dir, "/", comparison[i], "/diffexp_DESeq2.tsv"), sep = "\t", header = T)
         res.rank <- res %>% 
             select(gene, rank)
-        save_tsv(res.rank, tsv_name = "diffexp_deseq2_wald_rank.rnk", save_dir = paste0(save_dir, "/", comparison[i], "/enrichmentmap/"))
+        save_tsv(res.rank, tsv_name = "diffexp_DESeq2_rank.rnk", save_dir = paste0(save_dir, "/", comparison[i], "/enrichmentmap/"))
 
         #gsea
         collection.pattern <- paste0(collection, collapse = "|")
