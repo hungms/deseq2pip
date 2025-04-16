@@ -9,7 +9,7 @@ It can optionally add statistical significance indicators between groups."></hea
 
     <a class="navbar-brand me-2" href="../index.html">deseq2pip</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,8 +52,8 @@ It can optionally add statistical significance indicators between groups.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_gsea_enriched</span><span class="op">(</span></span>
 <span>  <span class="va">gsea</span>,</span>
 <span>  <span class="va">gene_set</span>,</span>
-<span>  title <span class="op">=</span> <span class="va">gene_set</span>,</span>
-<span>  title.size <span class="op">=</span> <span class="fl">14</span>,</span>
+<span>  gene_set_title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  gene_set_title_size <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  show.pval <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  show.fdr <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  save_plot <span class="op">=</span> <span class="cn">T</span>,</span>
@@ -73,12 +73,8 @@ It can optionally add statistical significance indicators between groups.</p>
 <dd><p>Name of the gene set to plot</p></dd>
 
 
-<dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
+<dt id="arg-gene-set-title">gene_set_title<a class="anchor" aria-label="anchor" href="#arg-gene-set-title"></a></dt>
 <dd><p>Title of the plot. Default is the gene set name</p></dd>
-
-
-<dt id="arg-title-size">title.size<a class="anchor" aria-label="anchor" href="#arg-title-size"></a></dt>
-<dd><p>Size of the title text. Default is 8</p></dd>
 
 
 <dt id="arg-show-pval">show.pval<a class="anchor" aria-label="anchor" href="#arg-show-pval"></a></dt>
@@ -95,6 +91,10 @@ It can optionally add statistical significance indicators between groups.</p>
 
 <dt id="arg-save-dir">save_dir<a class="anchor" aria-label="anchor" href="#arg-save-dir"></a></dt>
 <dd><p>Directory to save the plot. Default is current working directory</p></dd>
+
+
+<dt id="arg-gene-set-title-size">gene_set_title.size<a class="anchor" aria-label="anchor" href="#arg-gene-set-title-size"></a></dt>
+<dd><p>Size of the title text. Default is 8</p></dd>
 
 </dl></div>
     <div class="section level2">

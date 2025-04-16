@@ -9,7 +9,7 @@ including generating PCA and distance plots, and saving distance data."></head><
 
     <a class="navbar-brand me-2" href="../index.html">deseq2pip</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,6 +55,7 @@ including generating PCA and distance plots, and saving distance data.</p>
 <span>  save_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  group_by <span class="op">=</span> <span class="st">"Group1"</span>,</span>
 <span>  batch <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pals <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  save_dir_name <span class="op">=</span> <span class="st">"qc_results"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -81,6 +82,10 @@ including generating PCA and distance plots, and saving distance data.</p>
 
 <dt id="arg-batch">batch<a class="anchor" aria-label="anchor" href="#arg-batch"></a></dt>
 <dd><p>Column name in colData(dds) to use for batch correction. Default is NULL</p></dd>
+
+
+<dt id="arg-pals">pals<a class="anchor" aria-label="anchor" href="#arg-pals"></a></dt>
+<dd><p>Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL</p></dd>
 
 
 <dt id="arg-save-dir-name">save_dir_name<a class="anchor" aria-label="anchor" href="#arg-save-dir-name"></a></dt>

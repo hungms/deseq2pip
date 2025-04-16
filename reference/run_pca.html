@@ -9,7 +9,7 @@ It can visualize sample relationships and identify potential batch effects or ou
 
     <a class="navbar-brand me-2" href="../index.html">deseq2pip</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +55,7 @@ It can visualize sample relationships and identify potential batch effects or ou
 <span>  group_by <span class="op">=</span> <span class="st">"Group1"</span>,</span>
 <span>  shape <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  size <span class="op">=</span> <span class="fl">4</span>,</span>
-<span>  cols <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pals <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  save_data <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  save_plot <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  save_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -87,7 +87,7 @@ It can visualize sample relationships and identify potential batch effects or ou
 <dd><p>Size of points in the PCA plot. Default is 4</p></dd>
 
 
-<dt id="arg-cols">cols<a class="anchor" aria-label="anchor" href="#arg-cols"></a></dt>
+<dt id="arg-pals">pals<a class="anchor" aria-label="anchor" href="#arg-pals"></a></dt>
 <dd><p>Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL</p></dd>
 
 
@@ -122,7 +122,7 @@ It can visualize sample relationships and identify potential batch effects or ou
 <span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">run_pca</span><span class="op">(</span><span class="va">vsd</span>, shape <span class="op">=</span> <span class="st">"Batch"</span>, save_data <span class="op">=</span> <span class="cn">TRUE</span>, save_dir_name <span class="op">=</span> <span class="st">"custom_results"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># PCA plot with custom colors</span></span></span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">run_pca</span><span class="op">(</span><span class="va">vsd</span>, cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">run_pca</span><span class="op">(</span><span class="va">vsd</span>, pals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

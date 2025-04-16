@@ -18,12 +18,15 @@
 <url><loc>https://hungms.github.io/deseq2pip/reference/import_nfcore_atac.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/import_nfcore_rna.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/index.html</loc></url>
+<url><loc>https://hungms.github.io/deseq2pip/reference/plot_atac_annot.html</loc></url>
+<url><loc>https://hungms.github.io/deseq2pip/reference/plot_atac_annot_list.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/plot_gene_exprs.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/plot_gsea_barplot.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/plot_gsea_barplot_list.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/plot_gsea_enriched.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/plot_ma.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/plot_ma_list.html</loc></url>
+<url><loc>https://hungms.github.io/deseq2pip/reference/plot_pie_chart.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/plot_volcano.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/plot_volcano_list.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/read_diffexp_list.html</loc></url>
@@ -32,7 +35,7 @@
 <url><loc>https://hungms.github.io/deseq2pip/reference/remove_low_expression.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/remove_mt_genes.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/remove_xy_genes.html</loc></url>
-<url><loc>https://hungms.github.io/deseq2pip/reference/run_deseq2_pip.html</loc></url>
+<url><loc>https://hungms.github.io/deseq2pip/reference/run_atac_pip.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/run_diffexp.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/run_diffexp_list.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/run_diffexp_pip.html</loc></url>
@@ -43,6 +46,7 @@
 <url><loc>https://hungms.github.io/deseq2pip/reference/run_gsea_pip.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/run_pca.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/run_qc_pip.html</loc></url>
+<url><loc>https://hungms.github.io/deseq2pip/reference/run_rna_pip.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/save_expression.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/save_plot.html</loc></url>
 <url><loc>https://hungms.github.io/deseq2pip/reference/save_tsv.html</loc></url>
