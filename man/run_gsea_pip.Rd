@@ -4,14 +4,12 @@
 \alias{run_gsea_pip}
 \title{Run Gene Set Enrichment Analysis Pipeline}
 \usage{
-run_gsea_pip(res = NULL, org = "human", order = "rank", save_dir = getwd())
+run_gsea_pip(res = NULL, org = "human", save_dir = getwd())
 }
 \arguments{
 \item{res}{Differential expression result data frame from run_diffexp()}
 
 \item{org}{The organism to use, either "human" or "mouse". Default is "human"}
-
-\item{order}{Column name to use for ranking genes. Default is "rank"}
 
 \item{save_dir}{Directory where all output files will be saved. Default is current working directory}
 }

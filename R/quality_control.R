@@ -52,19 +52,18 @@ remove_mt_genes <- function(dds, org = "human", ...){
     return(dds)
 }
 
-#' Remove Lowly Expressed Genes from DESeq2 Object
+#' Remove Genes with Low Expression
 #'
-#' This function removes genes with low expression levels from a DESeq2 object based on a quantile threshold.
-#' It generates a density plot of expression levels and removes genes below the specified quantile threshold.
+#' This function filters out genes with expression values below a specified quantile threshold
+#' in at least a minimum number of replicates per condition.
 #'
 #' @param dds A DESeq2 object containing the gene expression data
-#' @param experiment Name of the experiment. Default is NULL
-#' @param quantile The quantile threshold for low expression (0-1). Default is 0.05 (5th percentile)
-#' @param group_by Column name in colData(dds) to group by. Default is "Group1"
-#' @param save_plot Logical. If TRUE, saves the expression density plot to PDF. Default is TRUE
+#' @param quantile Quantile threshold for filtering. Default is 0.05 (lowest 5%)
+#' @param group_by Column name in colData(dds) to use for defining conditions. Default is "Group1"
+#' @param save_plot Logical. If TRUE, saves the expression distribution plot. Default is TRUE
 #' @param save_dir Directory to save the plot. Default is the current working directory
 #' @param save_dir_name Name of the subdirectory to save files in. Default is "qc_results"
-#' @return A filtered DESeq2 object with lowly expressed genes removed
+#' @return A filtered DESeq2 object with low-expression genes removed
 #' @examples
 #' \dontrun{
 #' # Remove bottom 5% of genes
@@ -74,7 +73,7 @@ remove_mt_genes <- function(dds, org = "human", ...){
 #' dds_filtered <- remove_low_expression(dds, quantile = 0.1, save_plot = TRUE, save_dir_name = "custom_results")
 #' }
 #' @export
-remove_low_expression <- function(dds, experiment = NULL, quantile = 0.05, group_by = "Group1", save_plot = TRUE, save_dir = getwd(), save_dir_name = "qc_results"){
+remove_low_expression <- function(dds, quantile = 0.05, group_by = "Group1", save_plot = TRUE, save_dir = getwd(), save_dir_name = "qc_results"){
     message("Filtering genes with low expressions...")
 
     vsd <- vst(dds, blind=FALSE)
@@ -96,7 +95,7 @@ remove_low_expression <- function(dds, experiment = NULL, quantile = 0.05, group
     print(p)
 
     if(save_plot){
-        save_plot(p, experiment = experiment, plot_name = "low_expression.pdf", save_dir = paste0(save_dir, "/", save_dir_name, "/"), w=8, h=4)}
+        save_plot(p, plot_name = "low_expression.pdf", save_dir = paste0(save_dir, "/", save_dir_name, "/"), w=8, h=4)}
 
     min_rep <- min(table(colData(dds)[[group_by]]))
     keep <- rowSums(assay(vsd) >= threshold) >= min_rep
@@ -109,7 +108,6 @@ remove_low_expression <- function(dds, experiment = NULL, quantile = 0.05, group
 #' It helps identify potential outliers or quality issues in the sequencing libraries.
 #'
 #' @param dds A DESeq2 object containing the gene expression data
-#' @param experiment Name of the experiment. Default is NULL
 #' @param save_plot Logical. If TRUE, saves the library size plot to PDF. Default is TRUE
 #' @param save_dir Directory to save the plot. Default is the current working directory
 #' @param save_dir_name Name of the subdirectory to save files in. Default is "qc_results"
@@ -123,7 +121,7 @@ remove_low_expression <- function(dds, experiment = NULL, quantile = 0.05, group
 #' p <- check_library(dds, save_plot = TRUE, save_dir_name = "custom_results")
 #' }
 #' @export
-check_library <- function(dds, experiment = NULL, save_plot = TRUE, save_dir = getwd(), save_dir_name = "qc_results"){
+check_library <- function(dds, save_plot = TRUE, save_dir = getwd(), save_dir_name = "qc_results"){
     vsd <- vst(dds, blind=FALSE) 
     assay <- assay(vsd) %>% as.data.frame(.)
     colnames(vsd) <- colnames(dds)
@@ -141,7 +139,7 @@ check_library <- function(dds, experiment = NULL, save_plot = TRUE, save_dir = g
     if(save_plot){
         wscale <- ncol(dds)
         hscale <- max(nchar(colnames(dds)))
-        save_plot(p, experiment = experiment, plot_name = "library_size_distribution.pdf", save_dir = paste0(save_dir, "/", save_dir_name, "/"), w=0.4*wscale, h=3+0.2*hscale)}
+        save_plot(p, plot_name = "library_size_distribution.pdf", save_dir = paste0(save_dir, "/", save_dir_name, "/"), w=0.4*wscale, h=3+0.2*hscale)}
     }
 
 #' Run Principal Component Analysis
@@ -150,7 +148,6 @@ check_library <- function(dds, experiment = NULL, save_plot = TRUE, save_dir = g
 #' It can visualize sample relationships and identify potential batch effects or outliers.
 #'
 #' @param vsd A DESeq2 object containing the normalized gene expression data
-#' @param experiment Name of the experiment. Default is NULL
 #' @param group_by Column name in colData(vsd) to group by. Default is "Group1"
 #' @param shape Column name in colData(vsd) to use for shape in the PCA plot. Default is NULL
 #' @param size Size of points in the PCA plot. Default is 4
@@ -172,7 +169,7 @@ check_library <- function(dds, experiment = NULL, save_plot = TRUE, save_dir = g
 #' p <- run_pca(vsd, pals = c("red", "blue", "green"))
 #' }
 #' @export
-run_pca <- function(vsd, experiment = NULL, group_by = "Group1", shape = NULL, size = 4, pals = NULL, save_data = TRUE, save_plot = TRUE, save_dir = getwd(), save_dir_name = "qc_results"){
+run_pca <- function(vsd, group_by = "Group1", method = "default", shape = NULL, size = 4, pals = NULL, save_data = TRUE, save_plot = TRUE, save_dir = getwd(), save_dir_name = "qc_results"){
     stopifnot(length(group_by) == 1)
     
     if(length(pals) > 0){
@@ -184,6 +181,8 @@ run_pca <- function(vsd, experiment = NULL, group_by = "Group1", shape = NULL, s
     pcadf <- plotPCA(vsd, intgroup=group_by, returnData=TRUE)
     p <- ggplot(pcadf, aes_string("PC1", "PC2", color=group_by[1])) +
         ggalt::geom_encircle(aes_string(fill = group_by[1]), alpha = 0.3) +
+        geom_hline(yintercept = 0, color = "grey40", linetype = "dashed") +
+        geom_vline(xintercept = 0, color = "grey40", linetype = "dashed") +
         umap_aes() +
         theme_text()
 
@@ -203,9 +202,9 @@ run_pca <- function(vsd, experiment = NULL, group_by = "Group1", shape = NULL, s
     print(p)
 
     if(save_data){
-        save_tsv(pcadf, experiment = experiment, tsv_name = paste0("pca_", paste0(group_by, collapse = "_"), ".tsv"), save_dir = paste0(save_dir, "/", save_dir_name, "/"), row.names = TRUE)}
+        save_tsv(pcadf, tsv_name = paste0(method, "_pca_", paste0(group_by, collapse = "_"), ".tsv"), save_dir = paste0(save_dir, "/", save_dir_name, "/"), row.names = TRUE)}
     if(save_plot){
-        save_plot(p, experiment = experiment, plot_name = paste0("pca_", paste0(group_by, collapse = "_"), ".pdf"), save_dir = paste0(save_dir, "/", save_dir_name, "/"), w = 7, h = 5)}
+        save_plot(p, plot_name = paste0(method, "_pca_", paste0(group_by, collapse = "_"), ".pdf"), save_dir = paste0(save_dir, "/", save_dir_name, "/"), w = 7, h = 5)}
     
     return(p)
 }
@@ -216,7 +215,6 @@ run_pca <- function(vsd, experiment = NULL, group_by = "Group1", shape = NULL, s
 #' and generates a heatmap visualization. It helps identify sample relationships and potential outliers.
 #'
 #' @param vsd A DESeq2 object containing the normalized gene expression data
-#' @param experiment Name of the experiment. Default is NULL
 #' @param save_data Logical. If TRUE, saves distance matrix to TSV. Default is TRUE
 #' @param save_plot Logical. If TRUE, saves the distance heatmap to PDF. Default is TRUE
 #' @param save_dir Directory to save the results. Default is the current working directory
@@ -232,7 +230,7 @@ run_pca <- function(vsd, experiment = NULL, group_by = "Group1", shape = NULL, s
 #' p <- run_distance(vsd, save_plot = TRUE, save_dir_name = "custom_results")
 #' }
 #' @export
-run_distance <- function(vsd, experiment = NULL, save_data = TRUE, save_plot = TRUE, save_dir = getwd(), save_dir_name = "qc_results", ...){
+run_distance <- function(vsd, method = "default", save_data = TRUE, save_plot = TRUE, save_dir = getwd(), save_dir_name = "qc_results", ...){
     dist <- dist(t(assay(vsd)))
     dist_mat <- as.matrix(dist)
     rownames(dist_mat) <- paste(colnames(vsd))
@@ -248,12 +246,12 @@ run_distance <- function(vsd, experiment = NULL, save_data = TRUE, save_plot = T
     print(p)
 
     if(save_data){
-        save_tsv(dist_mat, experiment = experiment, tsv_name = paste0("euclidean_distance.tsv"), save_dir = paste0(save_dir, "/", save_dir_name, "/"), row.names = TRUE)}
+        save_tsv(dist_mat, tsv_name = paste0(method, "_euclidean_distance.tsv"), save_dir = paste0(save_dir, "/", save_dir_name, "/"), row.names = TRUE)}
     
     if(save_plot){
         wscale <- ncol(vsd)
         hscale <- max(nchar(colnames(vsd)))
-        save_plot(p, experiment = experiment, plot_name = paste0("euclidean_distance_heatmap.pdf"), save_dir =  paste0(save_dir, "/", save_dir_name, "/"), w = wscale*0.2+hscale*0.3, h = wscale*0.2+hscale*0.2)}
+        save_plot(p, plot_name = paste0(method, "_euclidean_distance_heatmap.pdf"), save_dir =  paste0(save_dir, "/", save_dir_name, "/"), w = wscale*0.2+hscale*0.3, h = wscale*0.2+hscale*0.2)}
 
     return(p)
 }

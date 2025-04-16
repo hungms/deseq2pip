@@ -9,7 +9,6 @@ run_gsea(
   org = "human",
   group_by = "Group1",
   custom_msigdb = NULL,
-  order = "rank",
   save_data = T,
   save_dir = getwd()
 )
@@ -21,9 +20,7 @@ run_gsea(
 
 \item{group_by}{Column name in colData(dds) to use for grouping. Default is "Group1"}
 
-\item{custom_msigdb}{Path to a custom gene set database in TSV format. Default is NULL}
-
-\item{order}{Column name to use for ranking genes. Default is "rank"}
+\item{custom_msigdb}{Dataframe or path to a custom gene set database in GMT format. Default is NULL}
 
 \item{save_data}{Logical. If TRUE, saves results to TSV and RDS files. Default is TRUE}
 

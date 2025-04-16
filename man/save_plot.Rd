@@ -4,12 +4,10 @@
 \alias{save_plot}
 \title{Save ggplot Object as PDF}
 \usage{
-save_plot(input, experiment = NULL, plot_name, save_dir, w, h)
+save_plot(input, plot_name, save_dir, w, h)
 }
 \arguments{
 \item{input}{ggplot object to be saved}
-
-\item{experiment}{Name of the experiment. Default is NULL}
 
 \item{plot_name}{Name of the output PDF file}
 

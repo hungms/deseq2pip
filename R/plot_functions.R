@@ -13,75 +13,64 @@
 #' p <- plot_ma(res)
 #' }
 #' @export
-plot_ma <- function(res, save_plot = TRUE, save_dir = getwd()) {
-  # Check if the input object meets the requirements
-  stopifnot(is.data.frame(res) & all(c("baseMean", "log2FoldChange", "padj", "gene", "comparison") %in% colnames(res)))
-  comparison <- unique(res$comparison)
-  stopifnot(length(comparison) == 1)
-  
-  for(c in c("baseMean", "log2FoldChange", "padj")){
-    res[[c]] <- as.numeric(res[[c]])}
+plot_ma <- function (res, fc.thresh = 0.5, save_plot = TRUE, save_dir = getwd()) {
+    stopifnot(is.data.frame(res) & all(c("baseMean", "log2FoldChange", "padj", "gene", "comparison") %in% colnames(res)))
+    comparison <- unique(res$comparison)
+    stopifnot(length(comparison) == 1)
 
-  res <- res %>%
-    mutate(baseMean = log2(baseMean + 1)) %>%
-    filter(baseMean >= 3) %>%
-    mutate(
-        direction = case_when(
-        log2FoldChange > 0 & padj < 0.05 ~ "Up",
-        log2FoldChange < 0 & padj < 0.05 ~ "Down",
-        .default = "Non-DE"),
-      direction = factor(direction, c("Up", "Down", "Non-DE")),
-      size = ifelse(direction == "Non-DE", 0.5, 1.5)
-      )
+    for (c in c("baseMean", "log2FoldChange", "padj")) {
+        res[[c]] <- as.numeric(res[[c]])}
 
-  ngene <- nrow(res)
-  res.label <- res %>%
-    filter(direction != "Non-DE")
+    res <- res %>% 
+        mutate(baseMean = log2(baseMean + 1)) %>% 
+        filter(baseMean >= 3) %>% 
+        mutate(direction = case_when(
+            log2FoldChange > fc.thresh & padj < 0.05 ~ "Up", 
+            log2FoldChange < -fc.thresh & padj < 0.05 ~ "Down", 
+            .default = "Non-DE"), 
+            direction = factor(direction, c("Up", "Down", "Non-DE")), 
+            size = ifelse(direction == "Non-DE", 0.5, 1.5))
 
-  # Remove outliers based on interquartile range (IQR)
-  mean.upper <- quantile(res.label$baseMean, probs=0.999)
-  fc.upper <- quantile(abs(res.label$log2FoldChange), probs=0.999)
-  fc.lower <- -fc.upper
-  
-  res <- res %>%
-    filter(
-        baseMean <= mean.upper &
-        log2FoldChange <= fc.upper &
-        log2FoldChange >= fc.lower | gene %in% res.label$gene)
-  
-  if(ngene > 75000){
-    res.label <- res.label %>%
-        group_by(direction) %>%
-        slice_min(n = 50, order_by = padj, with_ties = F)}
+    ngene <- nrow(res)
+    res.label <- res %>% filter(direction != "Non-DE")
+    mean.upper <- quantile(res.label$baseMean, probs = 0.999)
+    fc.upper <- quantile(abs(res.label$log2FoldChange), probs = 0.999)
+    fc.lower <- -fc.upper
 
-  caption <- paste0("total = ", as.character(label_comma()(ngene)), " features")
+    res <- res %>% 
+        filter(baseMean <= mean.upper & log2FoldChange <= fc.upper & log2FoldChange >= fc.lower | gene %in% res.label$gene)
 
-  # Create the ggplot
-  p <- res %>%
-    ggplot(aes(x = baseMean, y = log2FoldChange)) +
-    geom_point(aes(color = direction, size = size)) +
-    geom_text_repel(data = res.label, aes(label = gene), size = 3) +
-    geom_hline(yintercept = 0, linetype = "solid", size = 0.5) +
-    scale_size(range = c(0.5, 1.5)) +
-    scale_color_manual(values = c("Up" = "red", "Down" = "blue", "Non-DE" = "grey60")) +
-    guides(color = guide_legend(title = "", override.aes = list(size = 5)), size = guide_none()) +
-    theme_border() +
-    theme_text() +
-    coord_cartesian(clip = 'off') +
-    xlab("Log2 Mean Expression") +
-    ylab("Log2 Fold Change") +
-    ggtitle(paste0("MA Plot; ", comparison))
+    if (ngene > 75000) {
+        res.label <- res.label %>% 
+            group_by(direction) %>% 
+            slice_min(n = 50, order_by = padj, with_ties = F)}
 
-  p <- p + annotation_custom(
-    grob = grid::textGrob(caption, x = 1, y = -0.13, hjust = 1, gp = gpar(fontsize = 9, col = "black")))
-  
-  if(save_plot){
-    save_plot(p, plot_name = paste0("diffexp_ma_plot.pdf"), save_dir = paste0(save_dir, "/", comparison), w = 7, h = 5)}
-  
-  return(p)
+    caption <- paste0("total = ", as.character(label_comma()(ngene)), " features")
+
+    p <- res %>% 
+        ggplot(aes(x = baseMean, y = log2FoldChange)) + 
+        geom_point(aes(color = direction, size = size)) + 
+        geom_text_repel(data = res.label, aes(label = gene), size = 3) + 
+        geom_hline(yintercept = 0, linetype = "solid", size = 0.5) + 
+        scale_size(range = c(0.5, 1.5)) + 
+        scale_color_manual(values = c(Up = "red", Down = "blue", `Non-DE` = "grey60")) + 
+        guides(color = guide_legend(title = "", override.aes = list(size = 5)), size = guide_none()) + 
+        theme_border() + 
+        theme_text() + 
+        coord_cartesian(clip = "off") + 
+        xlab("Log2 Mean Expression") + 
+        ylab("Log2 Fold Change") + 
+        ggtitle(paste0("MA Plot; ", comparison))
+
+    p <- p + annotation_custom(grob = grid::textGrob(caption, 
+        x = 1, y = -0.13, hjust = 1, gp = gpar(fontsize = 9, 
+            col = "black")))
+
+    if (save_plot) {
+        save_plot(p, plot_name = paste0("diffexp_ma_plot.pdf"), save_dir = paste0(save_dir, "/", comparison), w = 7, h = 5)
+    }
+    return(p)
 }
-
-
 
 #' Generate Volcano Plot
 #'
@@ -108,7 +97,7 @@ plot_ma <- function(res, save_plot = TRUE, save_dir = getwd()) {
 #'                   highlight.genes = c("GENE1", "GENE2"))
 #' }
 #' @export
-plot_volcano <- function(res, n = 25, fc.thresh = 1, p.thresh = 0.05, crop = T, highlight.genes = NULL, save_plot = T, save_dir = getwd()){
+plot_volcano <- function(res, n = 25, fc.thresh = 0.5, p.thresh = 0.05, crop = T, highlight.genes = NULL, save_plot = T, save_dir = getwd()){
     comparison = unique(res$comparison)
     stopifnot(length(comparison) == 1)
     
@@ -117,9 +106,6 @@ plot_volcano <- function(res, n = 25, fc.thresh = 1, p.thresh = 0.05, crop = T, 
     names(direction_cols) <- c("Up", "Down", "Non-DE")
     max.size <- 0.5
     ngene <- nrow(res)
-
-    if(max(abs(res %>% filter(padj < p.thresh) %>% .$log2FoldChange)) < fc.thresh){
-        fc.thresh <- 0.5}
 
     res <- res %>%
         mutate(
@@ -348,90 +334,95 @@ plot_gene_exprs <- function(dds, res = NULL, group_by = "Group1", genes, plot_na
 #' p <- plot_gsea_barplot(gsea_results, n = 15, signif = TRUE)
 #' }
 #' @export
-plot_gsea_barplot <- function(gsea.df, n = 10, signif = F, save_plot = T, save_dir = getwd()){
+plot_gsea_barplot <- function (gsea.df, n = 10, remove_collection = T, signif = F, 
+    save_plot = T, save_dir = getwd()) 
+{
     comparison <- unique(gsea.df$comparison)
     collection <- unique(gsea.df$collection)
     stopifnot(length(comparison) == 1)
-
     stopifnot(all(c("NES", "qvalue", "ID") %in% colnames(gsea.df)))
-    gsea.df$ID <- sub("_", "\\: ", gsea.df$ID)
+
+    if (remove_collection) {
+        gsea.df$ID <- sub(paste0("^", collection, "_"), "", gsea.df$ID)}
+
+    else {
+        gsea.df$ID <- sub("_", "\\: ", gsea.df$ID)}
+
     gsea.df$NES <- as.numeric(gsea.df$NES)
     gsea.df$qvalue <- as.numeric(gsea.df$qvalue)
-
-    selected_pathways <- gsea.df %>%
-        arrange(desc(NES^2)) %>%
-        mutate(
-            direction = ifelse(NES > 0, "Up", "Down"),
-            direction = factor(direction, c("Up", "Down"))) %>%
-        group_by(direction) %>%
-        slice_min(n = n, order_by = qvalue, with_ties = F) %>%
+    selected_pathways <- gsea.df %>% 
+        arrange(desc(NES^2)) %>% 
+        mutate(direction = ifelse(NES > 0, "Up", "Down"), direction = factor(direction, c("Up", "Down"))) %>% 
+        group_by(direction) %>% 
+        slice_min(n = n, order_by = qvalue, with_ties = F) %>% 
         .$ID
 
-    if(signif){
-        selected_pathways <- gsea.df %>%
-            filter(qvalue < 0.05) %>%
-            arrange(desc(NES^2)) %>%
-            mutate(
-                direction = ifelse(NES > 0, "Up", "Down"),
-                direction = factor(direction, c("Up", "Down"))) %>%
-            group_by(direction) %>%
-            slice_min(n = n, order_by = qvalue, with_ties = F) %>%
+    if (signif){
+        selected_pathways <- gsea.df %>% 
+            filter(qvalue < 0.05) %>% 
+            arrange(desc(NES^2)) %>% 
+            mutate(direction = ifelse(NES > 0, "Up", "Down"), direction = factor(direction, c("Up", "Down"))) %>% 
+            group_by(direction) %>% 
+            slice_min(n = n, order_by = qvalue, with_ties = F) %>% 
             .$ID}
 
-    selected.gsea.df <- gsea.df %>%
-        filter(ID %in% selected_pathways) %>%
+    selected.gsea.df <- gsea.df %>% 
+        filter(ID %in% selected_pathways) %>% 
         select(ID, NES, pvalue, qvalue)
 
     empty_row <- data.frame(ID = "", NES = 0, pvalue = 1, qvalue = 1)
+    yrange <- max(abs(selected.gsea.df$NES)) * 1.1
 
-    yrange <- max(abs(selected.gsea.df$NES))*1.1
-    
-    p <- selected.gsea.df %>%
-        rbind(., empty_row) %>%
+    p <- selected.gsea.df %>% 
+        rbind(., empty_row) %>% 
         mutate(label = case_when(
-            qvalue < 0.001 ~ "***",
-            qvalue < 0.01 ~ "**",
-            qvalue < 0.05 ~ "*",
-            .default = "")) %>%
-        mutate(
-            size = ifelse(nchar(ID) >= 50, 1, ifelse(nchar(ID) >= 35, 2, 3)),
-            ID =  str_replace_all(ID, ".{50}", "\\0\n")) %>%
-        ggplot(aes(x = fct_reorder(ID, NES), y = NES, fill = NES)) +
-        geom_col(aes(stroke = label), width = 0.75, col = "black") +
-        geom_text(aes(y = ifelse(NES > 0, -0.1, 0.1), label = fct_reorder(ID, NES), hjust = ifelse(NES > 0, 1, 0), size = size), fontface = "bold") +
-        scale_size(range = c(2, 3)) +
-        geom_text(aes(label = label, y = NES + 0.2 * sign(NES)), position = position_dodge(width = 0.75), vjust = 0.75, size = 5) +
-        xlab(NULL) +
-        scale_fill_distiller(palette = "RdBu") +
+            qvalue < 0.001 ~ "***", 
+            qvalue < 0.01 ~ "**", 
+            qvalue < 0.05 ~ "*", 
+            .default = "")) %>% 
+        mutate(size = ifelse(nchar(ID) >= 50, 1, ifelse(nchar(ID) >= 35, 2, 3)), 
+            ID = str_replace_all(ID, ".{50}", "\\0\n")) %>% 
+        ggplot(aes(x = fct_reorder(ID, NES), y = NES, fill = NES)) + 
+        geom_col(aes(stroke = label), width = 0.75, col = "black") + 
+        geom_text(aes(y = ifelse(NES > 0, -0.1, 0.1), label = fct_reorder(ID, NES), hjust = ifelse(NES > 0, 1, 0), size = size), fontface = "bold") + 
+        scale_size(range = c(2, 3)) + 
+        geom_text(aes(label = label, y = NES + 0.2 * sign(NES)), 
+            position = position_dodge(width = 0.75), vjust = 0.75, 
+            size = 5) + 
+        xlab(NULL) + 
+        scale_fill_distiller(palette = "RdBu") + 
         guides(
             fill = guide_colorbar(
-                title = "NES",
-                title.position = "top",
-                direction = "vertical",
-                frame.colour = "black",
-                ticks.colour = "black",
-                order = 1),
-            size = guide_none()
-            ) +
-        ggtitle(title = comparison, subtitle = paste0(collection, " COLLECTION")) +
-        theme_border() +
-        theme_text() +
+                title = "NES", 
+                title.position = "top", 
+                direction = "vertical", 
+                frame.colour = "black", 
+                ticks.colour = "black", 
+                order = 1), 
+            size = guide_none()) + 
+        ggtitle(comparison, subtitle = paste0(collection, " COLLECTION")) + 
+        theme_border() + 
+        theme_text() + 
         theme(
-            panel.border = element_rect(fill = NA, color = "grey40", size = 0.5),
-            axis.line.y = element_blank(),
-            axis.text.y = element_blank(),
-            axis.ticks.y = element_blank()) +
-        theme_gridlines() +
-        ylim(c(-yrange, yrange)) +
-        geom_hline(yintercept = 0, color = "grey40", size = 0.7) +
-        scale_x_discrete(expand=c(0.05, 0.05)) +
+            panel.border = element_rect(fill = NA, color = "black", size = 0.7), 
+            plot.title = element_text(size = 16, face = "bold", hjust = 0.5), 
+            plot.subtitle = element_text(size = 10, face = "plain", hjust = 0.5), 
+            axis.line.y = element_blank(), 
+            axis.text.y = element_blank(), 
+            axis.ticks.y = element_blank()) + 
+        theme_gridlines() + 
+        ylim(c(-yrange, yrange)) + 
+        geom_hline(yintercept = 0, color = "grey40", size = 0.5) + 
+        scale_x_discrete(expand = c(0.05, 0.05)) + 
         coord_flip()
 
-    if(save_plot){
+    if (save_plot) {
         plot_name <- paste0("gsea_", collection, "_top", n)
-        if(signif){
+        if (signif) {
             plot_name <- paste0(plot_name, "_signif")}
-        save_plot(p, plot_name = paste0(plot_name, "_barplot.pdf"), save_dir = paste0(save_dir, "/", comparison, "/"), w = 9, h = 7)}
+        save_plot(p, plot_name = paste0(plot_name, "_barplot.pdf"), 
+            save_dir = paste0(save_dir, "/", comparison, "/"), 
+            w = 9, h = 7)}
     print(p)
     return(p)
 }
@@ -517,4 +508,145 @@ plot_gsea_enriched <- function(gsea, gene_set, gene_set_title = NULL, gene_set_t
         save_plot(plot, plot_name = paste0(comparison, "_", gene_set, ".pdf"), save_dir = paste0(save_dir, "/enrichplot/"), w = 5, h = 4)}
 
     return(plot)
+}
+
+#' Plot ATAC-seq Peak Annotations
+#'
+#' This function analyzes differentially expressed ATAC-seq peaks and creates pie charts
+#' of their genomic annotations. It filters peaks by adjusted p-value and log2 fold change,
+#' cleans up annotation labels, and generates three pie charts: one for all DE peaks,
+#' one for upregulated peaks, and one for downregulated peaks.
+#'
+#' @param dds DESeq2 object containing the ATAC-seq peaks data
+#' @param res Differential expression results data frame from run_diffexp()
+#' @param p.thresh Adjusted p-value threshold for significance. Default is 0.05
+#' @param fc.thresh Log2 fold change threshold for significance (absolute value). Default is 0.5
+#' @param save_dir Directory to save the plot. Default is current working directory
+#' @param save_plot Logical. If TRUE, saves the plots to PDF. Default is TRUE
+#' @return A list of ggplot objects showing the pie charts
+#' @examples
+#' \dontrun{
+#' # Generate annotation pie charts for ATAC-seq peaks
+#' plots <- plot_atac_annot(dds, res)
+#' 
+#' # Use custom thresholds
+#' plots <- plot_atac_annot(dds, res, p.thresh = 0.01, fc.thresh = 1)
+#' }
+#' @export
+plot_atac_annot <- function(
+    dds,
+    res,
+    p.thresh = 0.05,
+    fc.thresh = 0.5,
+    save_dir = getwd(),
+    save_plot = TRUE) {
+    
+    # Check required inputs
+    stopifnot(is.data.frame(res))
+    stopifnot(all(c("padj", "log2FoldChange", "comparison") %in% colnames(res)))
+    stopifnot("Annotation" %in% colnames(rowData(dds)))
+    comparison <- unique(res$comparison)
+    stopifnot(length(comparison) == 1)
+    
+    # Filter differentially expressed peaks
+    message("Filtering differentially expressed peaks...")
+    res <- res %>%
+        filter(padj < p.thresh & abs(log2FoldChange) > fc.thresh)
+
+    if (nrow(res) == 0) {
+        message("No peaks pass the filtering criteria for ", comparison)
+        return()}
+
+    message("Processing peak annotations...")
+    peak_annots <- rowData(dds)$Annotation
+    names(peak_annots) <- rownames(rowData(dds))
+    
+    # Remove text after " (" in all annotations
+    peak_annots <- gsub(" \\(.*", "", peak_annots)
+
+    # Get annotations for the DE peaks
+    de_annots <- peak_annots[names(peak_annots) %in% res$peaks]
+
+    # Split into up and down regulated
+    up_idx <- res$log2FoldChange > 0
+    up_annots <- peak_annots[names(peak_annots) %in% res$peaks[up_idx]]
+    down_annots <- peak_annots[names(peak_annots) %in% res$peaks[!up_idx]]
+    
+    # Create the three pie charts
+    message("Plotting pie charts...")
+    all_plot <- plot_pie_chart(de_annots, subtitle = "All DE Peaks", comparison = comparison)
+    up_plot <- plot_pie_chart(up_annots, subtitle = "Upregulated Peaks", comparison = comparison)
+    down_plot <- plot_pie_chart(down_annots, subtitle = "Downregulated Peaks", comparison = comparison)
+    
+    # Save plots if requested
+    if(save_plot) {
+        message("Saving pie charts to PDF...")
+        
+        # Save each plot to its own PDF file using save_plot function
+        save_plot(all_plot, 
+                  plot_name = "atac_annotation_all_peaks.pdf", 
+                  save_dir = paste0(save_dir, "/", comparison, "/"), 
+                  w = 6, h = 5)
+        
+        save_plot(up_plot, 
+                  plot_name = "atac_annotation_up_peaks.pdf", 
+                  save_dir = paste0(save_dir, "/", comparison, "/"), 
+                  w = 6, h = 5)
+        
+        save_plot(down_plot, 
+                  plot_name = "atac_annotation_down_peaks.pdf", 
+                  save_dir = paste0(save_dir, "/", comparison, "/"), 
+                  w = 6, h = 5)
+        
+    }
+    
+    # Return the plots
+    return(list(
+        all = all_plot,
+        up = up_plot,
+        down = down_plot
+    ))
+}
+
+#' Create Pie Chart for ATACseq Annotation
+#' 
+#' This function creates a pie chart to visualize the annotation distribution of ATACseq peaks.
+#' 
+#' @param annots A vector of peak annotations
+#' @param comparison Comparison name
+#' @param subtitle Subtitle for the plot
+#' @return A ggplot object showing the pie chart
+#' @export
+plot_pie_chart <- function (annots, comparison = "", subtitle = "") 
+{
+    str_to_title_v2 <- function(input_string) {
+        str_replace_all(input_string, "\\b[a-z]", function(x) str_to_title(x))
+    }
+
+    message("Creating pie charts for ", length(annots), " peaks in ", subtitle, "...")
+
+    annot_counts <- table(annots[!is.na(annots)])
+
+    annot_df <- data.frame(Annotation = str_to_title_v2(names(annot_counts)), 
+        Count = as.numeric(annot_counts))
+
+    annot_df <- annot_df %>% 
+        dplyr::mutate(Percent = Count/sum(Count) * 100, Label = paste0(round(Percent, 1), "%")) %>% 
+        arrange(Percent) %>% 
+        dplyr::mutate(Annotation = factor(Annotation, levels = unique(Annotation)))
+
+    p <- ggplot(annot_df, aes(x = "", y = Percent, fill = Annotation)) + 
+        geom_bar(stat = "identity", width = 1) + 
+        coord_polar("y", start = 0) + 
+        no_gridlines() + 
+        no_axis_text() + 
+        xlab(NULL) + 
+        ylab(NULL) + 
+        geom_text(aes(label = Label), position = position_stack(vjust = 0.5)) + 
+        ggtitle(comparison, subtitle = subtitle) + 
+        theme(
+            plot.background = element_blank(), 
+            plot.title = element_text(size = 16, face = "bold", hjust = 0.5), 
+            plot.subtitle = element_text(size = 10, face = "plain", hjust = 0.5))
+    return(p)
 }

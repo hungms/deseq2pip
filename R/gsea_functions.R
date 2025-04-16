@@ -7,8 +7,7 @@
 #' @param res Differential expression result data frame from run_diffexp()
 #' @param org The organism to use, either "human" or "mouse". Default is "human"
 #' @param group_by Column name in colData(dds) to use for grouping. Default is "Group1"
-#' @param custom_msigdb Path to a custom gene set database in TSV format. Default is NULL
-#' @param order Column name to use for ranking genes. Default is "rank"
+#' @param custom_msigdb Dataframe or path to a custom gene set database in GMT format. Default is NULL
 #' @param save_data Logical. If TRUE, saves results to TSV and RDS files. Default is TRUE
 #' @param save_dir Directory to save the results. Default is current working directory
 #' @return A list of GSEA results for each gene set collection, with each element containing:
@@ -30,22 +29,25 @@
 #' gsea_results <- run_gsea(res, org = "mouse")
 #' }
 #' @export
-run_gsea <- function(res, org = "human", group_by = "Group1", custom_msigdb = NULL, order = "rank", save_data = T, save_dir = getwd()){
-    if(length(custom_msigdb) > 0){
-        stopifnot(str_detect(custom_msigdb, ".tsv$") & file.exists(custom_msigdb))
-        msigdbr <- read.table(custom_msigdb, sep = "\t", header = T)}
-    else{
+run_gsea <- function(res, org = "human", group_by = "Group1", custom_msigdb = NULL, save_data = T, save_dir = getwd()){
+
+    if(length(custom_msigdb) < 1){
         msigdbr <- import_msigdb(org = org)}
+    else if(is.data.frame(custom_msigdb)) {
+        msigdbr <- custom_msigdb}
+    else if(str_detect(custom_msigdb, ".gmt$") & file.exists(custom_msigdb)){
+        msigdbr <- read_gmt(custom_msigdb) %>%
+            pivot_longer(everything(), names_to = "gs_name", values_to = "gene_symbol") %>%
+            filter(gene_symbol != "") %>%
+            mutate(collection = gsub(".gmt", "", basename(custom_msigdb)))}
+    else{
+        stop("Invalid custom_msigdb input")}
 
     stopifnot(c("gs_name", "gene_symbol", "collection") %in% colnames(msigdbr))
-    stopifnot(c("padj", "gene", "log2FoldChange", "comparison") %in% colnames(res))
-    stopifnot(order %in% c("rank", colnames(res)))
+    stopifnot(c("gene", "rank") %in% colnames(res))
     
     comparison <- unique(res$comparison)
     stopifnot(length(comparison) == 1)
-
-    res <- res %>% 
-        mutate(rank = -log10(padj)*log2FoldChange)
 
     collectionsplit <- msigdbr$collection
 
@@ -54,11 +56,11 @@ run_gsea <- function(res, org = "human", group_by = "Group1", custom_msigdb = NU
         split(., collectionsplit)
 
     de.order <- res %>%
-        arrange(desc(.data[[order]])) %>%
-        .$log2FoldChange
+        arrange(desc(.data[["rank"]])) %>%
+        .$rank
 
     names(de.order) <- res %>%
-        arrange(desc(.data[[order]])) %>%
+        arrange(desc(.data[["rank"]])) %>%
         .$gene
     
     de.order <- na.omit(de.order)
@@ -110,7 +112,7 @@ run_gsea_list <- function(res = NULL, ...){
         res <- read_diffexp_list(data_dir = save_dir)}
 
     stopifnot(is.data.frame(res))
-    stopifnot(c("padj", "gene", "log2FoldChange", "comparison") %in% colnames(res))
+    stopifnot(c("gene", "rank") %in% colnames(res))
     res.list <- split(res, res$comparison)
 
     gsea.list <- list()
@@ -216,6 +218,7 @@ read_gsea_tsv_list <- function(
 #' This function processes and formats GSEA results for visualization in EnrichmentMap.
 #'
 #' @param data_dir Parent directory containing comparison subdirectories. Default is current working directory
+#' @param org The organism to use, either "human" or "mouse". Default is "human"
 #' @param collection Vector of gene set collections to process. Default includes HALLMARK, GOBP, KEGG, and REACTOME
 #' @param save_dir Directory where the formatted files will be saved. Default is current working directory
 #' @return None. Creates formatted files for EnrichmentMap visualization
@@ -230,8 +233,12 @@ read_gsea_tsv_list <- function(
 #' @export
 format_enrichmentmap <- function(
     data_dir = getwd(), 
+    org = "human",
     collection = c("HALLMARK", "GOBP", "KEGG", "REACTOME"),
-    save_dir = data_dir){
+    save_dir = paste0(data_dir, "/../")){
+
+    stopifnot(org %in% c("human", "mouse"))
+
     message("Formatting for enrichmentmap...")
     comparison <- list.files(data_dir)
 
@@ -240,9 +247,14 @@ format_enrichmentmap <- function(
 
         #diffexp
         res <- read.table(paste0(data_dir, "/", comparison[i], "/diffexp_DESeq2.tsv"), sep = "\t", header = T)
+        stopifnot(c("gene", "rank") %in% colnames(res))
         res.rank <- res %>% 
-            select(gene, rank)
-        save_tsv(res.rank, tsv_name = "diffexp_DESeq2_rank.rnk", save_dir = paste0(save_dir, "/", comparison[i], "/enrichmentmap/"))
+            select(gene, rank) %>%
+            filter(rank != 0) %>%
+            filter(!is.na(rank)) %>%
+            filter(rank != "NA") %>%
+            arrange(desc(rank))
+        save_tsv(res.rank, tsv_name = paste0(comparison[i], "_diffexp_DESeq2_rank.rnk"), save_dir = paste0(save_dir, "/enrichmentmap/"))
 
         #gsea
         collection.pattern <- paste0(collection, collapse = "|")
@@ -258,12 +270,21 @@ format_enrichmentmap <- function(
                     phenotype = ifelse(NES > 0, "+1", "-1")) %>%
                 select(ID, Description, pvalue, qvalue, phenotype)
             collection_name <- gsub("gsea_|\\.tsv", "", files[j])
-            save_tsv(gsea.df, tsv_name = paste0("gsea_", collection_name, "_enrichmentmap.tsv"), save_dir = paste0(save_dir, "/", comparison[i], "/enrichmentmap/"))
+            #save_tsv(gsea.df, tsv_name = paste0("gsea_", collection_name, "_enrichmentmap.tsv"), save_dir = paste0(save_dir, "/", comparison[i], "/enrichmentmap/"))
             enrichmentmap.list[[j]] <- gsea.df}
 
         enrichmentmap.merged <- bind_rows(enrichmentmap.list)
-        save_tsv(enrichmentmap.merged, tsv_name = "enrichmentmap_merged.tsv", save_dir = paste0(save_dir, "/", comparison[i], "/enrichmentmap/"))
-        }
+        save_tsv(enrichmentmap.merged, tsv_name = paste0(comparison[i], "_enrichments.tsv"), save_dir = paste0(save_dir, "/enrichmentmap/"))}
+
+        #gmt
+        files <- list.files(system.file("extdata", package = "deseq2pip"), full.names = T)
+        files <- files[which(str_detect(files, paste0(org, "_msigdbr.gmt")))]
+        f <- files[length(files)]
+        file.copy(from = f, to = paste0(save_dir, "/enrichmentmap/", org, "_msigdbr.gmt"), overwrite = TRUE)
+            
+        #exprs & class
+        file.copy(from = paste0(data_dir, "/../qc_results/dds_expr.txt"), to = paste0(save_dir, "/enrichmentmap/"), overwrite = TRUE)
+        file.copy(from = paste0(data_dir, "/../qc_results/dds_class.cls"), to = paste0(save_dir, "/enrichmentmap/"), overwrite = TRUE)
         }
 
 

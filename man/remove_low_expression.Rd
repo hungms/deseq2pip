@@ -2,11 +2,10 @@
 % Please edit documentation in R/quality_control.R
 \name{remove_low_expression}
 \alias{remove_low_expression}
-\title{Remove Lowly Expressed Genes from DESeq2 Object}
+\title{Remove Genes with Low Expression}
 \usage{
 remove_low_expression(
   dds,
-  experiment = NULL,
   quantile = 0.05,
   group_by = "Group1",
   save_plot = TRUE,
@@ -17,24 +16,22 @@ remove_low_expression(
 \arguments{
 \item{dds}{A DESeq2 object containing the gene expression data}
 
-\item{experiment}{Name of the experiment. Default is NULL}
+\item{quantile}{Quantile threshold for filtering. Default is 0.05 (lowest 5\%)}
 
-\item{quantile}{The quantile threshold for low expression (0-1). Default is 0.05 (5th percentile)}
+\item{group_by}{Column name in colData(dds) to use for defining conditions. Default is "Group1"}
 
-\item{group_by}{Column name in colData(dds) to group by. Default is "Group1"}
-
-\item{save_plot}{Logical. If TRUE, saves the expression density plot to PDF. Default is TRUE}
+\item{save_plot}{Logical. If TRUE, saves the expression distribution plot. Default is TRUE}
 
 \item{save_dir}{Directory to save the plot. Default is the current working directory}
 
 \item{save_dir_name}{Name of the subdirectory to save files in. Default is "qc_results"}
 }
 \value{
-A filtered DESeq2 object with lowly expressed genes removed
+A filtered DESeq2 object with low-expression genes removed
 }
 \description{
-This function removes genes with low expression levels from a DESeq2 object based on a quantile threshold.
-It generates a density plot of expression levels and removes genes below the specified quantile threshold.
+This function filters out genes with expression values below a specified quantile threshold
+in at least a minimum number of replicates per condition.
 }
 \examples{
 \dontrun{

@@ -6,7 +6,6 @@
 \usage{
 save_expression(
   dds,
-  experiment,
   group_by = "Group1",
   save_dir = getwd(),
   save_dir_name = "qc_results"
@@ -14,8 +13,6 @@ save_expression(
 }
 \arguments{
 \item{dds}{DESeq2 object containing the expression data}
-
-\item{experiment}{Name of the experiment}
 
 \item{group_by}{Column name in colData(dds) to use for grouping. Default is "Group1"}
 
@@ -38,9 +35,9 @@ and class labels for GSEA.
 \examples{
 \dontrun{
 # Save expression data with default settings
-save_expression(dds, experiment = "my_experiment")
+save_expression(dds)
 
 # Save expression data with custom grouping and directory name
-save_expression(dds, group_by = "Treatment", experiment = "my_experiment", save_dir_name = "custom_results")
+save_expression(dds, group_by = "Treatment", save_dir_name = "custom_results")
 }
 }

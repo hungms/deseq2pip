@@ -6,8 +6,8 @@
 \usage{
 run_pca(
   vsd,
-  experiment = NULL,
   group_by = "Group1",
+  method = "default",
   shape = NULL,
   size = 4,
   pals = NULL,
@@ -19,8 +19,6 @@ run_pca(
 }
 \arguments{
 \item{vsd}{A DESeq2 object containing the normalized gene expression data}
-
-\item{experiment}{Name of the experiment. Default is NULL}
 
 \item{group_by}{Column name in colData(vsd) to group by. Default is "Group1"}
 

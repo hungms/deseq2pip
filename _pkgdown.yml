@@ -40,7 +40,8 @@ reference:
   - ends_with("_diffexp")
   - ends_with("_gsea")
 - title: Plot Functions
-  contents: starts_with("plot_")
+  contents: 
+  - starts_with("plot_")
 - title: Format Functions
   contents:
   - starts_with("import_")

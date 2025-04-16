@@ -70,7 +70,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
 BiocManager::install(c("DESeq2", "clusterProfiler", "msigdbr", "biomaRt"))
 ```
 
-## Quick Start
+## RNAseq Quick Start
 
 ```r
 library(deseq2pip)
@@ -90,10 +90,8 @@ design(dds) <- ~ Group2
 save_dir <- "/Users/hungm/Documents/development/deseq2pip/tests/pipeline/"
 
 # Run the complete pipeline
-run_deseq2_pip(
+run_rna_pip(
     dds,
-    assaytype = "RNA",
-    experiment = "GSE189410",
     remove_xy = TRUE,
     remove_mt = TRUE,
     org = "mouse",

@@ -4,12 +4,10 @@
 \alias{save_tsv}
 \title{Save Data Frame as TSV File}
 \usage{
-save_tsv(input, experiment = NULL, tsv_name, save_dir, row.names = F)
+save_tsv(input, tsv_name, save_dir, row.names = F)
 }
 \arguments{
 \item{input}{Data frame to be saved}
-
-\item{experiment}{Name of the experiment. Default is NULL}
 
 \item{tsv_name}{Name of the output TSV file}
 

@@ -6,12 +6,15 @@
 \usage{
 format_enrichmentmap(
   data_dir = getwd(),
+  org = "human",
   collection = c("HALLMARK", "GOBP", "KEGG", "REACTOME"),
-  save_dir = data_dir
+  save_dir = paste0(data_dir, "/../")
 )
 }
 \arguments{
 \item{data_dir}{Parent directory containing comparison subdirectories. Default is current working directory}
+
+\item{org}{The organism to use, either "human" or "mouse". Default is "human"}
 
 \item{collection}{Vector of gene set collections to process. Default includes HALLMARK, GOBP, KEGG, and REACTOME}
 

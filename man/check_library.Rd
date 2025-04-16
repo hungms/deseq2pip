@@ -6,7 +6,6 @@
 \usage{
 check_library(
   dds,
-  experiment = NULL,
   save_plot = TRUE,
   save_dir = getwd(),
   save_dir_name = "qc_results"
@@ -14,8 +13,6 @@ check_library(
 }
 \arguments{
 \item{dds}{A DESeq2 object containing the gene expression data}
-
-\item{experiment}{Name of the experiment. Default is NULL}
 
 \item{save_plot}{Logical. If TRUE, saves the library size plot to PDF. Default is TRUE}
 

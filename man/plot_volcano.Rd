@@ -7,7 +7,7 @@
 plot_volcano(
   res,
   n = 25,
-  fc.thresh = 1,
+  fc.thresh = 0.5,
   p.thresh = 0.05,
   crop = T,
   highlight.genes = NULL,

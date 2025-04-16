@@ -6,7 +6,6 @@
 \usage{
 run_dist_pip(
   dds,
-  experiment,
   save_dir = getwd(),
   group_by = "Group1",
   batch = NULL,
@@ -16,8 +15,6 @@ run_dist_pip(
 }
 \arguments{
 \item{dds}{DESeq2 object containing the expression data}
-
-\item{experiment}{Name of the experiment}
 
 \item{save_dir}{Directory where all output files will be saved. Default is current working directory}
 
@@ -39,10 +36,9 @@ including generating PCA and distance plots, and saving distance data.
 \examples{
 \dontrun{
 # Run distance pipeline with default settings
-dds <- run_dist_pip(dds, experiment = "my_experiment")
+dds <- run_dist_pip(dds)
 
 # Run distance pipeline with custom settings and batch correction
-dds <- run_dist_pip(dds, experiment = "my_experiment", 
-                   batch = "Batch", save_dir_name = "qc_results")
+dds <- run_dist_pip(dds, batch = "Batch", save_dir_name = "qc_results")
 }
 }

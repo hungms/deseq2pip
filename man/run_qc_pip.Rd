@@ -6,7 +6,6 @@
 \usage{
 run_qc_pip(
   dds,
-  experiment,
   save_dir = getwd(),
   org = "human",
   remove_xy = FALSE,
@@ -18,8 +17,6 @@ run_qc_pip(
 }
 \arguments{
 \item{dds}{DESeq2 object containing the expression data}
-
-\item{experiment}{Name of the experiment}
 
 \item{save_dir}{Directory where all output files will be saved. Default is current working directory}
 
@@ -45,11 +42,10 @@ including filtering genes, generating QC plots, and saving expression data.
 \examples{
 \dontrun{
 # Run QC pipeline with default settings
-dds <- run_qc_pip(dds, experiment = "my_experiment")
+dds <- run_qc_pip(dds)
 
 # Run QC pipeline with custom settings
-dds <- run_qc_pip(dds, experiment = "my_experiment",
-                  org = "mouse", remove_xy = TRUE,
+dds <- run_qc_pip(dds, org = "mouse", remove_xy = TRUE,
                   save_dir_name = "custom_results")
 }
 }

@@ -25,9 +25,9 @@ suppressPackageStartupMessages(library(deseq2pip))
 ```{r}
 #| vscode: {languageId: r}
 # create a directory for results, currently set to tempdir()
-# save_dir <- "/Users/hungm/Documents/development/deseq2pip/tests/rnaseq/pipeline/"
-save_dir <- tempdir()
-dir.create(save_dir, recursive = TRUE)
+save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/github-repos/r-pipelines/deseq2pip/tests/rnaseq/pipeline/"
+#save_dir <- tempdir()
+#dir.create(save_dir, recursive = TRUE)
 ```
 
 ### Load DESeq2 object from nfcore pipeline
@@ -52,14 +52,13 @@ design(dds) <- ~ Group2
 ```{r}
 #| vscode: {languageId: r}
 # run deseq2pip
-run_deseq2_pip(
+run_rna_pip(
     dds,
-    assaytype = "RNA",
     batch = NULL,
-    experiment = "GSE189410",
     remove_xy = TRUE,
     remove_mt = TRUE,
     org = "mouse",
+    order = "log2FoldChange",
     group_by = "Group2",
     save_dir = save_dir)
 ```
@@ -69,9 +68,9 @@ run_deseq2_pip(
 ```{r}
 #| vscode: {languageId: r}
 # create a directory for results, currently set to tempdir()
-# save_dir <- "/Users/hungm/Documents/development/deseq2pip/tests/atacseq/pipeline/"
-save_dir <- tempdir()
-dir.create(save_dir, recursive = TRUE)
+save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/github-repos/r-pipelines/deseq2pip/tests/atacseq/pipeline/"
+#save_dir <- tempdir()
+#dir.create(save_dir, recursive = TRUE)
 ```
 
 ### Load DESeq2 object from nfcore pipeline
@@ -99,11 +98,9 @@ design(dds) <- ~ Group1
 ```{r}
 #| vscode: {languageId: r}
 # run deseq2pip
-run_deseq2_pip(
+run_atac_pip(
     dds,
-    assaytype = "ATAC",
     batch = NULL,
-    experiment = "GSE224512",
     remove_xy = TRUE,
     remove_mt = TRUE,
     org = "mouse",

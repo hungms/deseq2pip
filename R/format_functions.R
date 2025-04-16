@@ -78,19 +78,17 @@ import_nfcore_rna <- function(rdata, tx2gene){
 #' dds <- import_nfcore_atac("path/to/dds.RData", "path/to/tx2gene.tsv")
 #' }
 #' @export
-import_nfcore_atac <- function(rdata, annotatePeaks, dist.to.TSS = 2000){
-
-    # Load DESeq2 object
+import_nfcore_atac <- function (rdata, annotatePeaks, dist.to.TSS = 2000) 
+{
     load(rdata)
     dds <- get("dds")
-    
+    rowData(dds)$peaks <- rownames(dds)
     annotations <- read.table(annotatePeaks, sep = "\t", header = T, row.names = 1)
-    annotations <- annotations[rownames(assay(dds)),]
+    annotations <- annotations[rownames(assay(dds)), ]
     rowData(dds) <- cbind(rowData(dds), annotations)
     rowData(dds)$gene <- rowData(dds)$Gene.Name
     rowData(dds)$Gene.Name <- NULL
     rowData(dds)$TSS <- ifelse(rowData(dds)$gene != "" & rowData(dds)$Distance.to.TSS > -dist.to.TSS & rowData(dds)$Distance.to.TSS < dist.to.TSS, T, F)
-
     return(dds)
 }
 
@@ -141,7 +139,6 @@ import_msigdb <- function(org) {
 #' This function saves a data frame as a tab-separated values (TSV) file.
 #'
 #' @param input Data frame to be saved
-#' @param experiment Name of the experiment. Default is NULL
 #' @param tsv_name Name of the output TSV file
 #' @param save_dir Directory where the TSV file will be saved
 #' @param row.names Logical. If TRUE, row names will be included in the output. Default is FALSE
@@ -155,14 +152,10 @@ import_msigdb <- function(org) {
 #' save_tsv(my_data, "output.tsv", "results", row.names = TRUE)
 #' }
 #' @export
-save_tsv <- function(input, experiment = NULL, tsv_name, save_dir, row.names = F){
+save_tsv <- function(input, tsv_name, save_dir, row.names = F){
     if(!dir.exists(save_dir)){
         dir.create(save_dir, recursive = TRUE)}
-    if(length(experiment) == 0){
-        experiment <- ""}
-    else{
-        experiment <- paste0(experiment, "_")}
-    write.table(input, paste0(save_dir, "/", experiment, tsv_name), sep = "\t", row.names = row.names, col.names = T, quote = F)}
+    write.table(input, paste0(save_dir, "/", tsv_name), sep = "\t", row.names = row.names, col.names = T, quote = F)}
 
 #' Save ggplot Object as PDF
 #'
@@ -170,7 +163,6 @@ save_tsv <- function(input, experiment = NULL, tsv_name, save_dir, row.names = F
 #' It tries to use Cairo PDF device if available, or falls back to standard PDF if not.
 #'
 #' @param input ggplot object to be saved
-#' @param experiment Name of the experiment. Default is NULL
 #' @param plot_name Name of the output PDF file
 #' @param save_dir Directory where the PDF file will be saved
 #' @param w Width of the PDF in inches
@@ -185,21 +177,14 @@ save_tsv <- function(input, experiment = NULL, tsv_name, save_dir, row.names = F
 #' save_plot(my_plot, "plot.pdf", "figures", w = 10, h = 8)
 #' }
 #' @export
-save_plot <- function(input, experiment = NULL, plot_name, save_dir, w, h){
+save_plot <- function(input, plot_name, save_dir, w, h){
     # Create directory if it doesn't exist
     if(!dir.exists(save_dir)){
         dir.create(save_dir, recursive = TRUE)
     }
     
-    # Format experiment name
-    if(length(experiment) == 0){
-        experiment <- ""
-    } else {
-        experiment <- paste0(experiment, "_")
-    }
-    
     # Construct file path
-    file_path <- file.path(save_dir, paste0(experiment, plot_name))
+    file_path <- file.path(save_dir, plot_name)
     
     # Try using Cairo if available, otherwise use standard PDF
     tryCatch({
@@ -229,7 +214,6 @@ save_plot <- function(input, experiment = NULL, plot_name, save_dir, w, h){
 #' and class labels for GSEA.
 #'
 #' @param dds DESeq2 object containing the expression data
-#' @param experiment Name of the experiment
 #' @param group_by Column name in colData(dds) to use for grouping. Default is "Group1"
 #' @param save_dir Directory to save files. Default is the current working directory
 #' @param save_dir_name Name of the subdirectory to save files in. Default is "qc_results"
@@ -241,13 +225,13 @@ save_plot <- function(input, experiment = NULL, plot_name, save_dir, w, h){
 #' @examples
 #' \dontrun{
 #' # Save expression data with default settings
-#' save_expression(dds, experiment = "my_experiment")
+#' save_expression(dds)
 #' 
 #' # Save expression data with custom grouping and directory name
-#' save_expression(dds, group_by = "Treatment", experiment = "my_experiment", save_dir_name = "custom_results")
+#' save_expression(dds, group_by = "Treatment", save_dir_name = "custom_results")
 #' }
 #' @export
-save_expression <- function(dds, experiment, group_by = "Group1", save_dir = getwd(), save_dir_name = "qc_results"){
+save_expression <- function(dds, group_by = "Group1", save_dir = getwd(), save_dir_name = "qc_results"){
     message("Saving DESeq2 object & expressions...")
     counts <- assay(dds)
     data <- assay(vst(dds, blind = T))
@@ -265,8 +249,8 @@ save_expression <- function(dds, experiment, group_by = "Group1", save_dir = get
     class[2,] <- row2
     class[3,] <- row3
 
-    saveRDS(dds, file = paste0(save_dir, "/", save_dir_name, "/", experiment, "_dds_qc.rds"))
-    save_tsv(counts, experiment = experiment, tsv_name = "expr.txt", save_dir = paste0(save_dir, "/", save_dir_name, "/"), row.names = T)
-    save_tsv(data, experiment = experiment, tsv_name = "vst.txt", save_dir = paste0(save_dir, "/", save_dir_name, "/"), row.names = T)
-    write.table(class, file = paste0(save_dir, "/", save_dir_name, "/", experiment, "_class.cls"), row.names = F, col.names = F, quote = F)
+    saveRDS(dds, file = paste0(save_dir, "/", save_dir_name, "/dds_qc.rds"))
+    save_tsv(counts, tsv_name = "dds_expr.txt", save_dir = paste0(save_dir, "/", save_dir_name, "/"), row.names = T)
+    save_tsv(data, tsv_name = "dds_vst.txt", save_dir = paste0(save_dir, "/", save_dir_name, "/"), row.names = T)
+    write.table(class, file = paste0(save_dir, "/", save_dir_name, "/dds_class.cls"), row.names = F, col.names = F, quote = F)
 }

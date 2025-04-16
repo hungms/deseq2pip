@@ -4,12 +4,20 @@
 \alias{run_diffexp_pip}
 \title{Run Differential Expression Pipeline}
 \usage{
-run_diffexp_pip(dds, org = "human", group_by = "Group1", save_dir = getwd())
+run_diffexp_pip(
+  dds,
+  org = "human",
+  order = "pxfc",
+  group_by = "Group1",
+  save_dir = getwd()
+)
 }
 \arguments{
 \item{dds}{DESeq2 object containing the expression data}
 
 \item{org}{The organism to use, either "human" or "mouse". Default is "human"}
+
+\item{order}{Column name to use for ranking genes. Default is "pxfc"}
 
 \item{group_by}{Column name in colData(dds) to use for grouping. Default is "Group1"}
 

@@ -8,6 +8,7 @@ run_diffexp(
   dds,
   org = "human",
   group_by = "Group1",
+  order = "pxfc",
   save_data = T,
   save_dir = getwd(),
   ...
@@ -17,6 +18,8 @@ run_diffexp(
 \item{dds}{DESeq2 object containing the expression data}
 
 \item{group_by}{Column name in colData(dds) to use for grouping. Default is "Group1"}
+
+\item{order}{Column name to use for ranking genes. Default is "pxfc"}
 
 \item{save_data}{Logical. If TRUE, saves results to TSV file. Default is TRUE}
 
@@ -30,7 +33,7 @@ A data frame containing differential expression results with columns:
 - comparison: name of the comparison
 - log2FoldChange: log2 fold change between groups
 - padj: adjusted p-value
-- rank: combined score (-log10(padj) * log2FoldChange)
+- pxfc: combined score (-log10(padj) * log2FoldChange)
 }
 \description{
 This function performs differential expression analysis using DESeq2 for a comparison

@@ -6,7 +6,7 @@
 \usage{
 run_distance(
   vsd,
-  experiment = NULL,
+  method = "default",
   save_data = TRUE,
   save_plot = TRUE,
   save_dir = getwd(),
@@ -16,8 +16,6 @@ run_distance(
 }
 \arguments{
 \item{vsd}{A DESeq2 object containing the normalized gene expression data}
-
-\item{experiment}{Name of the experiment. Default is NULL}
 
 \item{save_data}{Logical. If TRUE, saves distance matrix to TSV. Default is TRUE}
 

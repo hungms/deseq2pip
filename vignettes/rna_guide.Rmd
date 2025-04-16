@@ -59,7 +59,7 @@ Here's how to run the complete pipeline with a single command:
 ```{r}
 #| vscode: {languageId: r}
 # run deseq2 pipeline
-#run_deseq2_pip(dds, experiment = "GSE189410", org = "mouse", group_by = "Group2", remove_xy = TRUE, remove_mt = TRUE, save_dir = "/Users/hungm/Documents/development/deseq2pip/tests/pipeline/")
+#run_rna_pip(dds, experiment = "GSE189410", org = "mouse", group_by = "Group2", remove_xy = TRUE, remove_mt = TRUE, save_dir = "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/github-repos/r-pipelines/deseq2pip/tests/rnaseq/pipeline/")
 ```
 
 This will create a directory structure under the specified save directory:

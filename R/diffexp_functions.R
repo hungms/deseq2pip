@@ -6,6 +6,7 @@
 #'
 #' @param dds DESeq2 object containing the expression data
 #' @param group_by Column name in colData(dds) to use for grouping. Default is "Group1"
+#' @param order Column name to use for ranking genes. Default is "pxfc"
 #' @param save_data Logical. If TRUE, saves results to TSV file. Default is TRUE
 #' @param save_dir Directory to save the results. Default is current working directory
 #' @param ... Additional arguments passed to DESeq2::DESeq()
@@ -14,7 +15,7 @@
 #'         - comparison: name of the comparison
 #'         - log2FoldChange: log2 fold change between groups
 #'         - padj: adjusted p-value
-#'         - rank: combined score (-log10(padj) * log2FoldChange)
+#'         - pxfc: combined score (-log10(padj) * log2FoldChange)
 #' @examples
 #' \dontrun{
 #' # Basic differential expression analysis
@@ -24,12 +25,13 @@
 #' res <- run_diffexp(dds, group_by = "Treatment", save_data = TRUE)
 #' }
 #' @export
-run_diffexp <- function(dds, org = "human", group_by = "Group1", save_data = T, save_dir = getwd(), ...){
+run_diffexp <- function(dds, org = "human", group_by = "Group1", order = "pxfc", save_data = T, save_dir = getwd(), ...){
     # make sure there are 2 levels
     meta <- colData(dds) %>% as.data.frame(.)
     row.meta <- rowData(dds) %>% as.data.frame(.)
     stopifnot(is.factor(meta[[group_by]]))
     stopifnot(length(levels(meta[[group_by]])) == 2)
+    stopifnot(order %in% c("pxfc", "log2FoldChange", "padj"))
 
     # set comparisons
     group.lv <- levels(meta[[group_by]])
@@ -57,16 +59,18 @@ run_diffexp <- function(dds, org = "human", group_by = "Group1", save_data = T, 
     res <- res %>%
         mutate(
             comparison = comparison,
-            rank = -log10(padj)*log2FoldChange,
-            rank = ifelse(is.infinite(rank), 0, rank)
-            ) %>%
-        arrange(desc(rank))
+            pxfc = -log10(padj)*log2FoldChange,
+            pxfc = ifelse(is.infinite(pxfc), 0, pxfc),
+            rank = !!sym(order))
     
     if(!"gene" %in% colnames(res)){
         res <- res %>%
             mutate(gene = rownames(.))}
     
-    res <- run_annotation(res, org = org, gene_column = "gene")
+    res <- run_annotation(res, org = org, gene_column = "gene") %>%
+        filter(!is.na(padj)) %>%
+        filter(padj != "NA") %>%
+        arrange(desc(rank))
 
     # save data
     if(save_data){
@@ -227,4 +231,42 @@ plot_volcano_list <- function(res, ...){
     }
     close(pb)
     return(volcano.plot.list)
+}
+
+#' Generate ATACseq Annotation Plots for All Comparisons
+#'
+#' This function creates ATACseq annotation plots for all comparisons in the differential
+#' expression results.
+#'
+#' @param dds DESeq2 object containing the expression data
+#' @param res Differential expression result data frame from run_diffexp()
+#' @param ... Additional arguments passed to plot_atac_annot()
+#' @return A list of ATACseq annotation plots for each comparison
+#' @examples
+#' \dontrun{
+#' # Generate ATACseq annotation plots for all comparisons
+#' plots <- plot_atac_annot_list(dds, res)
+#' 
+#' # Generate with custom parameters
+#' plots <- plot_atac_annot_list(dds, res, n = 30, fc.thresh = 2)
+#' }
+#' @export
+plot_atac_annot_list <- function (dds, res, ...) {
+
+    message("Generating ATACseq annotation plots...")
+    stopifnot("Annotation" %in% colnames(rowData(dds)))
+    stopifnot(is.data.frame(res))
+    stopifnot(c("padj", "gene", "log2FoldChange", "comparison") %in% colnames(res))
+
+    res.list <- split(res, res$comparison)
+    atac.annot.list <- list()
+
+    pb <- txtProgressBar(min = 0, max = length(res.list), style = 3)
+    for (i in seq_along(res.list)) {
+        atac.annot.plot <- plot_atac_annot(dds, res.list[[i]], ...)
+        atac.annot.list <- c(atac.annot.list, atac.annot.plot)
+        setTxtProgressBar(pb, i)
+    }
+    close(pb)
+    return(atac.annot.list)
 }

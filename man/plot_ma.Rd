@@ -4,7 +4,7 @@
 \alias{plot_ma}
 \title{Generate MA Plot}
 \usage{
-plot_ma(res, save_plot = TRUE, save_dir = getwd())
+plot_ma(res, fc.thresh = 0.5, save_plot = TRUE, save_dir = getwd())
 }
 \arguments{
 \item{res}{Differential expression result data frame from run_diffexp()}

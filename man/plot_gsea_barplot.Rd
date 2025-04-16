@@ -7,6 +7,7 @@
 plot_gsea_barplot(
   gsea.df,
   n = 10,
+  remove_collection = T,
   signif = F,
   save_plot = T,
   save_dir = getwd()
