@@ -6,9 +6,8 @@
 \usage{
 run_gsea(
   res,
-  org = "human",
-  group_by = "Group1",
-  custom_msigdb = NULL,
+  org,
+  msigdbr = import_msigdbr(org),
   save_data = T,
   save_dir = getwd()
 )
@@ -16,15 +15,13 @@ run_gsea(
 \arguments{
 \item{res}{Differential expression result data frame from run_diffexp()}
 
-\item{org}{The organism to use, either "human" or "mouse". Default is "human"}
-
-\item{group_by}{Column name in colData(dds) to use for grouping. Default is "Group1"}
-
-\item{custom_msigdb}{Dataframe or path to a custom gene set database in GMT format. Default is NULL}
+\item{org}{The organism to use, either "human" or "mouse".}
 
 \item{save_data}{Logical. If TRUE, saves results to TSV and RDS files. Default is TRUE}
 
 \item{save_dir}{Directory to save the results. Default is current working directory}
+
+\item{custom_msigdb}{Dataframe or path to a custom gene set database in GMT format. Default is NULL}
 }
 \value{
 A list of GSEA results for each gene set collection, with each element containing:

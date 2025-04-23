@@ -5,17 +5,16 @@
 #' comparisons in the experiment. It generates various plots and saves results in
 #' organized directories.
 #'
-#' @param dds DESeq2 object containing the expression data
-#' @param batch Column name in colData(dds) to use for batch correction. Default is NULL
-#' @param save_dir Directory where all output files will be saved. Default is current working directory
-#' @param org The organism to use, either "human" or "mouse". Default is "human"
+#' @param dds DESeq2 object
+#' @param org The organism to use, either "human" or "mouse".
+#' @param group_by Column name in colData(dds) to use for grouping.
 #' @param remove_xy Logical. If TRUE, removes genes on X and Y chromosomes. Default is FALSE
 #' @param remove_mt Logical. If TRUE, removes mitochondrial genes. Default is FALSE
-#' @param group_by Column name in colData(dds) to use for grouping. Default is "Group1"
-#' @param pals Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL
 #' @param quantile Quantile threshold for filtering lowly expressed genes. Default is 0.05
+#' @param pals Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL
+#' @param batch Column name in colData(dds) to use for batch correction. Default is NULL 
 #' @param order Column name to use for ranking genes. Default is "pxfc"
-#' @param save_dir_name Name of the subdirectory to save files in. Default is "qc_results"
+#' @param save_dir Directory where all output files will be saved. Default is current working directory
 #' @return The processed DESeq2 object
 #' @examples
 #' \dontrun{
@@ -23,9 +22,11 @@
 #' dds <- run_rna_pip(dds)
 #' 
 #' # Run pipeline with custom settings
-#' dds <- run_rna_pip(dds, org = "mouse", remove_xy = TRUE,
-#'                     group_by = "Treatment",
-#'                     save_dir_name = "custom_results")
+#' dds <- run_rna_pip(dds, 
+#'                    org = "mouse", 
+#'                    remove_xy = TRUE,
+#'                    group_by = "Treatment",
+#'                    save_dir = "output")
 #'
 #' # Run pipeline with batch correction
 #' dds <- run_rna_pip(dds, batch = "Batch")
@@ -33,76 +34,101 @@
 #' @export
 run_rna_pip <- function(
     dds,
-    group_by = "Group1",
-    pals = NULL,
-    batch = NULL,
-    save_dir = getwd(), 
-    org = "human",
+    org,
+    group_by,
     remove_xy = FALSE,
     remove_mt = FALSE,
     quantile = 0.05,
+    pals = NULL,
+    batch = NULL,
     order = "pxfc",
-    save_dir_name = "qc_results") {
-    
-    # Input validation
-    stopifnot(dir.exists(save_dir))
-    stopifnot(org %in% c("mouse", "human"))
-    stopifnot(is.logical(remove_xy))
-    stopifnot(is.logical(remove_mt))
-    stopifnot(group_by %in% colnames(colData(dds)))
-    stopifnot(is.factor(colData(dds)[[group_by]]))
-    stopifnot(is.numeric(quantile) & quantile < 0.2)
-    stopifnot(order %in% c("log2FoldChange", "padj", "pxfc"))
-    stopifnot(as.character(design(dds)) != "~ 1")
-    if(length(batch) > 0){
-        stopifnot(batch %in% colnames(colData(dds)))}
-    if(length(pals) > 0){
-        stopifnot(all(colData(dds)[[group_by]] %in% names(pals)))}
+    save_dir = getwd()) {
 
-    # Display package version
-    message("Running RNA-seq pipeline with DESeq2pip v", packageVersion("deseq2pip"))
+    log_output(match.call(), save_dir, expr = quote({
+            
+        # validations
+        validate_logical(c(remove_xy, remove_mt))
+        dir.create(save_dir, recursive = TRUE)
+        validate_paths(save_dir)
+        dds <- validate_dds_group_by(dds, group_by)
+        org <- validate_org(org)
+        quantile <- validate_quantile(quantile)
+        pals <- validate_pals(dds, group_by, pals)
+        dds <- validate_batch(dds, batch)
+        order <- validate_order(order)
 
-    # Run quality control pipeline
-    message("Running quality control pipeline...")
-    dds <- run_qc_pip(
-        dds = dds,
-        save_dir = save_dir,
-        org = org,
-        remove_xy = remove_xy,
-        remove_mt = remove_mt,
-        group_by = group_by,
-        quantile = quantile,
-        save_dir_name = save_dir_name
-    )
+        message("Running RNA-seq pipeline with DESeq2pip v", packageVersion("deseq2pip"))
 
-    # Run distance pipeline
-    message("Running distance analysis pipeline...")
-    dds <- run_dist_pip(
-        dds = dds, 
-        pals = pals,
-        batch = batch,
-        save_dir = save_dir, 
-        group_by = group_by, 
-        save_dir_name = save_dir_name)
-    
-    # Run differential expression pipeline
-    message("Running differential expression analysis...")
-    res <- run_diffexp_pip(
-        dds = dds,
-        org = org,
-        group_by = group_by,
-        order = order,
-        save_dir = paste0(save_dir, "/", group_by, "/"))
-    
-    # Run GSEA pipeline for RNA-seq
-    message("Running GSEA pipeline...")
+        # Run quality control pipeline
+        message("Running quality control pipeline...")
+        dds <- run_qc_pip(
+            dds = dds,
+            org = org,
+            remove_xy = remove_xy,
+            remove_mt = remove_mt,
+            group_by = group_by,
+            quantile = quantile,
+            save_dir = save_dir)
+
+        # Run distance pipeline
+        message("Running distance analysis pipeline...")
+        dds <- run_dist_pip(
+            dds = dds, 
+            group_by = group_by, 
+            pals = pals,
+            batch = batch,
+            save_dir = save_dir)
+
+        # Run pairwise differential expression pipeline
+        message("Running PAIRWISE differential expression analysis...")
+        res <- run_diffexp_pip(
+            dds = dds,
+            org = org,
+            group_by = group_by,
+            order = order,
+            one_to_all = FALSE,
+            save_dir = save_dir)
+        
+        # Run pairwise GSEA pipeline
+        message("Running PAIRWISE gene set enrichment pipeline...")
+        group_save_dir <- paste0(save_dir, "/pairwise_", group_by, "/")
         gsea <- run_gsea_pip(
-        res = res,
-        org = org,
-        save_dir = paste0(save_dir, "/", group_by, "/"))
+            res = res,
+            org = org,
+            group_save_dir = group_save_dir)
 
-    message("RNAseq pipeline complete; returning DESeq2 object...")
-    return(dds)
+        # Run PAIRWISE enrichment map pipeline
+        message("Running PAIRWISE enrichment map pipeline...")
+        enrichmentmap_pip(dds, org, group_by, group_dir = group_save_dir)
+
+        # Whether to run ONE-TO-ALL comparisons
+        if(length(unique(colData(dds)[[group_by]])) > 2){
+
+            # Run ONE-TO-ALL differential expression pipeline
+            message("Running ONE-TO-ALL differential expression analysis...")
+            res <- run_diffexp_pip(
+                dds = dds,
+                org = org,
+                group_by = group_by,
+                order = order,
+                one_to_all = TRUE,
+                save_dir = save_dir)
+            
+            # Run ONE-TO-ALL GSEA pipeline
+            message("Running ONE-TO-ALL gene set enrichment pipeline...")
+            group_save_dir <- paste0(save_dir, "/one-to-all_", group_by, "/")
+            gsea <- run_gsea_pip(
+                res = res,
+                org = org,
+                group_save_dir = group_save_dir)
+
+            # Run ONE-TO-ALL enrichment map pipeline
+            message("Running ONE-TO-ALL enrichment map pipeline...")
+            enrichmentmap_pip(dds, org, group_by, group_dir = group_save_dir)}
+
+        message("RNAseq pipeline complete; returning DESeq2 object...")
+        return(dds)
+    }))
 }
 
 
@@ -114,19 +140,17 @@ run_rna_pip <- function(
 #' comparisons in the experiment. It generates various plots and saves results in
 #' organized directories.
 #'
-#' @param dds DESeq2 object containing the expression data
-#' @param assaytype Type of assay, either "RNA" or "ATAC". Default is "RNA"
-#' @param batch Column name in colData(dds) to use for batch correction. Default is NULL
-#' @param repeat_for_TSS Logical. If TRUE, repeats the analysis for TSS peaks. Default is TRUE
-#' @param save_dir Directory where all output files will be saved. Default is current working directory
-#' @param org The organism to use, either "human" or "mouse". Default is "human"
+#' @param dds DESeq2 object
+#' @param org The organism to use, either "human" or "mouse".
+#' @param group_by Column name in colData(dds) to use for grouping.
 #' @param remove_xy Logical. If TRUE, removes genes on X and Y chromosomes. Default is FALSE
 #' @param remove_mt Logical. If TRUE, removes mitochondrial genes. Default is FALSE
-#' @param group_by Column name in colData(dds) to use for grouping. Default is "Group1"
-#' @param pals Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL
 #' @param quantile Quantile threshold for filtering lowly expressed genes. Default is 0.05
+#' @param pals Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL
+#' @param batch Column name in colData(dds) to use for batch correction. Default is NULL 
 #' @param order Column name to use for ranking genes. Default is "pxfc"
-#' @param save_dir_name Name of the subdirectory to save files in. Default is "qc_results"
+#' @param TSS Logical. If TRUE, repeats the analysis for TSS peaks. Default is TRUE  
+#' @param save_dir Directory where all output files will be saved. Default is current working directory
 #' @return The processed DESeq2 object
 #' @examples
 #' \dontrun{
@@ -134,9 +158,11 @@ run_rna_pip <- function(
 #' dds <- run_atac_pip(dds)
 #' 
 #' # Run pipeline with custom settings
-#' dds <- run_atac_pip(dds, org = "mouse", remove_xy = TRUE,
+#' dds <- run_atac_pip(dds, 
+#'                     org = "mouse", 
+#'                     remove_xy = TRUE,
 #'                     group_by = "Treatment",
-#'                     save_dir_name = "custom_results")
+#'                     save_dir = "output")
 #'
 #' # Run pipeline with batch correction
 #' dds <- run_atac_pip(dds, batch = "Batch")
@@ -144,108 +170,145 @@ run_rna_pip <- function(
 #' @export
 run_atac_pip <- function(
     dds,
-    group_by = "Group1",
-    repeat_for_TSS = TRUE,
-    pals = NULL,
-    batch = NULL,
-    save_dir = getwd(), 
-    org = "human",
+    org,
+    group_by,
     remove_xy = FALSE,
     remove_mt = FALSE,
     quantile = 0.05,
+    pals = NULL,
+    batch = NULL,
     order = "pxfc",
-    save_dir_name = "qc_results",
-    assaytype = "RNA") {
-    
-    # Input validation
-    stopifnot(dir.exists(save_dir))
-    stopifnot(all(c("peaks", "gene", "Annotation", "TSS") %in% colnames(rowData(dds))))
-    stopifnot(org %in% c("mouse", "human"))
-    stopifnot(is.logical(remove_xy))
-    stopifnot(is.logical(remove_mt))
-    stopifnot(group_by %in% colnames(colData(dds)))
-    stopifnot(is.factor(colData(dds)[[group_by]]))
-    stopifnot(is.numeric(quantile) & quantile < 0.2)
-    stopifnot(order %in% c("log2FoldChange", "padj", "pxfc"))
-    stopifnot(as.character(design(dds)) != "~ 1")
-    if(length(batch) > 0){
-        stopifnot(batch %in% colnames(colData(dds)))}
-    if(length(pals) > 0){
-        stopifnot(all(colData(dds)[[group_by]] %in% names(pals)))}
+    TSS = TRUE,
+    save_dir = getwd()) {
 
-    # Display package version
-    message("Running ATAC-seq pipeline version with DESeq2pip v", packageVersion("deseq2pip"))
+    log_output(match.call(), save_dir, expr = quote({
+        
+        # validations
+        validate_logical(c(remove_xy, remove_mt))
+        dir.create(save_dir, recursive = TRUE)
+        validate_paths(save_dir)
+        dds <- validate_dds_atac(dds)
+        dds <- validate_dds_group_by(dds, group_by)
+        org <- validate_org(org)
+        quantile <- validate_quantile(quantile)
+        pals <- validate_pals(dds, group_by, pals)
+        dds <- validate_batch(dds, batch)
+        order <- validate_order(order)
 
-    # Run quality control pipeline
-    message("Running quality control pipeline...")
-    dds <- run_qc_pip(
-        dds = dds,
-        save_dir = save_dir,
-        org = org,
-        remove_xy = remove_xy,
-        remove_mt = remove_mt,
-        group_by = group_by,
-        quantile = quantile,
-        save_dir_name = save_dir_name
-    )
-
-    # Run distance pipeline
-    message("Running distance analysis pipeline...")
-    dds <- run_dist_pip(
-        dds = dds, 
-        pals = pals,
-        batch = batch,
-        save_dir = save_dir, 
-        group_by = group_by, 
-        save_dir_name = save_dir_name)
-    
-    # Run differential expression pipeline
-    message("Running differential expression analysis...")
-    res <- run_diffexp_pip(
-        dds = dds,
-        org = org,
-        group_by = group_by,
-        order = order,
-        save_dir = paste0(save_dir, "/", group_by, "/"))
-
-    # Generate ATACseq annotation plots for all comparisons
-    message("Generating ATACseq annotation plots...")
-    plist <- plot_atac_annot_list(dds, res, save = TRUE, save_dir = paste0(save_dir, "/", group_by))
-
-    if(repeat_for_TSS){
-        # Run DESeq2 and GSEA pipeline for ATAC-seq TSS peaks
-        message("Repeating analysis for TSS peaks...")
-        dds.tss <- getTSS(dds)
-        dds.tss[[paste0(group_by, "_TSS")]] <- factor(dds.tss[[group_by]], levels = levels(dds.tss[[group_by]]))
-        design(dds.tss) <- as.formula(paste0("~", group_by, "_TSS"))
+        # Display package version
+        message("Running ATAC-seq pipeline with DESeq2pip v", packageVersion("deseq2pip"))
 
         # Run quality control pipeline
-        message("Running distance analysis pipeline for TSS peaks...")
-        dds.tss <- run_dist_pip(
-            dds = dds.tss, 
-            batch = batch,
-            save_dir = save_dir, 
-            group_by = paste0(group_by, "_TSS"), 
-            save_dir_name = paste0(save_dir_name, "_TSS"))
-            
-        # Run differential expression pipeline
-        message("Running differential expression analysis for TSS peaks...")
-        res.tss <- run_diffexp_pip(
-            dds = dds.tss,
+        message("Running quality control pipeline...")
+        dds <- run_qc_pip(
+            dds = dds,
             org = org,
-            order = order,
-            group_by = paste0(group_by, "_TSS"),
-            save_dir = paste0(save_dir, "/", group_by, "_TSS/"))
-            
-        # Run GSEA pipeline
-        message("Running GSEA pipeline for TSS peaks...")
-        gsea.tss <- run_gsea_pip(
-            res = res.tss,
-            org = org,
-            save_dir = paste0(save_dir, "/", group_by, "_TSS/"))}
+            remove_xy = remove_xy,
+            remove_mt = remove_mt,
+            group_by = group_by,
+            quantile = quantile,
+            save_dir = save_dir)
 
-    # Repeat for PCA and distance analysis for TSS peaks only
-    message("ATACseq analysis complete; returning DESeq2 object...")
-    
-    return(dds)
+        # Run distance pipeline
+        message("Running distance analysis pipeline...")
+        dds <- run_dist_pip(
+            dds = dds, 
+            group_by = group_by, 
+            pals = pals,
+            batch = batch,
+            save_dir = save_dir)
+
+        # Run pairwise differential expression pipeline
+        message("Running PAIRWISE differential expression analysis for ALL PEAKS...")
+        res <- run_diffexp_pip(
+            dds = dds,
+            org = org,
+            group_by = group_by,
+            order = order,
+            one_to_all = FALSE,
+            save_dir = save_dir)
+
+        # Generate one-to-all ATACseq annotation plots for all comparisons for all peaks
+        message("Generating PAIRWISE peak annotation plots...")
+        group_save_dir <- paste0(save_dir, "/pairwise_", group_by, "/")
+        plot_peak_annot_pip(dds, res, group_save_dir = group_save_dir)
+
+        # Whether to run ONE-TO-ALL comparisons
+        if(length(unique(colData(dds)[[group_by]])) > 2){
+
+            # Run ONE-TO-ALL differential expression pipeline for ALL PEAKS
+            message("Running ONE-TO-ALL differential expression analysis for ALL PEAKS...")
+            res <- run_diffexp_pip(
+                dds = dds,
+                org = org,
+                group_by = group_by,
+                order = order,
+                one_to_all = TRUE,
+                save_dir = save_dir)
+
+            # Generate one-to-all ATACseq annotation plots for all comparisons for ALL PEAKS
+            message("Generating ONE-TO-ALL peak annotation plots for ALL PEAKS...")
+            group_save_dir <- paste0(save_dir, "/one-to-all_", group_by, "/")
+            plot_peak_annot_pip(dds, res, group_save_dir = group_save_dir)}
+
+        if(TSS){
+            tss.dds <- getTSS(dds)
+            tss_group_by <- paste0("TSS_", group_by)
+            tss.dds[[tss_group_by]] <- factor(tss.dds[[group_by]], levels = levels(tss.dds[[group_by]]))
+            des <- paste0(as.character(design(dds)), collapse = " ")
+            des <- gsub(group_by, tss_group_by, des)
+            design(tss.dds) <- as.formula(des)
+
+            # Run PAIRWISE differential expression pipeline for TSS PEAKS
+            message("Running PAIRWISE differential expression analysis for TSS PEAKS...")
+            res <- run_diffexp_pip(
+                dds = tss.dds,
+                org = org,
+                group_by = tss_group_by,
+                order = order,
+                one_to_all = FALSE,
+                save_dir = save_dir)
+            
+            # Run PAIRWISE GSEA pipeline for TSS PEAKS
+            message("Running PAIRWISE gene set enrichment pipeline for TSS PEAKS...")
+            group_save_dir <- paste0(save_dir, "/pairwise_", tss_group_by, "/")
+                gsea <- run_gsea_pip(
+                    res = res,
+                    org = org,
+                    group_save_dir = group_save_dir)
+
+            # Run PAIRWISE enrichment map pipeline for TSS PEAKS
+            message("Running PAIRWISE enrichment map pipeline for TSS PEAKS...")
+            enrichmentmap_pip(tss.dds, org, tss_group_by, group_dir = group_save_dir)
+
+
+            # Whether to run ONE-TO-ALL comparisons for TSS PEAKS
+            if(length(unique(colData(dds)[[group_by]])) > 2){
+
+                # Run ONE-TO-ALL differential expression pipeline for TSS PEAKS
+                message("Running ONE-TO-ALL differential expression analysis for TSS PEAKS...")
+                res <- run_diffexp_pip(
+                    dds = tss.dds,
+                    org = org,
+                    group_by = tss_group_by,
+                    order = order,
+                    one_to_all = TRUE,
+                    save_dir = save_dir)
+                
+                # Run ONE-TO-ALL GSEA pipeline for TSS PEAKS
+                message("Running ONE-TO-ALL gene set enrichment pipeline for TSS PEAKS...")
+                group_save_dir <- paste0(save_dir, "/one-to-all_", tss_group_by, "/")
+                gsea <- run_gsea_pip(
+                    res = res,
+                    org = org,
+                    group_save_dir = group_save_dir)
+
+                # Run ONE-TO-ALL enrichment map pipeline for TSS PEAKS
+                message("Running ONE-TO-ALL enrichment map pipeline for TSS PEAKS...")
+                enrichmentmap_pip(tss.dds, org, tss_group_by, group_dir = group_save_dir)}
+        }
+
+        message("ATACseq pipeline complete; returning DESeq2 object...")
+        return(dds)
+        }))
 }

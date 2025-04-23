@@ -6,8 +6,9 @@
 \usage{
 run_diffexp(
   dds,
-  org = "human",
-  group_by = "Group1",
+  org,
+  group_by,
+  comparison,
   order = "pxfc",
   save_data = T,
   save_dir = getwd(),
@@ -17,7 +18,11 @@ run_diffexp(
 \arguments{
 \item{dds}{DESeq2 object containing the expression data}
 
-\item{group_by}{Column name in colData(dds) to use for grouping. Default is "Group1"}
+\item{org}{The organism to use, either "human" or "mouse".}
+
+\item{group_by}{Column name in colData(dds) to use for grouping.}
+
+\item{comparison}{Comparison to run.}
 
 \item{order}{Column name to use for ranking genes. Default is "pxfc"}
 

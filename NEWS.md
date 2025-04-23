@@ -1,5 +1,122 @@
 # NEWS
 
+## v1.0.0 (2025-04-30)
+
+### Major Refactor and Pipeline Redesign
+- **Unified and modularized pipeline:**
+  - `run_rna_pip()` and `run_atac_pip()` have been refactored for clarity, modularity, and robust argument validation. All input checks are now handled by dedicated `validate_*` subfunctions.
+  - Arguments `org` and `group_by` are now required and must be explicitly specified.
+  - The `one_to_all` argument is now handled internally; one-to-all and pairwise comparisons are automatically determined based on group levels.
+  - **Logging is now always enabled by default:** all output, messages, warnings, and errors are captured for every run of the main pipeline functions, with no need for a user toggle.
+  - Removed legacy files: `R/pipeline_functions.R`, `R/format_functions.R`, and `R/quality_control.R`.
+
+### Quality Control Functions
+
+- **`run_qc_pip()`**
+  - Unified and streamlined quality control pipeline for both RNA-seq and ATAC-seq workflows.
+  - Handles gene/peak filtering, quality control plots, and expression data saving in a single function.
+  - Now supports explicit argument validation for organism, group, and quantile threshold.
+  - Automatically removes X/Y and mitochondrial genes if requested.
+  - Improved low-expression filtering with customizable quantile threshold.
+  - Saves all relevant QC outputs (filtered data, plots, and summary statistics) in organized directories.
+
+- **`remove_xy_genes()` / `remove_mt_genes()`**
+  - Enhanced logic for robust removal of X, Y, and mitochondrial genes based on organism.
+  - Improved error handling for missing or malformed gene annotations.
+
+- **`remove_low_expression()`**
+  - Improved quantile-based filtering for lowly expressed genes.
+  - Now provides informative messages and summary statistics on filtering results.
+
+- **`check_library()`**
+  - Enhanced library size distribution checks and reporting.
+  - Improved error messages for outlier detection.
+
+- **`save_expression()`**
+  - Now saves DESeq2 object, raw counts, normalized expression, and class labels in a consistent and organized manner.
+  - Improved file naming and directory structure for easier downstream analysis.
+
+- **`run_dist_pip()`**
+  - Unified distance and PCA analysis for both RNA-seq and ATAC-seq.
+  - Supports batch correction and custom color palettes.
+  - Improved plot aesthetics and output organization.
+
+- **Validation and Error Handling**
+  - All QC functions now use centralized `validate_*` helpers for argument and data validation.
+  - Improved error messages and user feedback throughout the QC pipeline.
+
+- **Logging and Reproducibility**
+  - All QC steps are now logged by default, including function calls, arguments, and all messages/warnings/errors, for full reproducibility.
+
+### Differential Expression Functions
+- **`run_diffexp_pip()`**
+  - Now supports both pairwise and one-to-all comparisons in a unified interface.
+  - Uses new `generate_comparisons()` to robustly generate all group comparisons.
+  - Differential expression results are saved in structured subdirectories for each comparison.
+  - MA and volcano plots are generated and saved for each comparison automatically.
+  - Wrapper function `run_diffexp_wrapper()` added for single-comparison analysis and plotting.
+  - Improved merging of row metadata and annotation.
+  - Enhanced error handling and validation for group and comparison arguments.
+- **`run_diffexp()`**
+  - Now requires explicit `org`, `group_by`, and `comparison` arguments.
+  - Subsets DESeq2 object to the correct samples for each comparison.
+  - Improved annotation and filtering of results.
+- **`read_diffexp()`**
+  - Replaces `read_diffexp_list()`. Reads and merges results from all comparisons in a directory.
+
+### GSEA Functions
+- **`run_gsea_pip()` / `run_gsea_wrapper()` / `run_gsea()`**
+  - GSEA pipeline now modularized: runs GSEA for all comparisons and gene set collections.
+  - New `import_msigdbr()` for importing MSigDB gene sets for human or mouse.
+  - GSEA results are saved in structured subdirectories, with both RDS and TSV outputs.
+  - Barplots for GSEA results are generated for each collection and comparison.
+  - Improved validation for gene set input and result structure.
+- **`read_gsea_rds()` / `read_gsea_tsv()`**
+  - Replaces `read_gsea_rds_list()` and `read_gsea_tsv_list()`. Reads and merges GSEA results from all comparisons and collections.
+
+### Plotting Functions
+- **MA and Volcano Plots**
+  - `plot_ma()` and `plot_volcano()` are now internal to the pipeline and automatically called for each comparison.
+  - Improved aesthetics, labeling, and filtering for large datasets.
+- **GSEA Barplots**
+  - `plot_gsea_barplot()` now supports filtering for significant gene sets and improved labeling.
+- **Gene Expression Plots**
+  - `plot_gene_exprs()` now requires explicit `group_by` and supports custom color palettes via `pal` argument.
+- **ATAC-seq Annotation Plots**
+  - `plot_atac_annot()` and related list functions are now internal and called automatically in ATAC-seq pipelines.
+
+### Logging and Reproducibility
+- **`log_renv()`**
+  - Captures and logs the renv environment snapshot for each run.
+- **`log_output()`**
+  - Captures and logs all output, messages, warnings, and errors from pipeline runs.
+  - Logging is always enabled for all major pipeline functions.
+
+### Enhancements and Validation
+- Centralized all argument validation in new `validate_*` helper functions for consistency and robustness.
+- Improved error messages and user feedback throughout the pipeline.
+- Improved directory creation and file path handling for all save and log functions.
+- Updated vignettes and documentation to reflect new argument names, usage, and workflow patterns.
+
+### Breaking Changes
+- **Function signatures:**
+  - Main pipeline functions (`run_rna_pip`, `run_atac_pip`, `run_diffexp`, etc.) now require explicit `org` and `group_by` arguments.
+  - Some arguments have been renamed, reordered, or removed for clarity and consistency.
+- **Removed deprecated/legacy functions and files:**
+  - `R/pipeline_functions.R`, `R/format_functions.R`, `R/quality_control.R` and their man pages have been deleted.
+  - Many old plotting and utility functions are now internal and not exported.
+
+### Bug Fixes
+- Fixed issues with directory creation and file path handling in all save and logging functions.
+- Improved robustness of GSEA and annotation plotting for edge cases.
+- Fixed merging of row metadata in differential expression results.
+- Improved error handling for missing or invalid arguments in all main functions.
+
+### Documentation
+- Updated vignettes and function documentation for all major changes.
+- Improved examples for both RNA-seq and ATAC-seq workflows.
+- All function documentation now reflects new argument names and usage patterns.
+
 ## v0.1.3
 ### New Features
 - Split pipeline functionality into specialized `run_rna_pip()` and `run_atac_pip()` functions for better workflow separation and clarity

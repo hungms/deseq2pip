@@ -1,194 +1,3 @@
-#' Generate MA Plot
-#'
-#' This function creates a MA plot to visualize differential expression results.
-#' It shows the relationship between mean expression and log2 fold change for each gene.
-#'
-#' @param res Differential expression result data frame from run_diffexp()
-#' @param save_plot Logical. If TRUE, saves the plot to PDF. Default is TRUE
-#' @param save_dir Directory to save the plot. Default is current working directory
-#' @return A ggplot object showing the MA plot
-#' @examples
-#' \dontrun{
-#' # Basic MA plot
-#' p <- plot_ma(res)
-#' }
-#' @export
-plot_ma <- function (res, fc.thresh = 0.5, save_plot = TRUE, save_dir = getwd()) {
-    stopifnot(is.data.frame(res) & all(c("baseMean", "log2FoldChange", "padj", "gene", "comparison") %in% colnames(res)))
-    comparison <- unique(res$comparison)
-    stopifnot(length(comparison) == 1)
-
-    for (c in c("baseMean", "log2FoldChange", "padj")) {
-        res[[c]] <- as.numeric(res[[c]])}
-
-    res <- res %>% 
-        mutate(baseMean = log2(baseMean + 1)) %>% 
-        filter(baseMean >= 3) %>% 
-        mutate(direction = case_when(
-            log2FoldChange > fc.thresh & padj < 0.05 ~ "Up", 
-            log2FoldChange < -fc.thresh & padj < 0.05 ~ "Down", 
-            .default = "Non-DE"), 
-            direction = factor(direction, c("Up", "Down", "Non-DE")), 
-            size = ifelse(direction == "Non-DE", 0.5, 1.5))
-
-    ngene <- nrow(res)
-    res.label <- res %>% filter(direction != "Non-DE")
-    mean.upper <- quantile(res.label$baseMean, probs = 0.999)
-    fc.upper <- quantile(abs(res.label$log2FoldChange), probs = 0.999)
-    fc.lower <- -fc.upper
-
-    res <- res %>% 
-        filter(baseMean <= mean.upper & log2FoldChange <= fc.upper & log2FoldChange >= fc.lower | gene %in% res.label$gene)
-
-    if (ngene > 75000) {
-        res.label <- res.label %>% 
-            group_by(direction) %>% 
-            slice_min(n = 50, order_by = padj, with_ties = F)}
-
-    caption <- paste0("total = ", as.character(label_comma()(ngene)), " features")
-
-    p <- res %>% 
-        ggplot(aes(x = baseMean, y = log2FoldChange)) + 
-        geom_point(aes(color = direction, size = size)) + 
-        geom_text_repel(data = res.label, aes(label = gene), size = 3) + 
-        geom_hline(yintercept = 0, linetype = "solid", size = 0.5) + 
-        scale_size(range = c(0.5, 1.5)) + 
-        scale_color_manual(values = c(Up = "red", Down = "blue", `Non-DE` = "grey60")) + 
-        guides(color = guide_legend(title = "", override.aes = list(size = 5)), size = guide_none()) + 
-        theme_border() + 
-        theme_text() + 
-        coord_cartesian(clip = "off") + 
-        xlab("Log2 Mean Expression") + 
-        ylab("Log2 Fold Change") + 
-        ggtitle(paste0("MA Plot; ", comparison))
-
-    p <- p + annotation_custom(grob = grid::textGrob(caption, 
-        x = 1, y = -0.13, hjust = 1, gp = gpar(fontsize = 9, 
-            col = "black")))
-
-    if (save_plot) {
-        save_plot(p, plot_name = paste0("diffexp_ma_plot.pdf"), save_dir = paste0(save_dir, "/", comparison), w = 7, h = 5)
-    }
-    return(p)
-}
-
-#' Generate Volcano Plot
-#'
-#' This function creates a volcano plot to visualize differential expression results.
-#' It shows the relationship between statistical significance (-log10 adjusted p-value)
-#' and biological significance (log2 fold change) for each gene.
-#'
-#' @param res Differential expression result data frame from run_diffexp()
-#' @param n Number of top genes to label in each direction. Default is 25
-#' @param fc.thresh Log2 fold change threshold for significance. Default is 1
-#' @param p.thresh Adjusted p-value threshold for significance. Default is 0.05
-#' @param crop Logical. If TRUE, limits the x-axis range to genes with significant changes. Default is TRUE
-#' @param highlight.genes Vector of gene names to highlight. Default is NULL
-#' @param save_plot Logical. If TRUE, saves the plot to PDF. Default is TRUE
-#' @param save_dir Directory to save the plot. Default is current working directory
-#' @return A ggplot object showing the volcano plot
-#' @examples
-#' \dontrun{
-#' # Basic volcano plot
-#' p <- plot_volcano(res)
-#' 
-#' # Volcano plot with custom thresholds and highlighted genes
-#' p <- plot_volcano(res, n = 30, fc.thresh = 2, p.thresh = 0.01,
-#'                   highlight.genes = c("GENE1", "GENE2"))
-#' }
-#' @export
-plot_volcano <- function(res, n = 25, fc.thresh = 0.5, p.thresh = 0.05, crop = T, highlight.genes = NULL, save_plot = T, save_dir = getwd()){
-    comparison = unique(res$comparison)
-    stopifnot(length(comparison) == 1)
-    
-    line_cols <- "black"
-    direction_cols <- c("red", "blue", "black")
-    names(direction_cols) <- c("Up", "Down", "Non-DE")
-    max.size <- 0.5
-    ngene <- nrow(res)
-
-    res <- res %>%
-        mutate(
-            log2FoldChange = as.numeric(log2FoldChange),
-            padj = as.numeric(padj),
-            default = -log10(padj)*(log2FoldChange^2),
-            direction = case_when(
-                padj < p.thresh & log2FoldChange > fc.thresh ~ "Up",
-                padj < p.thresh & log2FoldChange < -fc.thresh ~ "Down",
-                .default = "Non-DE"),
-            direction = factor(direction, c("Up", "Down", "Non-DE")))
-
-    if(crop){
-        res.crop <- res %>% filter(padj < p.thresh)
-        range <- sqrt(max(res.crop$log2FoldChange^2, na.rm = T))}
-    else{
-        range <- sqrt(max(res$log2FoldChange^2, na.rm = T))}
-
-    coord.y <- max(-log10(res$padj), na.rm = T)
-    res <- res %>% 
-        group_by(direction) %>%
-        mutate(
-            size = ifelse(direction == "Non-DE", 0.01, 0.5),
-            count = n()*100/nrow(res),
-            count = paste0(round(count, 1), "%"),
-            count = ifelse(direction == "Non-DE", NA, count),
-            coord.x = case_when(
-                direction == "Up" ~ range*0.9,
-                direction == "Down" ~ -range*0.9,
-                .default = 0),
-            coord.y = coord.y,
-            ) %>%
-        ungroup()
-
-    res.highlight <- res %>%
-        filter(direction != "Non-DE") %>%
-        group_by(direction) %>%
-        slice_max(n = n, order_by = default)
-
-    if(length(highlight.genes) > 0 & any(highlight.genes %in% res$gene)){
-        max.size <- 3
-        res <- res %>% 
-            mutate(
-                size = ifelse(gene %in% highlight.genes, 3, 0.01)) %>%
-            ungroup()
-
-        res.highlight <- res %>%
-            filter(gene %in% highlight.genes)
-    }
-    caption <- paste0("total = ", as.character(label_comma()(ngene)), " features")
-    p <- res %>%
-        ggplot(aes(x = log2FoldChange, y = -log10(padj))) +
-        geom_vline(xintercept = 0, size = 0.4, color = "black") +
-        geom_hline(yintercept = -log10(p.thresh), size = 0.4, color = line_cols, linetype = "dashed") +
-        geom_vline(xintercept = -fc.thresh, size = 0.4, color = line_cols, linetype = "dashed") +
-        geom_vline(xintercept = fc.thresh, size = 0.4, color = line_cols, linetype = "dashed") +
-        geom_point(aes(color = direction, size = size)) +
-        scale_size(range=c(0.01, max.size)) +
-        geom_text(aes(x = coord.x, y = coord.y, label = count), size = 5) +
-        scale_color_manual(values = direction_cols) +
-        guides(color = guide_legend(title = "", override.aes = list(size = 5)), size = guide_none()) +
-        geom_text_repel(data = res.highlight, aes(label = gene), size = 3.5) +
-        xlim(c(-range, range)) +
-        theme_border() +
-        theme_text() +
-        coord_cartesian(clip = 'off') +
-        theme(plot.margin = margin(5,5,10,5)) +
-        scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
-        ggtitle(comparison)
-
-    p <- p + annotation_custom(
-        grob = grid::textGrob(caption, x = 1, y = -0.13, hjust = 1, gp = gpar(fontsize = 9, col = "black"))
-        )
-
-    print(p)
-
-    if(save_plot){
-        save_plot(p, plot_name = paste0("diffexp_volcano.pdf"), save_dir = paste0(save_dir, "/", comparison), w = 8, h = 5)
-    }
-
-    return(p)
-}
-
 #' Plot Gene Expression
 #'
 #' This function creates boxplots showing the expression levels of selected genes across groups.
@@ -196,10 +5,10 @@ plot_volcano <- function(res, n = 25, fc.thresh = 0.5, p.thresh = 0.05, crop = T
 #'
 #' @param dds DESeq2 object containing the expression data
 #' @param res Optional differential expression results data frame
-#' @param group_by Column name in colData(dds) to group by. Default is "Group1"
+#' @param group_by Column name in colData(dds) to group by.
 #' @param genes Vector of gene names to plot
 #' @param plot_name Name for the output plot
-#' @param cols Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL
+#' @param pal Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL
 #' @param save_plot Logical. If TRUE, saves the plot to PDF. Default is TRUE
 #' @param save_dir Directory to save the plot. Default is current working directory
 #' @return A ggplot object showing gene expression boxplots
@@ -212,12 +21,17 @@ plot_volcano <- function(res, n = 25, fc.thresh = 0.5, p.thresh = 0.05, crop = T
 #' p <- plot_gene_exprs(dds, res = res, genes = c("GENE1", "GENE2"), plot_name = "my_genes")
 #' 
 #' # Expression plot with custom colors
-#' p <- plot_gene_exprs(dds, genes = c("GENE1", "GENE2"), plot_name = "my_genes", cols = c("red", "blue", "green"))
+#' p <- plot_gene_exprs(dds, genes = c("GENE1", "GENE2"), plot_name = "my_genes", pal = c("red", "blue", "green"))
 #' }
 #' @export
-plot_gene_exprs <- function(dds, res = NULL, group_by = "Group1", genes, plot_name, cols = NULL, save_plot = T, save_dir = getwd()){
+plot_gene_exprs <- function(dds, res = NULL, group_by, genes, plot_name, pal = NULL, save_plot = T, save_dir = getwd()){
     
-    stopifnot(is.factor(colData(dds)[[group_by]]))
+    #validations
+    dds <- validate_dds_group_by(dds, group_by)
+    res <- validate_res(res)
+    pal <- validate_pal(pal)
+    validate_paths(save_dir)
+
     group.lv <- levels(colData(dds)[[group_by]])
 
     meta <- colData(dds) %>%
@@ -246,12 +60,10 @@ plot_gene_exprs <- function(dds, res = NULL, group_by = "Group1", genes, plot_na
         ylab("Expression") +
         scale_y_continuous(expand = expansion(mult = c(0.1, 0.1)))
 
-    if(!is.null(cols)) {
-        p <- p + scale_fill_manual(values = cols)
-    }
+    if(!is.null(pal)) {
+        p <- p + scale_fill_manual(values = pal)}
 
-    if(length(res) > 0){
-        stopifnot(is.data.frame(res))
+    if(!is.null(res)){
         yscale <- data.frame(group = group.lv, scale = seq(1, 1 + (length(group.lv)-1)*0.1, 0.1))
 
         ypos <- assay %>%
@@ -314,119 +126,6 @@ plot_gene_exprs <- function(dds, res = NULL, group_by = "Group1", genes, plot_na
     return(p)
 }
 
-#' Plot GSEA Results
-#'
-#' This function creates a barplot to visualize GSEA results, showing the most significant
-#' gene sets in each direction (up and down-regulated).
-#'
-#' @param gsea.df GSEA result data frame from run_gsea()
-#' @param n Number of top gene sets to show in each direction. Default is 10
-#' @param signif Logical. If TRUE, only shows gene sets with q-value < 0.05. Default is TRUE
-#' @param save_plot Logical. If TRUE, saves the plot to PDF. Default is TRUE
-#' @param save_dir Directory to save the plot. Default is current working directory
-#' @return A ggplot object showing the GSEA barplot
-#' @examples
-#' \dontrun{
-#' # Basic GSEA plot
-#' p <- plot_gsea_barplot(gsea_results)
-#' 
-#' # GSEA plot with more gene sets and only significant results
-#' p <- plot_gsea_barplot(gsea_results, n = 15, signif = TRUE)
-#' }
-#' @export
-plot_gsea_barplot <- function (gsea.df, n = 10, remove_collection = T, signif = F, 
-    save_plot = T, save_dir = getwd()) 
-{
-    comparison <- unique(gsea.df$comparison)
-    collection <- unique(gsea.df$collection)
-    stopifnot(length(comparison) == 1)
-    stopifnot(all(c("NES", "qvalue", "ID") %in% colnames(gsea.df)))
-
-    if (remove_collection) {
-        gsea.df$ID <- sub(paste0("^", collection, "_"), "", gsea.df$ID)}
-
-    else {
-        gsea.df$ID <- sub("_", "\\: ", gsea.df$ID)}
-
-    gsea.df$NES <- as.numeric(gsea.df$NES)
-    gsea.df$qvalue <- as.numeric(gsea.df$qvalue)
-    selected_pathways <- gsea.df %>% 
-        arrange(desc(NES^2)) %>% 
-        mutate(direction = ifelse(NES > 0, "Up", "Down"), direction = factor(direction, c("Up", "Down"))) %>% 
-        group_by(direction) %>% 
-        slice_min(n = n, order_by = qvalue, with_ties = F) %>% 
-        .$ID
-
-    if (signif){
-        selected_pathways <- gsea.df %>% 
-            filter(qvalue < 0.05) %>% 
-            arrange(desc(NES^2)) %>% 
-            mutate(direction = ifelse(NES > 0, "Up", "Down"), direction = factor(direction, c("Up", "Down"))) %>% 
-            group_by(direction) %>% 
-            slice_min(n = n, order_by = qvalue, with_ties = F) %>% 
-            .$ID}
-
-    selected.gsea.df <- gsea.df %>% 
-        filter(ID %in% selected_pathways) %>% 
-        select(ID, NES, pvalue, qvalue)
-
-    empty_row <- data.frame(ID = "", NES = 0, pvalue = 1, qvalue = 1)
-    yrange <- max(abs(selected.gsea.df$NES)) * 1.1
-
-    p <- selected.gsea.df %>% 
-        rbind(., empty_row) %>% 
-        mutate(label = case_when(
-            qvalue < 0.001 ~ "***", 
-            qvalue < 0.01 ~ "**", 
-            qvalue < 0.05 ~ "*", 
-            .default = "")) %>% 
-        mutate(size = ifelse(nchar(ID) >= 50, 1, ifelse(nchar(ID) >= 35, 2, 3)), 
-            ID = str_replace_all(ID, ".{50}", "\\0\n")) %>% 
-        ggplot(aes(x = fct_reorder(ID, NES), y = NES, fill = NES)) + 
-        geom_col(aes(stroke = label), width = 0.75, col = "black") + 
-        geom_text(aes(y = ifelse(NES > 0, -0.1, 0.1), label = fct_reorder(ID, NES), hjust = ifelse(NES > 0, 1, 0), size = size), fontface = "bold") + 
-        scale_size(range = c(2, 3)) + 
-        geom_text(aes(label = label, y = NES + 0.2 * sign(NES)), 
-            position = position_dodge(width = 0.75), vjust = 0.75, 
-            size = 5) + 
-        xlab(NULL) + 
-        scale_fill_distiller(palette = "RdBu") + 
-        guides(
-            fill = guide_colorbar(
-                title = "NES", 
-                title.position = "top", 
-                direction = "vertical", 
-                frame.colour = "black", 
-                ticks.colour = "black", 
-                order = 1), 
-            size = guide_none()) + 
-        ggtitle(comparison, subtitle = paste0(collection, " COLLECTION")) + 
-        theme_border() + 
-        theme_text() + 
-        theme(
-            panel.border = element_rect(fill = NA, color = "black", size = 0.7), 
-            plot.title = element_text(size = 16, face = "bold", hjust = 0.5), 
-            plot.subtitle = element_text(size = 10, face = "plain", hjust = 0.5), 
-            axis.line.y = element_blank(), 
-            axis.text.y = element_blank(), 
-            axis.ticks.y = element_blank()) + 
-        theme_gridlines() + 
-        ylim(c(-yrange, yrange)) + 
-        geom_hline(yintercept = 0, color = "grey40", size = 0.5) + 
-        scale_x_discrete(expand = c(0.05, 0.05)) + 
-        coord_flip()
-
-    if (save_plot) {
-        plot_name <- paste0("gsea_", collection, "_top", n)
-        if (signif) {
-            plot_name <- paste0(plot_name, "_signif")}
-        save_plot(p, plot_name = paste0(plot_name, "_barplot.pdf"), 
-            save_dir = paste0(save_dir, "/", comparison, "/"), 
-            w = 9, h = 7)}
-    print(p)
-    return(p)
-}
-
 #' Plot GSEA Enriched Plot
 #'
 #' This function creates a plot to visualize GSEA results, showing the enriched gene set.
@@ -442,11 +141,12 @@ plot_gsea_barplot <- function (gsea.df, n = 10, remove_collection = T, signif = 
 #' @param save_dir Directory to save the plot. Default is current working directory
 #' @return A ggplot object showing the GSEA enrichment plot
 #' @export
-plot_gsea_enriched <- function(gsea, gene_set, gene_set_title = NULL, gene_set_title_size = 10, show.pval = TRUE, show.fdr = TRUE, save_plot = T, save_dir = getwd()){
-    
-    comparison <- unique(gsea@result$comparison)
-    stopifnot(length(comparison) == 1)
-    stopifnot(gene_set %in% gsea@result$ID)
+plot_gsea_enriched <- function(gsea.obj, gene_set, gene_set_title = NULL, gene_set_title_size = 10, show.pval = TRUE, show.fdr = TRUE, save_plot = T, save_dir = getwd()){
+
+    #validations
+    gsea.obj <- validate_gsea_object(gsea.obj)
+    gene_set <- validate_gene_set(gsea.obj@result, gene_set)
+    validate_paths(save_dir)
 
     id <- which(str_detect(gsea@result$ID, paste0("^", gene_set, "$")))
     plot <- gseaplot2(gsea, geneSetID = id, title = "", rel_heights = c(1, 0.2, 0.25))
@@ -462,7 +162,7 @@ plot_gsea_enriched <- function(gsea, gene_set, gene_set_title = NULL, gene_set_t
     if(length(gene_set_title) == 0){
         gene_set_title <- gene_set}
     
-    if(nrow(gsea@result) < 50){
+    if(nrow(gsea@result) < 30){
         show.fdr <- FALSE}
     if(show.pval){
         label <- paste0(label, "\np = ", pval)}
@@ -508,145 +208,4 @@ plot_gsea_enriched <- function(gsea, gene_set, gene_set_title = NULL, gene_set_t
         save_plot(plot, plot_name = paste0(comparison, "_", gene_set, ".pdf"), save_dir = paste0(save_dir, "/enrichplot/"), w = 5, h = 4)}
 
     return(plot)
-}
-
-#' Plot ATAC-seq Peak Annotations
-#'
-#' This function analyzes differentially expressed ATAC-seq peaks and creates pie charts
-#' of their genomic annotations. It filters peaks by adjusted p-value and log2 fold change,
-#' cleans up annotation labels, and generates three pie charts: one for all DE peaks,
-#' one for upregulated peaks, and one for downregulated peaks.
-#'
-#' @param dds DESeq2 object containing the ATAC-seq peaks data
-#' @param res Differential expression results data frame from run_diffexp()
-#' @param p.thresh Adjusted p-value threshold for significance. Default is 0.05
-#' @param fc.thresh Log2 fold change threshold for significance (absolute value). Default is 0.5
-#' @param save_dir Directory to save the plot. Default is current working directory
-#' @param save_plot Logical. If TRUE, saves the plots to PDF. Default is TRUE
-#' @return A list of ggplot objects showing the pie charts
-#' @examples
-#' \dontrun{
-#' # Generate annotation pie charts for ATAC-seq peaks
-#' plots <- plot_atac_annot(dds, res)
-#' 
-#' # Use custom thresholds
-#' plots <- plot_atac_annot(dds, res, p.thresh = 0.01, fc.thresh = 1)
-#' }
-#' @export
-plot_atac_annot <- function(
-    dds,
-    res,
-    p.thresh = 0.05,
-    fc.thresh = 0.5,
-    save_dir = getwd(),
-    save_plot = TRUE) {
-    
-    # Check required inputs
-    stopifnot(is.data.frame(res))
-    stopifnot(all(c("padj", "log2FoldChange", "comparison") %in% colnames(res)))
-    stopifnot("Annotation" %in% colnames(rowData(dds)))
-    comparison <- unique(res$comparison)
-    stopifnot(length(comparison) == 1)
-    
-    # Filter differentially expressed peaks
-    message("Filtering differentially expressed peaks...")
-    res <- res %>%
-        filter(padj < p.thresh & abs(log2FoldChange) > fc.thresh)
-
-    if (nrow(res) == 0) {
-        message("No peaks pass the filtering criteria for ", comparison)
-        return()}
-
-    message("Processing peak annotations...")
-    peak_annots <- rowData(dds)$Annotation
-    names(peak_annots) <- rownames(rowData(dds))
-    
-    # Remove text after " (" in all annotations
-    peak_annots <- gsub(" \\(.*", "", peak_annots)
-
-    # Get annotations for the DE peaks
-    de_annots <- peak_annots[names(peak_annots) %in% res$peaks]
-
-    # Split into up and down regulated
-    up_idx <- res$log2FoldChange > 0
-    up_annots <- peak_annots[names(peak_annots) %in% res$peaks[up_idx]]
-    down_annots <- peak_annots[names(peak_annots) %in% res$peaks[!up_idx]]
-    
-    # Create the three pie charts
-    message("Plotting pie charts...")
-    all_plot <- plot_pie_chart(de_annots, subtitle = "All DE Peaks", comparison = comparison)
-    up_plot <- plot_pie_chart(up_annots, subtitle = "Upregulated Peaks", comparison = comparison)
-    down_plot <- plot_pie_chart(down_annots, subtitle = "Downregulated Peaks", comparison = comparison)
-    
-    # Save plots if requested
-    if(save_plot) {
-        message("Saving pie charts to PDF...")
-        
-        # Save each plot to its own PDF file using save_plot function
-        save_plot(all_plot, 
-                  plot_name = "atac_annotation_all_peaks.pdf", 
-                  save_dir = paste0(save_dir, "/", comparison, "/"), 
-                  w = 6, h = 5)
-        
-        save_plot(up_plot, 
-                  plot_name = "atac_annotation_up_peaks.pdf", 
-                  save_dir = paste0(save_dir, "/", comparison, "/"), 
-                  w = 6, h = 5)
-        
-        save_plot(down_plot, 
-                  plot_name = "atac_annotation_down_peaks.pdf", 
-                  save_dir = paste0(save_dir, "/", comparison, "/"), 
-                  w = 6, h = 5)
-        
-    }
-    
-    # Return the plots
-    return(list(
-        all = all_plot,
-        up = up_plot,
-        down = down_plot
-    ))
-}
-
-#' Create Pie Chart for ATACseq Annotation
-#' 
-#' This function creates a pie chart to visualize the annotation distribution of ATACseq peaks.
-#' 
-#' @param annots A vector of peak annotations
-#' @param comparison Comparison name
-#' @param subtitle Subtitle for the plot
-#' @return A ggplot object showing the pie chart
-#' @export
-plot_pie_chart <- function (annots, comparison = "", subtitle = "") 
-{
-    str_to_title_v2 <- function(input_string) {
-        str_replace_all(input_string, "\\b[a-z]", function(x) str_to_title(x))
-    }
-
-    message("Creating pie charts for ", length(annots), " peaks in ", subtitle, "...")
-
-    annot_counts <- table(annots[!is.na(annots)])
-
-    annot_df <- data.frame(Annotation = str_to_title_v2(names(annot_counts)), 
-        Count = as.numeric(annot_counts))
-
-    annot_df <- annot_df %>% 
-        dplyr::mutate(Percent = Count/sum(Count) * 100, Label = paste0(round(Percent, 1), "%")) %>% 
-        arrange(Percent) %>% 
-        dplyr::mutate(Annotation = factor(Annotation, levels = unique(Annotation)))
-
-    p <- ggplot(annot_df, aes(x = "", y = Percent, fill = Annotation)) + 
-        geom_bar(stat = "identity", width = 1) + 
-        coord_polar("y", start = 0) + 
-        no_gridlines() + 
-        no_axis_text() + 
-        xlab(NULL) + 
-        ylab(NULL) + 
-        geom_text(aes(label = Label), position = position_stack(vjust = 0.5)) + 
-        ggtitle(comparison, subtitle = subtitle) + 
-        theme(
-            plot.background = element_blank(), 
-            plot.title = element_text(size = 16, face = "bold", hjust = 0.5), 
-            plot.subtitle = element_text(size = 10, face = "plain", hjust = 0.5))
-    return(p)
 }

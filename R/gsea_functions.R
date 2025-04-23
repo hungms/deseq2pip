@@ -1,3 +1,25 @@
+#' Import MSigDB Gene Sets
+#'
+#' This function imports pre-defined MSigDB gene sets for human or mouse organisms.
+#'
+#' @param org The organism to use, either "human" or "mouse".
+#' @return A data frame containing MSigDB gene sets
+#' @examples
+#' \dontrun{
+#' # Import human MSigDB gene sets
+#' msigdbr_human <- import_msigdbr("human")
+#' 
+#' # Import mouse MSigDB gene sets
+#' msigdbr_mouse <- import_msigdbr("mouse")
+#' }
+#' @export
+import_msigdbr <- function(org) {
+    files <- list.files(system.file("extdata", package = "deseq2pip"), full.names = T)
+    files <- files[which(str_detect(files, paste0(org, "_msigdbr.tsv")))]
+    f <- files[length(files)]
+    msigdbr <- read.table(gzfile(f), header = TRUE, sep = "\t") %>% as.data.frame(.)
+    return(msigdbr)}
+
 #' Run Gene Set Enrichment Analysis
 #'
 #' This function performs Gene Set Enrichment Analysis (GSEA) using clusterProfiler
@@ -5,8 +27,7 @@
 #' either pre-defined MSigDB gene sets or custom gene sets.
 #'
 #' @param res Differential expression result data frame from run_diffexp()
-#' @param org The organism to use, either "human" or "mouse". Default is "human"
-#' @param group_by Column name in colData(dds) to use for grouping. Default is "Group1"
+#' @param org The organism to use, either "human" or "mouse".
 #' @param custom_msigdb Dataframe or path to a custom gene set database in GMT format. Default is NULL
 #' @param save_data Logical. If TRUE, saves results to TSV and RDS files. Default is TRUE
 #' @param save_dir Directory to save the results. Default is current working directory
@@ -29,130 +50,278 @@
 #' gsea_results <- run_gsea(res, org = "mouse")
 #' }
 #' @export
-run_gsea <- function(res, org = "human", group_by = "Group1", custom_msigdb = NULL, save_data = T, save_dir = getwd()){
+run_gsea <- function(res, org, msigdbr = import_msigdbr(org), save_data = T, save_dir = getwd()){
 
-    if(length(custom_msigdb) < 1){
-        msigdbr <- import_msigdb(org = org)}
-    else if(is.data.frame(custom_msigdb)) {
-        msigdbr <- custom_msigdb}
-    else if(str_detect(custom_msigdb, ".gmt$") & file.exists(custom_msigdb)){
-        msigdbr <- read_gmt(custom_msigdb) %>%
-            pivot_longer(everything(), names_to = "gs_name", values_to = "gene_symbol") %>%
-            filter(gene_symbol != "") %>%
-            mutate(collection = gsub(".gmt", "", basename(custom_msigdb)))}
-    else{
-        stop("Invalid custom_msigdb input")}
+    # validations
+    res <- validate_res_comparison(res)
+    validate_org(org)
+    msigdbr <- validate_msigdbr(msigdbr)
+    validate_paths(save_dir)
 
-    stopifnot(c("gs_name", "gene_symbol", "collection") %in% colnames(msigdbr))
-    stopifnot(c("gene", "rank") %in% colnames(res))
-    
-    comparison <- unique(res$comparison)
-    stopifnot(length(comparison) == 1)
-
+    # split msigdbr by collection
     collectionsplit <- msigdbr$collection
-
     msigdbr.collection <- msigdbr %>%
         dplyr::select(-c("collection")) %>%
         split(., collectionsplit)
 
+    # select comparison
+    comparison <- unique(res$comparison)
+    duplicated_genes <- res$gene[duplicated(res$gene)]
+    if(length(duplicated_genes) > 0){
+        message(paste0("Removing ", length(duplicated_genes), " duplicated genes for GSEA: ", paste0(duplicated_genes, collapse = ", ")))
+        res <- res %>%
+            filter(!gene %in% duplicated_genes)}
+
+    # get gene rankings
     de.order <- res %>%
         arrange(desc(.data[["rank"]])) %>%
         .$rank
 
+    # get gene names
     names(de.order) <- res %>%
         arrange(desc(.data[["rank"]])) %>%
         .$gene
     
+    # remove 0s
     de.order <- na.omit(de.order)
     de.order <- de.order[which(de.order != 0)]
     de.order = sort(de.order, decreasing = TRUE)
 
+    # run gsea for each collecition
     gsea.list <- list()
     for(i in seq_along(msigdbr.collection)){
 
         gsea.obj <- GSEA(de.order, TERM2GENE = msigdbr.collection[[i]], pvalueCutoff = 1.1, pAdjustMethod = "fdr", minGSSize = 10, maxGSSize = 1000)
         collection <- names(msigdbr.collection)[i]
-        comparison_name <- paste0(comparison, "_", collection)
         gsea.obj@result$collection <- collection
         gsea.obj@result$comparison <- comparison
 
         if(save_data){
-            saveRDS(gsea.obj, file = paste0(save_dir, "/", comparison, "/gsea_", collection,".rds"))
-            save_tsv(gsea.obj@result, tsv_name = paste0("gsea_", collection,".tsv"), save_dir = paste0(save_dir, "/", comparison, "/"))
-            }
+            saveRDS(gsea.obj, file = paste0(save_dir, "/gsea_", collection,".rds"))
+            save_tsv(gsea.obj@result, tsv_name = paste0("gsea_", collection,".tsv"), save_dir = save_dir)}
 
-        gsea.list[[i]] <- gsea.obj
-        names(gsea.list)[i] <- comparison_name}
+        gsea.list[[i]] <- gsea.obj@result
+        names(gsea.list)[i] <- collection}
+    
+    gsea <- bind_rows(gsea.list)
+    return(gsea)}
 
-    return(gsea.list)}
 
-
-
-#' Run GSEA for All Comparisons
+#' Plot GSEA Results
 #'
-#' This function performs Gene Set Enrichment Analysis for all comparisons in the
-#' differential expression results.
+#' This function creates a barplot to visualize GSEA results, showing the most significant
+#' gene sets in each direction (up and down-regulated).
 #'
-#' @param res Differential expression result data frame from run_diffexp()
-#' @param ... Additional arguments passed to run_gsea()
-#' @return A list of GSEA results for all comparisons and gene set collections
+#' @param gsea GSEA result data frame from run_gsea()
+#' @param n Number of top gene sets to show in each direction. Default is 10
+#' @param signif Logical. If TRUE, only shows gene sets with q-value < 0.05. Default is TRUE
+#' @param save_plot Logical. If TRUE, saves the plot to PDF. Default is TRUE
+#' @param save_dir Directory to save the plot. Default is current working directory
+#' @return A ggplot object showing the GSEA barplot
 #' @examples
 #' \dontrun{
-#' # Run GSEA for all comparisons
-#' gsea_results <- run_gsea_list(res)
+#' # Basic GSEA plot
+#' p <- plot_gsea_barplot(gsea_results)
 #' 
-#' # Run with custom parameters
-#' gsea_results <- run_gsea_list(res, org = "mouse")
+#' # GSEA plot with more gene sets and only significant results
+#' p <- plot_gsea_barplot(gsea_results, n = 15, signif = TRUE)
 #' }
 #' @export
-run_gsea_list <- function(res = NULL, ...){
-    message("Running gene set enrichment analysis...")
+plot_gsea_barplot <- function(gsea, n = 10, signif = F, save_plot = T, save_dir = getwd()){
 
-    if(length(res) == 0){
-        res <- read_diffexp_list(data_dir = save_dir)}
+    # validations
+    gsea <- validate_gsea_comparison(gsea)
+    validate_paths(save_dir)
 
-    stopifnot(is.data.frame(res))
-    stopifnot(c("gene", "rank") %in% colnames(res))
-    res.list <- split(res, res$comparison)
+    # get comparison and collection
+    comparison <- unique(gsea$comparison)
+    collection <- unique(gsea$collection)
+    gsea$ID <- sub(paste0("^", collection, "_"), "", gsea$ID)
 
-    gsea.list <- list()
-    pb <- txtProgressBar(min = 0, max = length(res.list), style = 3)
-    
-    for(i in seq_along(res.list)){
-        gsea.list <- c(gsea.list, run_gsea(res.list[[i]], ...))
-        setTxtProgressBar(pb, i)
-    }
+    # get selected pathways
+    selected_pathways <- gsea %>% 
+        arrange(desc(NES^2)) %>% 
+        mutate(direction = ifelse(NES > 0, "Up", "Down"), direction = factor(direction, c("Up", "Down"))) %>% 
+        group_by(direction) %>% 
+        slice_min(n = n, order_by = qvalue, with_ties = F) %>% 
+        .$ID
 
-    close(pb)
-    return(gsea.list)
+    # get significant pathways
+    if (signif){
+        selected_pathways <- gsea %>% 
+            filter(qvalue < 0.05) %>% 
+            arrange(desc(NES^2)) %>% 
+            mutate(direction = ifelse(NES > 0, "Up", "Down"), direction = factor(direction, c("Up", "Down"))) %>% 
+            group_by(direction) %>% 
+            slice_min(n = n, order_by = qvalue, with_ties = F) %>% 
+            .$ID}
+
+    # get selected gsea
+    selected.gsea <- gsea %>% 
+        filter(ID %in% selected_pathways) %>% 
+        select(ID, NES, pvalue, qvalue)
+
+    # get empty row
+    empty_row <- data.frame(ID = "", NES = 0, pvalue = 1, qvalue = 1)
+    yrange <- max(abs(selected.gsea$NES)) * 1.1
+
+    # plot
+    p <- selected.gsea %>% 
+        rbind(., empty_row) %>% 
+        mutate(label = case_when(
+            qvalue < 0.001 ~ "***", 
+            qvalue < 0.01 ~ "**", 
+            qvalue < 0.05 ~ "*", 
+            .default = "")) %>% 
+        mutate(size = ifelse(nchar(ID) >= 50, 1, ifelse(nchar(ID) >= 35, 2, 3)), 
+            ID = str_replace_all(ID, ".{50}", "\\0\n")) %>% 
+        ggplot(aes(x = fct_reorder(ID, NES), y = NES, fill = NES)) + 
+        geom_col(aes(stroke = label), width = 0.75, col = "black") + 
+        geom_text(aes(y = ifelse(NES > 0, -0.1, 0.1), label = fct_reorder(ID, NES), hjust = ifelse(NES > 0, 1, 0), size = size), fontface = "bold") + 
+        scale_size(range = c(2, 3)) + 
+        geom_text(aes(label = label, y = NES + 0.2 * sign(NES)), 
+            position = position_dodge(width = 0.75), vjust = 0.75, 
+            size = 5) + 
+        xlab(NULL) + 
+        scale_fill_distiller(palette = "RdBu") + 
+        guides(
+            fill = guide_colorbar(
+                title = "NES", 
+                title.position = "top", 
+                direction = "vertical", 
+                frame.colour = "black", 
+                ticks.colour = "black", 
+                order = 1), 
+            size = guide_none()) + 
+        ggtitle(comparison, subtitle = paste0(collection, " COLLECTION")) + 
+        theme_border() + 
+        theme_text() + 
+        theme(
+            panel.border = element_rect(fill = NA, color = "black", size = 0.7), 
+            plot.title = element_text(size = 16, face = "bold", hjust = 0.5), 
+            plot.subtitle = element_text(size = 10, face = "plain", hjust = 0.5), 
+            axis.line.y = element_blank(), 
+            axis.text.y = element_blank(), 
+            axis.ticks.y = element_blank()) + 
+        theme_gridlines() + 
+        ylim(c(-yrange, yrange)) + 
+        geom_hline(yintercept = 0, color = "grey40", size = 0.5) + 
+        scale_x_discrete(expand = c(0.05, 0.05)) + 
+        coord_flip()
+
+    # save plot
+    if (save_plot) {
+        plot_name <- paste0("gsea_", collection, "_top", n)
+        if (signif) {
+            plot_name <- paste0(plot_name, "_signif")}
+        save_plot(p, plot_name = paste0(plot_name, "_barplot.pdf"), save_dir = save_dir, w = 9, h = 7)}
+    print(p)
+    return(p)
 }
 
+#' Run GSEA wrapper
+#'
+#' This function runs GSEA for all comparisons and collections.
+#'
+#' @param res Differential expression result data frame from run_diffexp()
+#' @param org The organism to use, either "human" or "mouse".
+#' @param msigdbr Dataframe or path to a custom gene set database in GMT format. Default is NULL
+#' @param save_data Logical. If TRUE, saves results to RDS and TSV files. Default is TRUE   
+#' @param group_save_dir Directory to save the results.
+#' @return A list of GSEA results for each gene set collection
+#' @examples
+#' \dontrun{
+#' # Run GSEA wrapper
+#' gsea_results <- run_gsea_wrapper(res)
+#' }
+#' @export
+run_gsea_wrapper <- function(res, org, msigdbr = import_msigdbr(org), save_data = T, group_save_dir){
+
+    # validations
+    res <- validate_res_comparison(res)
+    org <- validate_org(org)
+    msigdbr <- validate_msigdbr(msigdbr)
+    validate_paths(group_save_dir)
+
+    # get comparison
+    comparison <- unique(res$comparison)
+    comparison_save_dir <- paste0(group_save_dir, "/", comparison)
+    validate_paths(comparison_save_dir)
+
+    # Run GSEA
+    gsea <- run_gsea(res = res, org = org, msigdbr = msigdbr, save_dir = comparison_save_dir)
+    
+    # Generate GSEA plots for each collection
+    for(i in unique(gsea$collection)){
+        gsea.collection <- gsea %>% filter(collection == i)
+        plot_gsea_barplot(gsea.collection, save_dir = comparison_save_dir)}
+    
+    return(gsea)}
+
+
+#' Run GSEA pipeline
+#' 
+#' This function runs the GSEA pipeline for all comparisons and collections.
+#' 
+#' @param res Differential expression result data frame from run_diffexp()
+#' @param org The organism to use, either "human" or "mouse".
+#' @param msigdbr Dataframe or path to a custom gene set database in GMT format. Default is NULL
+#' @param save_data Logical. If TRUE, saves results to RDS and TSV files. Default is TRUE
+#' @param group_save_dir Directory to save the results.
+#' @return A list of GSEA results for each gene set collection
+#' @export 
+run_gsea_pip <- function(res, org, msigdbr = import_msigdbr(org), save_data = T, group_save_dir){
+ 
+    # validations
+    res <- validate_res(res)
+    org <- validate_org(org)
+    msigdbr <- validate_msigdbr(msigdbr)
+    validate_paths(group_save_dir)
+
+    # generate a vector of comparison
+    comparison_vec <- unique(res$comparison)
+    validate_paths(group_save_dir)
+
+    # run gsea for each comparison
+    gsea.list <- list()
+    for(i in seq_along(comparison_vec)){
+        res.comparison <- res %>% filter(comparison == comparison_vec[i])
+        gsea.list[[i]] <- run_gsea_wrapper(res = res.comparison, org = org, msigdbr = msigdbr, group_save_dir = group_save_dir)}
+
+    # bind rows
+    gsea <- bind_rows(gsea.list)
+
+    return(gsea)}
 
 
 #' Read GSEA Results from RDS Files
 #'
 #' This function reads GSEA results from RDS files for multiple comparisons and collections.
 #'
-#' @param data_dir Parent directory containing comparison subdirectories. Default is current working directory
+#' @param group_dir Parent directory containing comparison subdirectories. Default is current working directory
 #' @param collection Vector of gene set collections to load. Default includes HALLMARK, GOBP, KEGG, REACTOME, BIOCARTA, and TFT
 #' @return A list of GSEA objects for each comparison
 #' @examples
 #' \dontrun{
 #' # Read all default collections
-#' gsea_results <- read_gsea_rds_list("results")
+#' gsea_results <- read_gsea_rds("results")
 #' 
 #' # Read specific collections
-#' gsea_results <- read_gsea_rds_list("results", collection = c("HALLMARK", "KEGG"))
+#' gsea_results <- read_gsea_rds("results", collection = c("HALLMARK", "KEGG"))
 #' }
 #' @export
-read_gsea_rds_list <- function(
-    data_dir = getwd(), 
+read_gsea_rds <- function(
+    group_dir = getwd(), 
     collection = c("HALLMARK", "GOBP", "KEGG", "REACTOME", "BIOCARTA", "TFT")){
-    
-    comparison <- list.files(data_dir)
+
+    # validations
+    validate_paths(group_dir)
+
+    # get comparison
+    comparison <- list.files(group_dir)
     files <- c()
     for(i in seq_along(comparison)){
-        files <- c(files, paste0(comparison[i], "/", list.files(paste0(data_dir, "/", comparison[i]))))}
+        files <- c(files, paste0(comparison[i], "/", list.files(paste0(group_dir, "/", comparison[i]))))}
     files <- files[which(str_detect(files, ".rds"))]
     collection.pattern <- paste0(collection, collapse = "|")
     stopifnot(any(str_detect(files, collection.pattern)))
@@ -161,7 +330,7 @@ read_gsea_rds_list <- function(
     gsea.list <- list()
 
     for(i in seq_along(files)){
-        gsea.list[[i]] <- readRDS(paste0(data_dir, "/", files[i]))
+        gsea.list[[i]] <- readRDS(paste0(group_dir, "/", files[i]))
         comparison <- gsub("/gsea", "", files[i])
         comparison <- gsub(".rds", "", comparison)
         names(gsea.list)[i] <- comparison}
@@ -169,155 +338,49 @@ read_gsea_rds_list <- function(
     return(gsea.list)
 }
 
-
 #' Read GSEA Results from TSV Files
 #'
 #' This function reads GSEA results from TSV files for multiple comparisons and collections.
 #'
-#' @param data_dir Parent directory containing comparison subdirectories. Default is current working directory
+#' @param group_dir Parent directory containing comparison subdirectories. Default is current working directory
 #' @param collection Vector of gene set collections to load. Default includes HALLMARK, GOBP, KEGG, REACTOME, BIOCARTA, and TFT
 #' @param merge Logical. If TRUE, returns a single merged data frame. If FALSE, returns a list of data frames
 #' @return Either a merged data frame or a list of data frames containing GSEA results
 #' @examples
 #' \dontrun{
 #' # Read and merge all results
-#' merged_gsea <- read_gsea_tsv_list("results", merge = TRUE)
+#' merged_gsea <- read_gsea_tsv("results", merge = TRUE)
 #' 
 #' # Read specific collections as a list
-#' gsea_list <- read_gsea_tsv_list("results", collection = c("HALLMARK", "KEGG"), merge = FALSE)
+#' gsea_list <- read_gsea_tsv("results", collection = c("HALLMARK", "KEGG"), merge = FALSE)
 #' }
 #' @export
-read_gsea_tsv_list <- function(
-    data_dir = getwd(), 
+read_gsea_tsv <- function(
+    group_dir = getwd(), 
     collection = c("HALLMARK", "GOBP", "KEGG", "REACTOME", "BIOCARTA", "TFT"),
     merge = T){
 
-    comparison <- list.files(data_dir)
+    # validations
+    validate_paths(group_dir)
+
+    # get comparison
+    comparison <- list.files(group_dir)
     files <- c()
     for(i in seq_along(comparison)){
-        files <- c(files, paste0(comparison[i], "/", list.files(paste0(data_dir, "/", comparison[i]))))}
+        files <- c(files, paste0(comparison[i], "/", list.files(paste0(group_dir, "/", comparison[i]))))}
     files <- files[which(str_detect(files, ".tsv"))]
     files <- files[which(!str_detect(files, "enrichmentmap"))]
     collection.pattern <- paste0(collection, collapse = "|")
     stopifnot(any(str_detect(files, collection.pattern)))
     files <- files[str_detect(files, collection.pattern)]
         
-    gsea.df <- list()
+    gsea <- list()
 
     for(i in seq_along(files)){
-        gsea.df[[i]] <- read.table(paste0(data_dir, "/", files[i]), sep = "\t", header = T)}
+        gsea[[i]] <- read.table(paste0(group_dir, "/", files[i]), sep = "\t", header = T)}
 
     if(merge){
-        gsea.df <- bind_rows(gsea.df)}
+        gsea <- bind_rows(gsea)}
 
-    return(gsea.df)
-}
-
-#' Format Enrichment Map Data
-#'
-#' This function processes and formats GSEA results for visualization in EnrichmentMap.
-#'
-#' @param data_dir Parent directory containing comparison subdirectories. Default is current working directory
-#' @param org The organism to use, either "human" or "mouse". Default is "human"
-#' @param collection Vector of gene set collections to process. Default includes HALLMARK, GOBP, KEGG, and REACTOME
-#' @param save_dir Directory where the formatted files will be saved. Default is current working directory
-#' @return None. Creates formatted files for EnrichmentMap visualization
-#' @examples
-#' \dontrun{
-#' # Format all default collections
-#' format_enrichmentmap("results")
-#' 
-#' # Format specific collections
-#' format_enrichmentmap("results", collection = c("HALLMARK", "KEGG"))
-#' }
-#' @export
-format_enrichmentmap <- function(
-    data_dir = getwd(), 
-    org = "human",
-    collection = c("HALLMARK", "GOBP", "KEGG", "REACTOME"),
-    save_dir = paste0(data_dir, "/../")){
-
-    stopifnot(org %in% c("human", "mouse"))
-
-    message("Formatting for enrichmentmap...")
-    comparison <- list.files(data_dir)
-
-    for(i in seq_along(comparison)){
-        files <- list.files(paste0(data_dir, "/", comparison[i]))
-
-        #diffexp
-        res <- read.table(paste0(data_dir, "/", comparison[i], "/diffexp_DESeq2.tsv"), sep = "\t", header = T)
-        stopifnot(c("gene", "rank") %in% colnames(res))
-        res.rank <- res %>% 
-            select(gene, rank) %>%
-            filter(rank != 0) %>%
-            filter(!is.na(rank)) %>%
-            filter(rank != "NA") %>%
-            arrange(desc(rank))
-        save_tsv(res.rank, tsv_name = paste0(comparison[i], "_diffexp_DESeq2_rank.rnk"), save_dir = paste0(save_dir, "/enrichmentmap/"))
-
-        #gsea
-        collection.pattern <- paste0(collection, collapse = "|")
-        stopifnot(any(str_detect(files, collection.pattern)))
-        files <- files[str_detect(files, collection.pattern)]
-        files  <- files[which(str_detect(files, ".tsv$"))]
-        
-        enrichmentmap.list <- list()
-        for(j in seq_along(files)){
-            gsea.df <- read.table(paste0(data_dir, "/", comparison[i], "/", files[j]), sep = "\t", header = T)
-            gsea.df <- gsea.df %>% 
-                mutate(
-                    phenotype = ifelse(NES > 0, "+1", "-1")) %>%
-                select(ID, Description, pvalue, qvalue, phenotype)
-            collection_name <- gsub("gsea_|\\.tsv", "", files[j])
-            #save_tsv(gsea.df, tsv_name = paste0("gsea_", collection_name, "_enrichmentmap.tsv"), save_dir = paste0(save_dir, "/", comparison[i], "/enrichmentmap/"))
-            enrichmentmap.list[[j]] <- gsea.df}
-
-        enrichmentmap.merged <- bind_rows(enrichmentmap.list)
-        save_tsv(enrichmentmap.merged, tsv_name = paste0(comparison[i], "_enrichments.tsv"), save_dir = paste0(save_dir, "/enrichmentmap/"))}
-
-        #gmt
-        files <- list.files(system.file("extdata", package = "deseq2pip"), full.names = T)
-        files <- files[which(str_detect(files, paste0(org, "_msigdbr.gmt")))]
-        f <- files[length(files)]
-        file.copy(from = f, to = paste0(save_dir, "/enrichmentmap/", org, "_msigdbr.gmt"), overwrite = TRUE)
-            
-        #exprs & class
-        file.copy(from = paste0(data_dir, "/../qc_results/dds_expr.txt"), to = paste0(save_dir, "/enrichmentmap/"), overwrite = TRUE)
-        file.copy(from = paste0(data_dir, "/../qc_results/dds_class.cls"), to = paste0(save_dir, "/enrichmentmap/"), overwrite = TRUE)
-        }
-
-
-#' Generate GSEA Barplots for All Comparisons
-#'
-#' This function creates barplots to visualize GSEA results for all comparisons
-#' and gene set collections.
-#'
-#' @param gsea.df GSEA result data frame from run_gsea()
-#' @param ... Additional arguments passed to plot_gsea_barplot()
-#' @return A list of GSEA barplots for each comparison and collection
-#' @examples
-#' \dontrun{
-#' # Generate GSEA barplots for all results
-#' plots <- plot_gsea_barplot_list(gsea_results)
-#' 
-#' # Generate with custom parameters
-#' plots <- plot_gsea_barplot_list(gsea_results, n = 15, signif = TRUE)
-#' }
-#' @export
-plot_gsea_barplot_list <- function(gsea.df, ...){
-    message("Generating GSEA barplots...")
-    stopifnot(is.data.frame(gsea.df))
-    gsea.df.list <- split(gsea.df, interaction(gsea.df$comparison, gsea.df$collection))
-
-    gsea.barplot.list <- list()
-    pb <- txtProgressBar(min = 0, max = length(gsea.df.list), style = 3)
-    
-    for(i in seq_along(gsea.df.list)){
-        gsea.barplot <- plot_gsea_barplot(gsea.df.list[[i]], ...)
-        gsea.barplot.list <- c(gsea.barplot.list, gsea.barplot)
-        setTxtProgressBar(pb, i)
-    }
-    close(pb)
-    return(gsea.barplot.list)
+    return(gsea)
 }

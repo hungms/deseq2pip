@@ -5,7 +5,7 @@
 \title{Plot GSEA Enriched Plot}
 \usage{
 plot_gsea_enriched(
-  gsea,
+  gsea.obj,
   gene_set,
   gene_set_title = NULL,
   gene_set_title_size = 10,
@@ -16,8 +16,6 @@ plot_gsea_enriched(
 )
 }
 \arguments{
-\item{gsea}{GSEA result object from run_gsea()}
-
 \item{gene_set}{Name of the gene set to plot}
 
 \item{gene_set_title}{Title of the plot. Default is the gene set name}
@@ -29,6 +27,8 @@ plot_gsea_enriched(
 \item{save_plot}{Logical. If TRUE, saves the plot to PDF. Default is TRUE}
 
 \item{save_dir}{Directory to save the plot. Default is current working directory}
+
+\item{gsea}{GSEA result object from run_gsea()}
 
 \item{gene_set_title.size}{Size of the title text. Default is 8}
 }

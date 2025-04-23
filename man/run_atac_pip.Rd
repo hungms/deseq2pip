@@ -6,34 +6,24 @@
 \usage{
 run_atac_pip(
   dds,
-  group_by = "Group1",
-  repeat_for_TSS = TRUE,
-  pals = NULL,
-  batch = NULL,
-  save_dir = getwd(),
-  org = "human",
+  org,
+  group_by,
   remove_xy = FALSE,
   remove_mt = FALSE,
   quantile = 0.05,
+  pals = NULL,
+  batch = NULL,
   order = "pxfc",
-  save_dir_name = "qc_results",
-  assaytype = "RNA"
+  TSS = TRUE,
+  save_dir = getwd()
 )
 }
 \arguments{
-\item{dds}{DESeq2 object containing the expression data}
+\item{dds}{DESeq2 object}
 
-\item{group_by}{Column name in colData(dds) to use for grouping. Default is "Group1"}
+\item{org}{The organism to use, either "human" or "mouse".}
 
-\item{repeat_for_TSS}{Logical. If TRUE, repeats the analysis for TSS peaks. Default is TRUE}
-
-\item{pals}{Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL}
-
-\item{batch}{Column name in colData(dds) to use for batch correction. Default is NULL}
-
-\item{save_dir}{Directory where all output files will be saved. Default is current working directory}
-
-\item{org}{The organism to use, either "human" or "mouse". Default is "human"}
+\item{group_by}{Column name in colData(dds) to use for grouping.}
 
 \item{remove_xy}{Logical. If TRUE, removes genes on X and Y chromosomes. Default is FALSE}
 
@@ -41,11 +31,15 @@ run_atac_pip(
 
 \item{quantile}{Quantile threshold for filtering lowly expressed genes. Default is 0.05}
 
+\item{pals}{Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL}
+
+\item{batch}{Column name in colData(dds) to use for batch correction. Default is NULL}
+
 \item{order}{Column name to use for ranking genes. Default is "pxfc"}
 
-\item{save_dir_name}{Name of the subdirectory to save files in. Default is "qc_results"}
+\item{TSS}{Logical. If TRUE, repeats the analysis for TSS peaks. Default is TRUE}
 
-\item{assaytype}{Type of assay, either "RNA" or "ATAC". Default is "RNA"}
+\item{save_dir}{Directory where all output files will be saved. Default is current working directory}
 }
 \value{
 The processed DESeq2 object
@@ -62,9 +56,11 @@ organized directories.
 dds <- run_atac_pip(dds)
 
 # Run pipeline with custom settings
-dds <- run_atac_pip(dds, org = "mouse", remove_xy = TRUE,
+dds <- run_atac_pip(dds, 
+                    org = "mouse", 
+                    remove_xy = TRUE,
                     group_by = "Treatment",
-                    save_dir_name = "custom_results")
+                    save_dir = "output")
 
 # Run pipeline with batch correction
 dds <- run_atac_pip(dds, batch = "Batch")

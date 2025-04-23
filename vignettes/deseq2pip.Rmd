@@ -25,41 +25,34 @@ suppressPackageStartupMessages(library(deseq2pip))
 ```{r}
 #| vscode: {languageId: r}
 # create a directory for results, currently set to tempdir()
-save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/github-repos/r-pipelines/deseq2pip/tests/rnaseq/pipeline/"
-#save_dir <- tempdir()
-#dir.create(save_dir, recursive = TRUE)
+#save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/github-repos/r-pipelines/deseq2pip/tests/rnaseq/pipeline/"
+save_dir <- tempdir()
+dir.create(save_dir, recursive = TRUE)
 ```
 
-### Load DESeq2 object from nfcore pipeline
+### Load DESeq2 object processed by nf-core/rnaseq
 ```{r}
-# load example DESeq2 object
+#| vscode: {languageId: r}
+# load deseq2 object processed by nf-core/rnaseq
 rdata <- system.file("data", "GSE189410.dds.RData", package = "deseq2pip")
 tx2gene <- gzfile(system.file("data", "GSE189410.tx2gene.tsv.gz", package = "deseq2pip"))
 dds <- import_nfcore_rna(rdata = rdata, tx2gene = tx2gene)
-assay(dds)[1:5, 1:5]
 ```
 
-### Set group variable to compare between
-```{r}
-# set group variable to compare between, with the first level set as the reference
-dds$Group2 <- factor(dds$Group2, c('IgM', 'IgG', 'IgA'))
-
-# set dds design with desired variables
-design(dds) <- ~ Group2
-```
-
-### Run deseq2 pipeline
+### Run RNA pipeline
 ```{r}
 #| vscode: {languageId: r}
-# run deseq2pip
+# run run pipeline
 run_rna_pip(
     dds,
-    batch = NULL,
+    org = "mouse",
+    group_by = "Group2",
     remove_xy = TRUE,
     remove_mt = TRUE,
-    org = "mouse",
-    order = "log2FoldChange",
-    group_by = "Group2",
+    quantile = 0.05,
+    pals = NULL,
+    batch = NULL,
+    order = "pxfc",
     save_dir = save_dir)
 ```
 
@@ -68,42 +61,37 @@ run_rna_pip(
 ```{r}
 #| vscode: {languageId: r}
 # create a directory for results, currently set to tempdir()
-save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/github-repos/r-pipelines/deseq2pip/tests/atacseq/pipeline/"
-#save_dir <- tempdir()
-#dir.create(save_dir, recursive = TRUE)
+#save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/github-repos/r-pipelines/deseq2pip/tests/atacseq/pipeline/"
+save_dir <- tempdir()
+dir.create(save_dir, recursive = TRUE)
 ```
 
-### Load DESeq2 object from nfcore pipeline
+### Load DESeq2 object processed by nf-core/atacseq
 ```{r}
-# load example DESeq2 object
+# load deseq2 object processed by nf-core/atacseq
 rdata <- system.file("data", "GSE224512.dds.RData", package = "deseq2pip")
 annotatePeaks <- gzfile(system.file("data", "GSE224512.annotatePeaks.txt.gz", package = "deseq2pip"))
 dds <- import_nfcore_atac(rdata = rdata, annotatePeaks = annotatePeaks)
-assay(dds)[1:5, 1:5]
 
 # subset groups for brevity
 dds <- dds[, dds$Group1 %in% c("WT", 'BC', 'BCK')]
 ```
 
-### Set group variable to compare between
-```{r}
-# set group variable to compare between, with the first level set as the reference
-dds$Group1 <- factor(dds$Group1, c("WT", 'BC', 'BCK'))
 
-# set dds design with desired variables
-design(dds) <- ~ Group1
-```
-
-### Run deseq2 pipeline
+### Run ATAC pipeline
 ```{r}
 #| vscode: {languageId: r}
-# run deseq2pip
+# run atac pipeline
 run_atac_pip(
     dds,
-    batch = NULL,
-    remove_xy = TRUE,
-    remove_mt = TRUE,
     org = "mouse",
     group_by = "Group1",
+    remove_xy = TRUE,
+    remove_mt = TRUE,
+    quantile = 0.05,
+    pals = NULL,
+    batch = NULL,
+    order = "pxfc",
+    TSS = TRUE,
     save_dir = save_dir)
 ```

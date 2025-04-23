@@ -7,10 +7,10 @@
 plot_gene_exprs(
   dds,
   res = NULL,
-  group_by = "Group1",
+  group_by,
   genes,
   plot_name,
-  cols = NULL,
+  pal = NULL,
   save_plot = T,
   save_dir = getwd()
 )
@@ -20,13 +20,13 @@ plot_gene_exprs(
 
 \item{res}{Optional differential expression results data frame}
 
-\item{group_by}{Column name in colData(dds) to group by. Default is "Group1"}
+\item{group_by}{Column name in colData(dds) to group by.}
 
 \item{genes}{Vector of gene names to plot}
 
 \item{plot_name}{Name for the output plot}
 
-\item{cols}{Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL}
+\item{pal}{Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL}
 
 \item{save_plot}{Logical. If TRUE, saves the plot to PDF. Default is TRUE}
 
@@ -48,6 +48,6 @@ p <- plot_gene_exprs(dds, genes = c("GENE1", "GENE2"), plot_name = "my_genes")
 p <- plot_gene_exprs(dds, res = res, genes = c("GENE1", "GENE2"), plot_name = "my_genes")
 
 # Expression plot with custom colors
-p <- plot_gene_exprs(dds, genes = c("GENE1", "GENE2"), plot_name = "my_genes", cols = c("red", "blue", "green"))
+p <- plot_gene_exprs(dds, genes = c("GENE1", "GENE2"), plot_name = "my_genes", pal = c("red", "blue", "green"))
 }
 }

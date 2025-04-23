@@ -81,3 +81,26 @@ jobs:
     concurrency:
       group: pkgdown-${{ github.run_id }}
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+log_output <- function(call, save_dir, expr = NULL) {
+  # ... (same as before for log_vec and log_file) ...
+
+  writeLines(log_vec, log_file)
+
+  if (!is.null(expr)) {
+    sink(log_file, append = TRUE, split = TRUE)
+    sink(log_file, append = TRUE, split = TRUE, type = "message")
+    on.exit({
+      sink(type = "message")
+      sink()
+    }, add = TRUE)
+    withCallingHandlers(
+      eval(expr),
+      warning = function(w) {
+        message("WARNING: ", conditionMessage(w))
+        invokeRestart("muffleWarning")
+      }
+    )
+    # If an error occurs, it will stop here and propagate up
+  }
+}

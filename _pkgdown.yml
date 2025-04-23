@@ -26,28 +26,43 @@ articles:
 reference:
 - title: Pipeline Functions
   contents:
-  - matches("run_deseq2pip")
+  - matches("run_rna_pip")
+  - matches("run_atac_pip")
   - matches("pip")
-  - ends_with("_list")
-- title: Quality Control
+- title: Wrapper Functions
+  contents:
+  - matches("wrapper")
+- title: Quality Control (Module 1)
   contents:
   - starts_with("remove_")
   - matches("library")
-  - ends_with("pca")
-  - ends_with("distance")
-- title: Functional Analysis
+  - matches("batch")
+  - matches("pca")
+  - matches("distance")
+- title: Differential Expression (Module 2)
   contents:
-  - ends_with("_diffexp")
-  - ends_with("_gsea")
-- title: Plot Functions
-  contents: 
+  - matches("diffexp")
+- title: Gene Set Enrichment Analysis (Module 3)
+  contents:
+  - matches("gsea")
+  - matches("enrichmentmap")
+  - matches("cls")
+- title: Plot Functions (Module 4)
+  contents:
   - starts_with("plot_")
-- title: Format Functions
+- title: Helper Functions
   contents:
   - starts_with("import_")
   - starts_with("get")
-  - starts_with("read_")
-  - starts_with("save_")
   - matches("summarize_genes")
-  - matches("enrichmentmap")
+  - matches("comparison")
+- title: Validation Functions
+  contents:
+  - matches("validate")
+- title: Save Functions
+  contents:
+  - matches("save")
+- title: Logging Functions
+  contents:
+  - starts_with("log_")
 
