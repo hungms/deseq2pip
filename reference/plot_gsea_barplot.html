@@ -9,7 +9,7 @@ gene sets in each direction (up and down-regulated)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">deseq2pip</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@ gene sets in each direction (up and down-regulated)."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Plot GSEA Results</h1>
-      <small class="dont-index">Source: <a href="https://github.com/hungms/deseq2pip/blob/main/R/plot_functions.R" class="external-link"><code>R/plot_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/hungms/deseq2pip/blob/main/R/gsea_functions.R" class="external-link"><code>R/gsea_functions.R</code></a></small>
       <div class="d-none name"><code>plot_gsea_barplot.Rd</code></div>
     </div>
 
@@ -49,21 +49,14 @@ gene sets in each direction (up and down-regulated).</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_gsea_barplot</span><span class="op">(</span></span>
-<span>  <span class="va">gsea.df</span>,</span>
-<span>  n <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>  remove_collection <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>  signif <span class="op">=</span> <span class="cn">F</span>,</span>
-<span>  save_plot <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>  save_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_gsea_barplot</span><span class="op">(</span><span class="va">gsea</span>, n <span class="op">=</span> <span class="fl">10</span>, signif <span class="op">=</span> <span class="cn">F</span>, save_plot <span class="op">=</span> <span class="cn">T</span>, save_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-gsea-df">gsea.df<a class="anchor" aria-label="anchor" href="#arg-gsea-df"></a></dt>
+<dl><dt id="arg-gsea">gsea<a class="anchor" aria-label="anchor" href="#arg-gsea"></a></dt>
 <dd><p>GSEA result data frame from run_gsea()</p></dd>
 
 
@@ -108,7 +101,7 @@ gene sets in each direction (up and down-regulated).</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer></div>

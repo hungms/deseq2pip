@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">deseq2pip</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,16 +51,34 @@
 
       <dl><dt>
 
-          <code><a href="deseq2pip-package.html">deseq2pip-package</a></code>
+          <code><a href="run_rna_pip.html">run_rna_pip()</a></code>
 
         </dt>
-        <dd>DESeq2 Pipeline for RNA-seq Analysis</dd>
+        <dd>Run Complete RNA-seq Pipeline</dd>
       </dl><dl><dt>
 
           <code><a href="run_atac_pip.html">run_atac_pip()</a></code>
 
         </dt>
         <dd>Run Complete ATAC-seq Pipeline</dd>
+      </dl><dl><dt>
+
+          <code><a href="deseq2pip-package.html">deseq2pip-package</a></code>
+
+        </dt>
+        <dd>DESeq2 Pipeline for RNA-seq Analysis</dd>
+      </dl><dl><dt>
+
+          <code><a href="enrichmentmap_pip.html">enrichmentmap_pip()</a></code>
+
+        </dt>
+        <dd>Format Enrichment Map Data</dd>
+      </dl><dl><dt>
+
+          <code><a href="plot_peak_annot_pip.html">plot_peak_annot_pip()</a></code>
+
+        </dt>
+        <dd>Plot ATAC-seq Peak Annotation</dd>
       </dl><dl><dt>
 
           <code><a href="run_diffexp_pip.html">run_diffexp_pip()</a></code>
@@ -78,7 +96,7 @@
           <code><a href="run_gsea_pip.html">run_gsea_pip()</a></code>
 
         </dt>
-        <dd>Run Gene Set Enrichment Analysis Pipeline</dd>
+        <dd>Run GSEA pipeline</dd>
       </dl><dl><dt>
 
           <code><a href="run_qc_pip.html">run_qc_pip()</a></code>
@@ -87,66 +105,35 @@
         <dd>Run Quality Control Pipeline</dd>
       </dl><dl><dt>
 
-          <code><a href="run_rna_pip.html">run_rna_pip()</a></code>
+          <code><a href="write_cls_pip.html">write_cls_pip()</a></code>
 
         </dt>
-        <dd>Run Complete RNA-seq Pipeline</dd>
-      </dl><dl><dt>
-
-          <code><a href="plot_atac_annot_list.html">plot_atac_annot_list()</a></code>
-
-        </dt>
-        <dd>Generate ATACseq Annotation Plots for All Comparisons</dd>
-      </dl><dl><dt>
-
-          <code><a href="plot_gsea_barplot_list.html">plot_gsea_barplot_list()</a></code>
-
-        </dt>
-        <dd>Generate GSEA Barplots for All Comparisons</dd>
-      </dl><dl><dt>
-
-          <code><a href="plot_ma_list.html">plot_ma_list()</a></code>
-
-        </dt>
-        <dd>Generate MA Plots for All Comparisons</dd>
-      </dl><dl><dt>
-
-          <code><a href="plot_volcano_list.html">plot_volcano_list()</a></code>
-
-        </dt>
-        <dd>Generate Volcano Plots for All Comparisons</dd>
-      </dl><dl><dt>
-
-          <code><a href="read_diffexp_list.html">read_diffexp_list()</a></code>
-
-        </dt>
-        <dd>Read Differential Expression Results</dd>
-      </dl><dl><dt>
-
-          <code><a href="read_gsea_rds_list.html">read_gsea_rds_list()</a></code>
-
-        </dt>
-        <dd>Read GSEA Results from RDS Files</dd>
-      </dl><dl><dt>
-
-          <code><a href="read_gsea_tsv_list.html">read_gsea_tsv_list()</a></code>
-
-        </dt>
-        <dd>Read GSEA Results from TSV Files</dd>
-      </dl><dl><dt>
-
-          <code><a href="run_diffexp_list.html">run_diffexp_list()</a></code>
-
-        </dt>
-        <dd>Run Differential Expression Analysis for All Comparisons</dd>
-      </dl><dl><dt>
-
-          <code><a href="run_gsea_list.html">run_gsea_list()</a></code>
-
-        </dt>
-        <dd>Run GSEA for All Comparisons</dd>
+        <dd>Write class file pipeline for EnrichmentMap</dd>
       </dl></div><div class="section level2">
-      <h2 id="quality-control">Quality Control<a class="anchor" aria-label="anchor" href="#quality-control"></a></h2>
+      <h2 id="wrapper-functions">Wrapper Functions<a class="anchor" aria-label="anchor" href="#wrapper-functions"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="run_diffexp_wrapper.html">run_diffexp_wrapper()</a></code>
+
+        </dt>
+        <dd>Run Differential Expression Wrapper</dd>
+      </dl><dl><dt>
+
+          <code><a href="run_gsea_wrapper.html">run_gsea_wrapper()</a></code>
+
+        </dt>
+        <dd>Run GSEA wrapper</dd>
+      </dl></div><div class="section level2">
+      <h2 id="quality-control-module-">Quality Control (Module 1)<a class="anchor" aria-label="anchor" href="#quality-control-module-"></a></h2>
 
 
 
@@ -161,7 +148,7 @@
           <code><a href="remove_low_expression.html">remove_low_expression()</a></code>
 
         </dt>
-        <dd>Remove Lowly Expressed Genes from DESeq2 Object</dd>
+        <dd>Remove Genes with Low Expression</dd>
       </dl><dl><dt>
 
           <code><a href="remove_mt_genes.html">remove_mt_genes()</a></code>
@@ -182,6 +169,18 @@
         <dd>Check Library Size Distribution</dd>
       </dl><dl><dt>
 
+          <code><a href="run_batch_correction.html">run_batch_correction()</a></code>
+
+        </dt>
+        <dd>Run batch correction by Limma</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_batch.html">validate_batch()</a></code>
+
+        </dt>
+        <dd>Validate batch</dd>
+      </dl><dl><dt>
+
           <code><a href="run_pca.html">run_pca()</a></code>
 
         </dt>
@@ -193,7 +192,7 @@
         </dt>
         <dd>Calculate and Plot Sample Distances</dd>
       </dl></div><div class="section level2">
-      <h2 id="functional-analysis">Functional Analysis<a class="anchor" aria-label="anchor" href="#functional-analysis"></a></h2>
+      <h2 id="differential-expression-module-">Differential Expression (Module 2)<a class="anchor" aria-label="anchor" href="#differential-expression-module-"></a></h2>
 
 
 
@@ -204,6 +203,12 @@
 
 
       <dl><dt>
+
+          <code><a href="read_diffexp.html">read_diffexp()</a></code>
+
+        </dt>
+        <dd>Read Differential Expression Results</dd>
+      </dl><dl><dt>
 
           <code><a href="run_diffexp.html">run_diffexp()</a></code>
 
@@ -211,12 +216,18 @@
         <dd>Run Differential Expression Analysis</dd>
       </dl><dl><dt>
 
-          <code><a href="run_gsea.html">run_gsea()</a></code>
+          <code><a href="run_diffexp_pip.html">run_diffexp_pip()</a></code>
 
         </dt>
-        <dd>Run Gene Set Enrichment Analysis</dd>
+        <dd>Run Differential Expression Pipeline</dd>
+      </dl><dl><dt>
+
+          <code><a href="run_diffexp_wrapper.html">run_diffexp_wrapper()</a></code>
+
+        </dt>
+        <dd>Run Differential Expression Wrapper</dd>
       </dl></div><div class="section level2">
-      <h2 id="plot-functions">Plot Functions<a class="anchor" aria-label="anchor" href="#plot-functions"></a></h2>
+      <h2 id="gene-set-enrichment-analysis-module-">Gene Set Enrichment Analysis (Module 3)<a class="anchor" aria-label="anchor" href="#gene-set-enrichment-analysis-module-"></a></h2>
 
 
 
@@ -228,17 +239,94 @@
 
       <dl><dt>
 
-          <code><a href="plot_atac_annot.html">plot_atac_annot()</a></code>
+          <code><a href="plot_gsea_barplot.html">plot_gsea_barplot()</a></code>
 
         </dt>
-        <dd>Plot ATACseq annotation</dd>
+        <dd>Plot GSEA Results</dd>
       </dl><dl><dt>
 
-          <code><a href="plot_atac_annot_list.html">plot_atac_annot_list()</a></code>
+          <code><a href="plot_gsea_enriched.html">plot_gsea_enriched()</a></code>
 
         </dt>
-        <dd>Generate ATACseq Annotation Plots for All Comparisons</dd>
+        <dd>Plot GSEA Enriched Plot</dd>
       </dl><dl><dt>
+
+          <code><a href="read_gsea_rds.html">read_gsea_rds()</a></code>
+
+        </dt>
+        <dd>Read GSEA Results from RDS Files</dd>
+      </dl><dl><dt>
+
+          <code><a href="read_gsea_tsv.html">read_gsea_tsv()</a></code>
+
+        </dt>
+        <dd>Read GSEA Results from TSV Files</dd>
+      </dl><dl><dt>
+
+          <code><a href="run_gsea.html">run_gsea()</a></code>
+
+        </dt>
+        <dd>Run Gene Set Enrichment Analysis</dd>
+      </dl><dl><dt>
+
+          <code><a href="run_gsea_pip.html">run_gsea_pip()</a></code>
+
+        </dt>
+        <dd>Run GSEA pipeline</dd>
+      </dl><dl><dt>
+
+          <code><a href="run_gsea_wrapper.html">run_gsea_wrapper()</a></code>
+
+        </dt>
+        <dd>Run GSEA wrapper</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_gsea.html">validate_gsea()</a></code>
+
+        </dt>
+        <dd>Validate gsea</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_gsea_comparison.html">validate_gsea_comparison()</a></code>
+
+        </dt>
+        <dd>Validate gsea for comparison</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_gsea_object.html">validate_gsea_object()</a></code>
+
+        </dt>
+        <dd>Validate gsea object</dd>
+      </dl><dl><dt>
+
+          <code><a href="enrichmentmap_pip.html">enrichmentmap_pip()</a></code>
+
+        </dt>
+        <dd>Format Enrichment Map Data</dd>
+      </dl><dl><dt>
+
+          <code><a href="write_cls.html">write_cls()</a></code>
+
+        </dt>
+        <dd>Write class file pipeline for EnrichmentMap</dd>
+      </dl><dl><dt>
+
+          <code><a href="write_cls_pip.html">write_cls_pip()</a></code>
+
+        </dt>
+        <dd>Write class file pipeline for EnrichmentMap</dd>
+      </dl></div><div class="section level2">
+      <h2 id="plot-functions-module-">Plot Functions (Module 4)<a class="anchor" aria-label="anchor" href="#plot-functions-module-"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
 
           <code><a href="plot_gene_exprs.html">plot_gene_exprs()</a></code>
 
@@ -250,12 +338,6 @@
 
         </dt>
         <dd>Plot GSEA Results</dd>
-      </dl><dl><dt>
-
-          <code><a href="plot_gsea_barplot_list.html">plot_gsea_barplot_list()</a></code>
-
-        </dt>
-        <dd>Generate GSEA Barplots for All Comparisons</dd>
       </dl><dl><dt>
 
           <code><a href="plot_gsea_enriched.html">plot_gsea_enriched()</a></code>
@@ -270,10 +352,16 @@
         <dd>Generate MA Plot</dd>
       </dl><dl><dt>
 
-          <code><a href="plot_ma_list.html">plot_ma_list()</a></code>
+          <code><a href="plot_peak_annot.html">plot_peak_annot()</a></code>
 
         </dt>
-        <dd>Generate MA Plots for All Comparisons</dd>
+        <dd>Plot ATAC-seq Peak Annotations</dd>
+      </dl><dl><dt>
+
+          <code><a href="plot_peak_annot_pip.html">plot_peak_annot_pip()</a></code>
+
+        </dt>
+        <dd>Plot ATAC-seq Peak Annotation</dd>
       </dl><dl><dt>
 
           <code><a href="plot_pie_chart.html">plot_pie_chart()</a></code>
@@ -286,14 +374,8 @@
 
         </dt>
         <dd>Generate Volcano Plot</dd>
-      </dl><dl><dt>
-
-          <code><a href="plot_volcano_list.html">plot_volcano_list()</a></code>
-
-        </dt>
-        <dd>Generate Volcano Plots for All Comparisons</dd>
       </dl></div><div class="section level2">
-      <h2 id="format-functions">Format Functions<a class="anchor" aria-label="anchor" href="#format-functions"></a></h2>
+      <h2 id="helper-functions">Helper Functions<a class="anchor" aria-label="anchor" href="#helper-functions"></a></h2>
 
 
 
@@ -305,7 +387,7 @@
 
       <dl><dt>
 
-          <code><a href="import_msigdb.html">import_msigdb()</a></code>
+          <code><a href="import_msigdbr.html">import_msigdbr()</a></code>
 
         </dt>
         <dd>Import MSigDB Gene Sets</dd>
@@ -329,23 +411,177 @@
         <dd>Get TSS peaks from DESeq2 object</dd>
       </dl><dl><dt>
 
-          <code><a href="read_diffexp_list.html">read_diffexp_list()</a></code>
+          <code><a href="summarize_genes_dds.html">summarize_genes_dds()</a></code>
 
         </dt>
-        <dd>Read Differential Expression Results</dd>
+        <dd>Summarize Gene Expression in DESeq2 Object</dd>
       </dl><dl><dt>
 
-          <code><a href="read_gsea_rds_list.html">read_gsea_rds_list()</a></code>
+          <code><a href="generate_comparisons.html">generate_comparisons()</a></code>
 
         </dt>
-        <dd>Read GSEA Results from RDS Files</dd>
+        <dd>Generate Comparison Names</dd>
       </dl><dl><dt>
 
-          <code><a href="read_gsea_tsv_list.html">read_gsea_tsv_list()</a></code>
+          <code><a href="validate_dds_comparison.html">validate_dds_comparison()</a></code>
 
         </dt>
-        <dd>Read GSEA Results from TSV Files</dd>
+        <dd>Validate DESeq2 object for comparison</dd>
       </dl><dl><dt>
+
+          <code><a href="validate_gsea_comparison.html">validate_gsea_comparison()</a></code>
+
+        </dt>
+        <dd>Validate gsea for comparison</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_res_comparison.html">validate_res_comparison()</a></code>
+
+        </dt>
+        <dd>Validate differential expression results for comparison</dd>
+      </dl></div><div class="section level2">
+      <h2 id="validation-functions">Validation Functions<a class="anchor" aria-label="anchor" href="#validation-functions"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="validate_batch.html">validate_batch()</a></code>
+
+        </dt>
+        <dd>Validate batch</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_dds.html">validate_dds()</a></code>
+
+        </dt>
+        <dd>Validate DESeq2 object</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_dds_atac.html">validate_dds_atac()</a></code>
+
+        </dt>
+        <dd>Validate DESeq2 object for ATAC-seq</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_dds_comparison.html">validate_dds_comparison()</a></code>
+
+        </dt>
+        <dd>Validate DESeq2 object for comparison</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_dds_group_by.html">validate_dds_group_by()</a></code>
+
+        </dt>
+        <dd>Validate DESeq2 object for RNA-seq</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_gene_set.html">validate_gene_set()</a></code>
+
+        </dt>
+        <dd>Validate gene set</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_gsea.html">validate_gsea()</a></code>
+
+        </dt>
+        <dd>Validate gsea</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_gsea_comparison.html">validate_gsea_comparison()</a></code>
+
+        </dt>
+        <dd>Validate gsea for comparison</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_gsea_object.html">validate_gsea_object()</a></code>
+
+        </dt>
+        <dd>Validate gsea object</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_logical.html">validate_logical()</a></code>
+
+        </dt>
+        <dd>Validate logical</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_method.html">validate_method()</a></code>
+
+        </dt>
+        <dd>Validate methods</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_msigdbr.html">validate_msigdbr()</a></code>
+
+        </dt>
+        <dd>Validate msigdbr</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_order.html">validate_order()</a></code>
+
+        </dt>
+        <dd>Validate order</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_org.html">validate_org()</a></code>
+
+        </dt>
+        <dd>Validate organism</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_pals.html">validate_pals()</a></code>
+
+        </dt>
+        <dd>Validate pals</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_paths.html">validate_paths()</a></code>
+
+        </dt>
+        <dd>Validate paths</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_quantile.html">validate_quantile()</a></code>
+
+        </dt>
+        <dd>Validate quantile</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_res.html">validate_res()</a></code>
+
+        </dt>
+        <dd>Validate differential expression results</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_res_comparison.html">validate_res_comparison()</a></code>
+
+        </dt>
+        <dd>Validate differential expression results for comparison</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_shape.html">validate_shape()</a></code>
+
+        </dt>
+        <dd>Validate shape</dd>
+      </dl></div><div class="section level2">
+      <h2 id="save-functions">Save Functions<a class="anchor" aria-label="anchor" href="#save-functions"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
 
           <code><a href="save_expression.html">save_expression()</a></code>
 
@@ -363,18 +599,29 @@
 
         </dt>
         <dd>Save Data Frame as TSV File</dd>
-      </dl><dl><dt>
+      </dl></div><div class="section level2">
+      <h2 id="logging-functions">Logging Functions<a class="anchor" aria-label="anchor" href="#logging-functions"></a></h2>
 
-          <code><a href="summarize_genes_dds.html">summarize_genes_dds()</a></code>
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="log_output.html">log_output()</a></code>
 
         </dt>
-        <dd>Summarize Gene Expression in DESeq2 Object</dd>
+        <dd>Log output</dd>
       </dl><dl><dt>
 
-          <code><a href="format_enrichmentmap.html">format_enrichmentmap()</a></code>
+          <code><a href="log_renv.html">log_renv()</a></code>
 
         </dt>
-        <dd>Format Enrichment Map Data</dd>
+        <dd>Log renv Snapshot</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
@@ -385,7 +632,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer></div>
