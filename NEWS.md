@@ -1,4 +1,11 @@
 # NEWS
+## v1.0.1 (2025-05-30)
+reverse groups in all one-to-all comparisons.
+
+## v1.0.0 (2025-05-20)
+### Bugfix
+- Make compatible with strpip v0.1.3
+
 
 ## v1.0.0 (2025-04-30)
 

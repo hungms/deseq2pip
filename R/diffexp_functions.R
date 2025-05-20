@@ -11,7 +11,7 @@ generate_comparisons <- function(group_vec){
     # generate comparisons
     combos <- combn(group_vec, 2)
     comparisons_vec <- apply(combos, 2, function(pair) {
-        if (pair[1] < pair[2]) paste0(c(as.character(pair[2]), as.character(pair[1])), collapse = "_vs_")
+        if (pair[1] < pair[2]) paste0(c(as.character(pair[1]), as.character(pair[2])), collapse = "_vs_")
         else paste0(c(as.character(pair)), collapse = "_vs_")})    
     # return comparison names
     return(comparisons_vec)
@@ -53,9 +53,10 @@ run_diffexp <- function(dds, org, group_by, comparison, order = "pxfc", save_dat
     org <- validate_org(org)
     order <- validate_order(order)
     validate_paths(save_dir)
+    org.to <- ifelse(org == "human", "mouse", "human")
 
     # subset dds
-    comparison_groups <- str_split(comparison, "_vs_") %>% unlist(.)
+    comparison_groups <- str_split(comparison, "_vs_") %>% unlist(.) %>% rev(.)
     dds <- dds[,which(colData(dds)[[group_by]] %in% comparison_groups)]
     colData(dds)[[group_by]] <- factor(colData(dds)[[group_by]], levels = comparison_groups)
 
@@ -85,7 +86,7 @@ run_diffexp <- function(dds, org, group_by, comparison, order = "pxfc", save_dat
             rank = !!sym(order))
 
     # annotate and filter results
-    res <- run_annotation(res, org = org, gene_column = "gene") %>%
+    res <- run_annotation(res, org.from = org, org.to = org.to, gene_column = "gene") %>%
         filter(!is.na(padj)) %>%
         filter(padj != "NA") %>%
         arrange(desc(rank))

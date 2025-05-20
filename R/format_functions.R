@@ -20,7 +20,7 @@
 summarize_genes_dds <- function(dds, gene_sym_col = "gene", ...){
     df <- assay(dds) %>% as.data.frame(.)
     gene_sym_vec <- rowData(dds)[[gene_sym_col]]
-    df <- strpip::summarize_genes(df = df, gene_sym_vec = gene_sym_vec, ...)
+    df <- strpip::summarize_genes(input = df, gene_sym_vec = gene_sym_vec, ...)
 
     metadata <- as.data.frame(colData(dds))[colnames(df),]
     dds.new <- DESeqDataSetFromMatrix(
