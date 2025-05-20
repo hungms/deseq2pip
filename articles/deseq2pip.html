@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">deseq2pip</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Author: Matthew
 Hung</h4>
             
-            <h4 data-toc-skip class="date">Last Updated: 2025/05/02</h4>
+            <h4 data-toc-skip class="date">Last Updated: 2025/05/20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/hungms/deseq2pip/blob/main/vignettes/deseq2pip.Rmd" class="external-link"><code>vignettes/deseq2pip.Rmd</code></a></small>
       <div class="d-none name"><code>deseq2pip.Rmd</code></div>
@@ -84,7 +84,7 @@ Hung</h4>
 <span><span class="co">#save_dir &lt;- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/github-repos/r-pipelines/deseq2pip/tests/rnaseq/pipeline/"</span></span>
 <span><span class="va">save_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">save_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpAEDRGJ' already</span></span>
+<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/Rtmpw6nc4P' already</span></span>
 <span><span class="co">## exists</span></span></code></pre>
 <div class="section level3">
 <h3 id="load-deseq2-object-processed-by-nf-corernaseq">Load DESeq2 object processed by nf-core/rnaseq<a class="anchor" aria-label="anchor" href="#load-deseq2-object-processed-by-nf-corernaseq"></a>
@@ -126,11 +126,11 @@ Hung</h4>
 <span><span class="co">## The version of R recorded in the lockfile will be updated:</span></span>
 <span><span class="co">## - R      [* -&gt; 4.5.0]</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## - Lockfile written to "/tmp/RtmpAEDRGJ/logs/renv.lock".</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: '/tmp/RtmpAEDRGJ' already exists</span></span></code></pre>
+<span><span class="co">## - Lockfile written to "/tmp/Rtmpw6nc4P/logs/renv.lock".</span></span></code></pre>
+<pre><code><span><span class="co">## WARNING: '/tmp/Rtmpw6nc4P' already exists</span></span></code></pre>
 <pre><code><span><span class="co">## group_by is not a factor, converting to factor</span></span></code></pre>
 <pre><code><span><span class="co">## group_by is not in the design, adding to design</span></span></code></pre>
-<pre><code><span><span class="co">## Running RNA-seq pipeline with DESeq2pip v1.0.0</span></span></code></pre>
+<pre><code><span><span class="co">## Running RNA-seq pipeline with DESeq2pip v1.0.1</span></span></code></pre>
 <pre><code><span><span class="co">## Running quality control pipeline...</span></span></code></pre>
 <pre><code><span><span class="co">## Removing 4050 XY genes out of 54513 total genes...</span></span></code></pre>
 <pre><code><span><span class="co">## Removing 37 MT genes out of 50463 total genes...</span></span></code></pre>
@@ -162,7 +162,7 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 8 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
@@ -174,10 +174,10 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 15580 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 15579 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 33 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 15580 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 15579 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 37 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-9.png" width="700"></p>
@@ -191,13 +191,13 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 8 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: ggrepel: 1542 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: ggrepel: 1545 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
+<pre><code><span><span class="co">## WARNING: ggrepel: 1541 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
+<pre><code><span><span class="co">## WARNING: ggrepel: 1544 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-10.png" width="700"></p>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
@@ -220,13 +220,13 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 8 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: ggrepel: 701 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: ggrepel: 704 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
+<pre><code><span><span class="co">## WARNING: ggrepel: 700 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
+<pre><code><span><span class="co">## WARNING: ggrepel: 703 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-12.png" width="700"></p>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
@@ -286,27 +286,27 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 14 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 15 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 14 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 15 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-14.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 11 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 9 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 11 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 9 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-15.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-16.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -322,18 +322,18 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 5 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 5 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-18.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 10 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 11 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 10 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 11 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-19.png" width="700"></p>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
@@ -399,9 +399,9 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-21.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -426,9 +426,9 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 6 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 5 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 6 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 5 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-24.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -482,18 +482,18 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 12 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 11 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 12 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 11 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-26.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 5 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 5 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-27.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -509,9 +509,9 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 13 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 10 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 13 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 10 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-29.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -527,9 +527,9 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 11 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 8 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 11 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 8 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-31.png" width="700"></p>
 <pre><code><span><span class="co">## Running PAIRWISE enrichment map pipeline...</span></span></code></pre>
@@ -552,7 +552,7 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 8 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
@@ -564,10 +564,10 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 16690 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 16689 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 18 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 16690 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 16689 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 24 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-33.png" width="700"></p>
@@ -586,7 +586,7 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 8 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
@@ -598,10 +598,10 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 16408 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 16407 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 33 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 16408 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 16407 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 35 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-35.png" width="700"></p>
@@ -620,13 +620,13 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 8 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: ggrepel: 867 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 866 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
+<pre><code><span><span class="co">## WARNING: ggrepel: 865 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-36.png" width="700"></p>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
@@ -686,9 +686,9 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 12 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 10 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 12 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 10 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-38.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -704,27 +704,27 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-40.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-41.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 4 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 4 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-42.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -796,20 +796,11 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-46.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
 <span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-47.png" width="700"></p>
+<p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-46.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
@@ -817,6 +808,15 @@ Hung</h4>
 <pre><code><span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
 <span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## (`geom_text()`).</span></span></code></pre>
+<p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-47.png" width="700"></p>
+<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
+<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
+<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
+<pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## WARNING: Removed 5 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## (`geom_text()`).</span></span>
+<span><span class="co">## WARNING: Removed 5 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-48.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -879,9 +879,9 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 5 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 4 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 5 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 4 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-51.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -906,18 +906,18 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-54.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-4-55.png" width="700"></p>
 <pre><code><span><span class="co">## Running ONE-TO-ALL enrichment map pipeline...</span></span></code></pre>
@@ -942,7 +942,7 @@ Hung</h4>
 <span><span class="co">#save_dir &lt;- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/github-repos/r-pipelines/deseq2pip/tests/atacseq/pipeline/"</span></span>
 <span><span class="va">save_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">save_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpAEDRGJ' already</span></span>
+<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/Rtmpw6nc4P' already</span></span>
 <span><span class="co">## exists</span></span></code></pre>
 <div class="section level3">
 <h3 id="load-deseq2-object-processed-by-nf-coreatacseq">Load DESeq2 object processed by nf-core/atacseq<a class="anchor" aria-label="anchor" href="#load-deseq2-object-processed-by-nf-coreatacseq"></a>
@@ -975,10 +975,10 @@ Hung</h4>
 <span>    save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## renv already initialized, restoring renv</span></span></code></pre>
 <pre><code><span><span class="co">## - The library is already synchronized with the lockfile.</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: '/tmp/RtmpAEDRGJ' already exists</span></span></code></pre>
+<pre><code><span><span class="co">## WARNING: '/tmp/Rtmpw6nc4P' already exists</span></span></code></pre>
 <pre><code><span><span class="co">## group_by is not a factor, converting to factor</span></span></code></pre>
 <pre><code><span><span class="co">## group_by is not in the design, adding to design</span></span></code></pre>
-<pre><code><span><span class="co">## Running ATAC-seq pipeline with DESeq2pip v1.0.0</span></span></code></pre>
+<pre><code><span><span class="co">## Running ATAC-seq pipeline with DESeq2pip v1.0.1</span></span></code></pre>
 <pre><code><span><span class="co">## Running quality control pipeline...</span></span></code></pre>
 <pre><code><span><span class="co">## Removing 3331 XY genes out of 74851 total genes...</span></span></code></pre>
 <pre><code><span><span class="co">## Removing 2 MT genes out of 71520 total genes...</span></span></code></pre>
@@ -1007,7 +1007,7 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 9 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
@@ -1019,10 +1019,10 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 59959 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 59953 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 28 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 59959 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 59953 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 34 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-8.png" width="700"></p>
@@ -1036,7 +1036,7 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 9 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
@@ -1048,10 +1048,10 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 58471 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 58465 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 22 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 58471 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 58465 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 23 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-10.png" width="700"></p>
@@ -1065,7 +1065,7 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 9 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
@@ -1077,10 +1077,10 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 46356 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 46352 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 17 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 46356 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 46352 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 33 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-12.png" width="700"></p>
@@ -1139,7 +1139,7 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 9 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
@@ -1151,10 +1151,10 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 54382 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 54377 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 29 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 54382 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 54377 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 33 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-14.png" width="700"></p>
@@ -1173,7 +1173,7 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 9 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
@@ -1185,10 +1185,10 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 59228 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 59222 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 16 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 59228 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 59222 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 22 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-16.png" width="700"></p>
@@ -1207,7 +1207,7 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 9 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
@@ -1217,9 +1217,9 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 61349 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 61343 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 61349 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 61343 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-18.png" width="700"></p>
 <pre><code><span><span class="co">## Generating ONE-TO-ALL peak annotation plots for ALL PEAKS...</span></span></code></pre>
@@ -1272,7 +1272,7 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 1 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
@@ -1284,10 +1284,10 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 11771 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 11770 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 30 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 11771 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 11770 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 34 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-20.png" width="700"></p>
@@ -1301,7 +1301,7 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 1 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
@@ -1311,9 +1311,9 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 12361 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 12360 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 12361 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 12360 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-22.png" width="700"></p>
 <pre><code><span><span class="co">## using pre-existing size factors</span></span></code></pre>
@@ -1326,7 +1326,7 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 1 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
@@ -1338,10 +1338,10 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 11130 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 11129 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 3 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 11130 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 11129 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 7 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-24.png" width="700"></p>
@@ -1401,29 +1401,20 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-26.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 8 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 9 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 8 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 9 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-27.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-28.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
@@ -1432,14 +1423,23 @@ Hung</h4>
 <span><span class="co">## (`geom_text()`).</span></span>
 <span><span class="co">## WARNING: Removed 4 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
+<p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-28.png" width="700"></p>
+<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
+<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
+<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
+<pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## (`geom_text()`).</span></span>
+<span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-29.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-30.png" width="700"></p>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
@@ -1502,9 +1502,9 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 5 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 4 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 5 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 4 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-33.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -1520,18 +1520,18 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 15 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 8 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 15 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 8 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-35.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 19 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 20 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 19 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 20 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-36.png" width="700"></p>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
@@ -1550,6 +1550,7 @@ Hung</h4>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
+<pre><code><span><span class="co">## WARNING: There were 1 pathways for which P-values were not calculated properly due to unbalanced (positive and negative) gene-level statistic values. For such pathways pval, padj, NES, log2err are set to NA. You can try to increase the value of the argument nPermSimple (for example set it nPermSimple = 10000)</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
@@ -1585,18 +1586,18 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-38.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 9 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 8 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 9 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 8 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-39.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -1621,9 +1622,9 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-42.png" width="700"></p>
 <pre><code><span><span class="co">## Running PAIRWISE enrichment map pipeline for TSS PEAKS...</span></span></code></pre>
@@ -1641,7 +1642,7 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 1 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
@@ -1653,10 +1654,10 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 12334 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 12333 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 30 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 12334 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 12333 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 33 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-44.png" width="700"></p>
@@ -1670,7 +1671,7 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 1 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
@@ -1682,10 +1683,10 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 11694 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 11693 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 22 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 11694 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 11693 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: ggrepel: 26 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-46.png" width="700"></p>
@@ -1699,7 +1700,7 @@ Hung</h4>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: The OmnipathR package is needed for annotation functions. Please install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 1 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
@@ -1715,9 +1716,9 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: no non-missing arguments to max; returning -Inf</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: NaNs produced</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 12382 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 12381 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 12382 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 12381 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-48.png" width="700"></p>
 <pre><code><span><span class="co">## Running ONE-TO-ALL gene set enrichment pipeline for TSS PEAKS...</span></span></code></pre>
@@ -1767,18 +1768,18 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 3 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-49.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 4 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 6 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 4 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 6 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-50.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -1794,20 +1795,11 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 5 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 5 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-52.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
 <span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-53.png" width="700"></p>
+<p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-52.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
@@ -1815,6 +1807,15 @@ Hung</h4>
 <pre><code><span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
 <span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
+<span><span class="co">## (`geom_text()`).</span></span></code></pre>
+<p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-53.png" width="700"></p>
+<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
+<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
+<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
+<pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## WARNING: Removed 7 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## (`geom_text()`).</span></span>
+<span><span class="co">## WARNING: Removed 7 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-54.png" width="700"></p>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
@@ -1869,9 +1870,9 @@ Hung</h4>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## WARNING: Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## WARNING: Removed 2 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## WARNING: Removed 1 row containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-7-56.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -1926,7 +1927,7 @@ Hung</h4>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: There were 6 pathways for which P-values were not calculated properly due to unbalanced (positive and negative) gene-level statistic values. For such pathways pval, padj, NES, log2err are set to NA. You can try to increase the value of the argument nPermSimple (for example set it nPermSimple = 10000)</span></span></code></pre>
+<pre><code><span><span class="co">## WARNING: There were 10 pathways for which P-values were not calculated properly due to unbalanced (positive and negative) gene-level statistic values. For such pathways pval, padj, NES, log2err are set to NA. You can try to increase the value of the argument nPermSimple (for example set it nPermSimple = 10000)</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
@@ -1942,7 +1943,7 @@ Hung</h4>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
 <pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## WARNING: There were 2 pathways for which P-values were not calculated properly due to unbalanced (positive and negative) gene-level statistic values. For such pathways pval, padj, NES, log2err are set to NA. You can try to increase the value of the argument nPermSimple (for example set it nPermSimple = 10000)</span></span></code></pre>
+<pre><code><span><span class="co">## WARNING: There were 1 pathways for which P-values were not calculated properly due to unbalanced (positive and negative) gene-level statistic values. For such pathways pval, padj, NES, log2err are set to NA. You can try to increase the value of the argument nPermSimple (for example set it nPermSimple = 10000)</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
 <pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>

@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">deseq2pip</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Author: Matthew
 Hung</h4>
             
-            <h4 data-toc-skip class="date">Last Updated: 2025/05/03</h4>
+            <h4 data-toc-skip class="date">Last Updated: 2025/05/20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/hungms/deseq2pip/blob/main/vignettes/rna_guide.Rmd" class="external-link"><code>vignettes/rna_guide.Rmd</code></a></small>
       <div class="d-none name"><code>rna_guide.Rmd</code></div>
@@ -79,7 +79,7 @@ Hung</h4>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">save_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">save_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpCgmRIG' already</span></span>
+<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/Rtmp7Ue0B9' already</span></span>
 <span><span class="co">## exists</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#setwd("/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/github-repos/r-pipelines/deseq2pip/tests/rnaseq/module/")</span></span></code></pre></div>
@@ -208,15 +208,14 @@ arguments.</p>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: The OmnipathR package is needed for annotation functions. Please</span></span>
-<span><span class="co">## install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 8 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 701 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 700 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 704 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 703 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
@@ -242,15 +241,14 @@ arguments.</p>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: The OmnipathR package is needed for annotation functions. Please</span></span>
-<span><span class="co">## install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 8 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 1542 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 1541 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 1545 unlabeled data points (too many overlaps). Consider</span></span>
+<pre><code><span><span class="co">## Warning: ggrepel: 1544 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-6-3.png" width="700"></p>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
@@ -276,8 +274,7 @@ arguments.</p>
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: The OmnipathR package is needed for annotation functions. Please</span></span>
-<span><span class="co">## install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
+<pre><code><span><span class="co">## Removed 8 rows with NA values or invalid gene symbols</span></span></code></pre>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
@@ -291,11 +288,11 @@ arguments.</p>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 15580 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 15579 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: ggrepel: 35 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 15580 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 15579 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: ggrepel: 37 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
@@ -353,21 +350,11 @@ arguments.</p>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
 <span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 8 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 10 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 8 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 10 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 9 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 9 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-2.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
@@ -377,15 +364,24 @@ arguments.</p>
 <span><span class="co">## (`geom_text()`).</span></span>
 <span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
+<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-2.png" width="700"></p>
+<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
+<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
+<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"): Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span>
+<span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## (`geom_text()`).</span></span>
+<span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-7-3.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
 <span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 19 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 20 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 19 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 20 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-7-4.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -403,9 +399,9 @@ arguments.</p>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
 <span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 10 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 7 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 10 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 7 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-7-6.png" width="700"></p>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
@@ -461,8 +457,9 @@ arguments.</p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"): Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span>
-<span><span class="co">## Removed 10 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
+<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 10 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
 <span><span class="co">## Removed 10 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
@@ -490,11 +487,10 @@ arguments.</p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 5 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"): Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span>
+<span><span class="co">## Removed 3 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 5 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 3 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-7-10.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -502,19 +498,18 @@ arguments.</p>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
 <span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 7 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 7 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-7-11.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 4 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"): Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span>
+<span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 4 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-7-12.png" width="700"></p>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
@@ -560,9 +555,9 @@ arguments.</p>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
 <span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 17 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 13 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 17 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 13 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-7-13.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -570,21 +565,11 @@ arguments.</p>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
 <span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 4 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 10 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 4 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 10 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-7-14.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 1 row containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-15.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
@@ -594,7 +579,7 @@ arguments.</p>
 <span><span class="co">## (`geom_text()`).</span></span>
 <span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-16.png" width="700"></p>
+<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-15.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
@@ -604,18 +589,28 @@ arguments.</p>
 <span><span class="co">## (`geom_text()`).</span></span>
 <span><span class="co">## Removed 3 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
+<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-16.png" width="700"></p>
+<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
+<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
+<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
+<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
+<pre><code><span><span class="co">## Warning: Removed 4 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## (`geom_text()`).</span></span>
+<span><span class="co">## Removed 4 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-7-17.png" width="700"></p>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
 <span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 5 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 7 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 5 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">## Removed 7 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-7-18.png" width="700"></p>
-<div class="sourceCode" id="cb308"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb306"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/enrichmentmap_pip.html">enrichmentmap_pip</a></span><span class="op">(</span><span class="va">dds</span>, org <span class="op">=</span> <span class="va">org</span>, group_by <span class="op">=</span> <span class="va">group_by</span>, group_dir <span class="op">=</span> <span class="va">group_dir</span>, save_dir <span class="op">=</span> <span class="va">group_dir</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Formatting for enrichmentmap...</span></span></code></pre>
 <pre><code><span><span class="co">## Writing class files for PAIRWISE comparisons...</span></span></code></pre>
@@ -639,12 +634,12 @@ interested in, you can optionally remove them with the
 <code><a href="../reference/remove_mt_genes.html">remove_mt_genes()</a></code> function.</p>
 <p>This is optional but recommended if you see a gender-specific effect
 in downstream PCA and distance analysis.</p>
-<div class="sourceCode" id="cb311"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb309"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># when remove_xy or remove_mt are TRUE</span></span>
 <span><span class="kw">if</span><span class="op">(</span><span class="va">remove_xy</span><span class="op">)</span> <span class="op">{</span> </span>
 <span>  <span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/remove_xy_genes.html">remove_xy_genes</a></span><span class="op">(</span><span class="va">dds</span>, org <span class="op">=</span> <span class="va">org</span><span class="op">)</span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## Removing 0 XY genes out of 50426 total genes...</span></span></code></pre>
-<div class="sourceCode" id="cb313"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb311"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="va">remove_mt</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/remove_mt_genes.html">remove_mt_genes</a></span><span class="op">(</span><span class="va">dds</span>, org <span class="op">=</span> <span class="va">org</span><span class="op">)</span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## Removing 0 MT genes out of 50426 total genes...</span></span></code></pre>
@@ -660,7 +655,7 @@ analysis.</p>
 (<code>remove_low_expression(..., quantile = 0.05)</code>). The gene
 must also be expressed in at least n replicates, where n is the minimum
 replicates in the group.</p>
-<div class="sourceCode" id="cb315"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb313"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># remove low expression genes</span></span>
 <span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/remove_low_expression.html">remove_low_expression</a></span><span class="op">(</span><span class="va">dds</span>, quantile <span class="op">=</span> <span class="va">quantile</span>, group_by <span class="op">=</span> <span class="va">group_by</span>, save_plot <span class="op">=</span> <span class="va">save_plot</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Filtering genes with low expressions...</span></span></code></pre>
@@ -681,7 +676,7 @@ suitable for differential expression analysis.</p>
 or perform batch correction downstream to address quality issues. This
 will address technical variation between samples/batches and improve the
 statistical power for true biological variations.</p>
-<div class="sourceCode" id="cb317"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb315"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># check library size distribution</span></span>
 <span><span class="fu"><a href="../reference/check_library.html">check_library</a></span><span class="op">(</span><span class="va">dds</span>, save_plot <span class="op">=</span> <span class="va">save_plot</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
@@ -697,13 +692,13 @@ from the same group should cluster closely in the PCA plot and have
 lower distance values in the distance heatmap.</p>
 <p>Again, one should consider sample/batch quality if the samples do not
 separate as expected.</p>
-<div class="sourceCode" id="cb318"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb316"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run PCA for the samples with group information</span></span>
 <span><span class="va">vsd</span> <span class="op">&lt;-</span> <span class="fu">vst</span><span class="op">(</span><span class="va">dds</span>, blind <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/run_pca.html">run_pca</a></span><span class="op">(</span><span class="va">vsd</span>, group_by <span class="op">=</span> <span class="va">group_by</span>, size <span class="op">=</span> <span class="fl">4</span>, save_data <span class="op">=</span> <span class="va">save_data</span>, save_plot <span class="op">=</span> <span class="va">save_plot</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## using ntop=500 top features by variance</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-11-1.png" width="700"><img src="rna_guide_files/figure-html/unnamed-chunk-11-2.png" width="700"></p>
-<div class="sourceCode" id="cb320"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb318"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run distance analysis between samples</span></span>
 <span><span class="fu"><a href="../reference/run_distance.html">run_distance</a></span><span class="op">(</span><span class="va">vsd</span>, save_data <span class="op">=</span> <span class="va">save_data</span>, save_plot <span class="op">=</span> <span class="va">save_plot</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-11-3.png" width="700"></p>
@@ -730,7 +725,7 @@ method.</p>
 <p>Additionally, chromosome loci and functional annotations of each gene
 was added to the dataframe using the
 <code><a href="https://hungms.github.io/deseq2pip/reference/run_annotation.html">strpip::run_annotation()</a></code> function (see <a href="https://github.com/hungms/strpip" class="external-link uri">https://github.com/hungms/strpip</a>).</p>
-<div class="sourceCode" id="cb321"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb319"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run differential expression analysis for all comparisons; skipped here</span></span>
 <span><span class="co">#res &lt;- run_diffexp_pip(dds, group_by = group_by, one_to_all = one_to_all, save_data = save_data, save_dir = save_dir)</span></span>
 <span><span class="co">#head(res)</span></span>
@@ -747,59 +742,100 @@ was added to the dataframe using the
 <span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
 <span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
 <pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: The OmnipathR package is needed for annotation functions. Please</span></span>
-<span><span class="co">## install it with: BiocManager::install('OmnipathR')</span></span></code></pre>
-<div class="sourceCode" id="cb331"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## Removed 8 rows with NA values or invalid gene symbols</span></span></code></pre>
+<div class="sourceCode" id="cb329"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##           baseMean log2FoldChange     lfcSE       pvalue         padj  gene</span></span>
-<span><span class="co">## Mgat3     188.5907       5.322624 0.3842944 1.534812e-47 6.361411e-44 Mgat3</span></span>
-<span><span class="co">## Gcsam     207.8809       5.082252 0.3833150 3.833981e-44 1.271271e-40 Gcsam</span></span>
-<span><span class="co">## Klrb1     166.6979       4.089641 0.3288443 6.984282e-39 1.929874e-35 Klrb1</span></span>
-<span><span class="co">## Igha  4337380.4290       7.253573 0.8154216 1.819933e-22 2.011511e-19  Igha</span></span>
-<span><span class="co">## Hdac9     532.9338       2.545878 0.2317074 1.446885e-29 2.665324e-26 Hdac9</span></span>
-<span><span class="co">## Nfia      190.7992       2.215528 0.1940118 1.638143e-31 3.879825e-28  Nfia</span></span>
-<span><span class="co">##            baseVar allZero dispGeneEst dispGeneIter    dispFit dispersion</span></span>
-<span><span class="co">## Mgat3 3.776146e+04   FALSE 0.009918678           14 0.08558851 0.05080052</span></span>
-<span><span class="co">## Gcsam 4.747919e+04   FALSE 0.054438766            5 0.08242343 0.06820463</span></span>
-<span><span class="co">## Klrb1 2.770422e+04   FALSE 0.000000010            5 0.09006804 0.05701947</span></span>
-<span><span class="co">## Igha  2.108433e+13   FALSE 0.578398197            6 0.05148156 0.57839820</span></span>
-<span><span class="co">## Hdac9 1.695835e+05   FALSE 0.036560321            8 0.06355011 0.04638778</span></span>
-<span><span class="co">## Nfia  1.806722e+04   FALSE 0.000000010            4 0.08519370 0.02341745</span></span>
-<span><span class="co">##       dispIter dispOutlier    dispMAP Intercept Group2_IgA_vs_IgG SE_Intercept</span></span>
-<span><span class="co">## Mgat3        9       FALSE 0.05080052  3.079746          5.446600    0.3363843</span></span>
-<span><span class="co">## Gcsam        8       FALSE 0.06820463  3.445178          5.215735    0.3208164</span></span>
-<span><span class="co">## Klrb1       11       FALSE 0.05701947  4.080498          4.224775    0.2704166</span></span>
-<span><span class="co">## Igha         9        TRUE 0.31330656 15.475179          7.565616    0.5486173</span></span>
-<span><span class="co">## Hdac9        9       FALSE 0.04638778  7.216582          2.623558    0.1706306</span></span>
-<span><span class="co">## Nfia         7       FALSE 0.02341745  6.035192          2.268486    0.1530235</span></span>
-<span><span class="co">##       SE_Group2_IgA_vs_IgG WaldStatistic_Intercept</span></span>
-<span><span class="co">## Mgat3            0.3760489                9.155439</span></span>
-<span><span class="co">## Gcsam            0.3742664               10.738783</span></span>
-<span><span class="co">## Klrb1            0.3239162               15.089671</span></span>
-<span><span class="co">## Igha             0.7758515               28.207603</span></span>
-<span><span class="co">## Hdac9            0.2323498               42.293609</span></span>
-<span><span class="co">## Nfia             0.1942416               39.439649</span></span>
-<span><span class="co">##       WaldStatistic_Group2_IgA_vs_IgG WaldPvalue_Intercept</span></span>
-<span><span class="co">## Mgat3                       14.483754         5.413705e-20</span></span>
-<span><span class="co">## Gcsam                       13.935889         6.692058e-27</span></span>
-<span><span class="co">## Klrb1                       13.042801         1.893855e-51</span></span>
-<span><span class="co">## Igha                         9.751371        4.717743e-175</span></span>
-<span><span class="co">## Hdac9                       11.291415         0.000000e+00</span></span>
-<span><span class="co">## Nfia                        11.678683         0.000000e+00</span></span>
-<span><span class="co">##       WaldPvalue_Group2_IgA_vs_IgG betaConv betaIter  deviance    maxCooks</span></span>
-<span><span class="co">## Mgat3                 1.534812e-47     TRUE        3  62.91268  0.74959351</span></span>
-<span><span class="co">## Gcsam                 3.833981e-44     TRUE        3  65.64477  0.37801402</span></span>
-<span><span class="co">## Klrb1                 6.984282e-39     TRUE        3  62.81143  0.25032951</span></span>
-<span><span class="co">## Igha                  1.819933e-22     TRUE        4 222.46207 13.57657842</span></span>
-<span><span class="co">## Hdac9                 1.446885e-29     TRUE        3  86.08081  0.58411858</span></span>
-<span><span class="co">## Nfia                  1.638143e-31     TRUE        2  63.47720  0.05906474</span></span>
-<span><span class="co">##       comparison      pxfc      rank</span></span>
-<span><span class="co">## Mgat3 IgG_vs_IgA 229.91844 229.91844</span></span>
-<span><span class="co">## Gcsam IgG_vs_IgA 202.76031 202.76031</span></span>
-<span><span class="co">## Klrb1 IgG_vs_IgA 141.96971 141.96971</span></span>
-<span><span class="co">## Igha  IgG_vs_IgA 135.61626 135.61626</span></span>
-<span><span class="co">## Hdac9 IgG_vs_IgA  65.10892  65.10892</span></span>
-<span><span class="co">## Nfia  IgG_vs_IgA  60.73025  60.73025</span></span></code></pre>
+<pre><code><span><span class="co">##       baseMean log2FoldChange     lfcSE       pvalue         padj  gene</span></span>
+<span><span class="co">## 1     188.5907       5.322624 0.3842944 1.534812e-47 6.361411e-44 Mgat3</span></span>
+<span><span class="co">## 2     207.8809       5.082252 0.3833150 3.833981e-44 1.271271e-40 Gcsam</span></span>
+<span><span class="co">## 3     166.6979       4.089641 0.3288443 6.984282e-39 1.929874e-35 Klrb1</span></span>
+<span><span class="co">## 4 4337380.4290       7.253573 0.8154216 1.819933e-22 2.011511e-19  Igha</span></span>
+<span><span class="co">## 5     532.9338       2.545878 0.2317074 1.446885e-29 2.665324e-26 Hdac9</span></span>
+<span><span class="co">## 6     190.7992       2.215528 0.1940118 1.638143e-31 3.879825e-28  Nfia</span></span>
+<span><span class="co">##        baseVar allZero dispGeneEst dispGeneIter    dispFit dispersion dispIter</span></span>
+<span><span class="co">## 1 3.776146e+04   FALSE 0.009918678           14 0.08558851 0.05080052        9</span></span>
+<span><span class="co">## 2 4.747919e+04   FALSE 0.054438766            5 0.08242343 0.06820463        8</span></span>
+<span><span class="co">## 3 2.770422e+04   FALSE 0.000000010            5 0.09006804 0.05701947       11</span></span>
+<span><span class="co">## 4 2.108433e+13   FALSE 0.578398197            6 0.05148156 0.57839820        9</span></span>
+<span><span class="co">## 5 1.695835e+05   FALSE 0.036560321            8 0.06355011 0.04638778        9</span></span>
+<span><span class="co">## 6 1.806722e+04   FALSE 0.000000010            4 0.08519370 0.02341745        7</span></span>
+<span><span class="co">##   dispOutlier    dispMAP Intercept Group2_IgA_vs_IgG SE_Intercept</span></span>
+<span><span class="co">## 1       FALSE 0.05080052  3.079746          5.446600    0.3363843</span></span>
+<span><span class="co">## 2       FALSE 0.06820463  3.445178          5.215735    0.3208164</span></span>
+<span><span class="co">## 3       FALSE 0.05701947  4.080498          4.224775    0.2704166</span></span>
+<span><span class="co">## 4        TRUE 0.31330656 15.475179          7.565616    0.5486173</span></span>
+<span><span class="co">## 5       FALSE 0.04638778  7.216582          2.623558    0.1706306</span></span>
+<span><span class="co">## 6       FALSE 0.02341745  6.035192          2.268486    0.1530235</span></span>
+<span><span class="co">##   SE_Group2_IgA_vs_IgG WaldStatistic_Intercept WaldStatistic_Group2_IgA_vs_IgG</span></span>
+<span><span class="co">## 1            0.3760489                9.155439                       14.483754</span></span>
+<span><span class="co">## 2            0.3742664               10.738783                       13.935889</span></span>
+<span><span class="co">## 3            0.3239162               15.089671                       13.042801</span></span>
+<span><span class="co">## 4            0.7758515               28.207603                        9.751371</span></span>
+<span><span class="co">## 5            0.2323498               42.293609                       11.291415</span></span>
+<span><span class="co">## 6            0.1942416               39.439649                       11.678683</span></span>
+<span><span class="co">##   WaldPvalue_Intercept WaldPvalue_Group2_IgA_vs_IgG betaConv betaIter  deviance</span></span>
+<span><span class="co">## 1         5.413705e-20                 1.534812e-47     TRUE        3  62.91268</span></span>
+<span><span class="co">## 2         6.692058e-27                 3.833981e-44     TRUE        3  65.64477</span></span>
+<span><span class="co">## 3         1.893855e-51                 6.984282e-39     TRUE        3  62.81143</span></span>
+<span><span class="co">## 4        4.717743e-175                 1.819933e-22     TRUE        4 222.46207</span></span>
+<span><span class="co">## 5         0.000000e+00                 1.446885e-29     TRUE        3  86.08081</span></span>
+<span><span class="co">## 6         0.000000e+00                 1.638143e-31     TRUE        2  63.47720</span></span>
+<span><span class="co">##      maxCooks comparison      pxfc      rank mouse_chromosome human_gene_symbol</span></span>
+<span><span class="co">## 1  0.74959351 IgG_vs_IgA 229.91844 229.91844               15             MGAT3</span></span>
+<span><span class="co">## 2  0.37801402 IgG_vs_IgA 202.76031 202.76031               16             GCSAM</span></span>
+<span><span class="co">## 3  0.25032951 IgG_vs_IgA 141.96971 141.96971                6             KLRB1</span></span>
+<span><span class="co">## 4 13.57657842 IgG_vs_IgA 135.61626 135.61626               12             IGHA1</span></span>
+<span><span class="co">## 5  0.58411858 IgG_vs_IgA  65.10892  65.10892               12             HDAC9</span></span>
+<span><span class="co">## 6  0.05906474 IgG_vs_IgA  60.73025  60.73025                4              NFIA</span></span>
+<span><span class="co">##   human_chromosome human_gene_symbol_unique human_chromosome_unique entity_type</span></span>
+<span><span class="co">## 1               22                    MGAT3                      22     protein</span></span>
+<span><span class="co">## 2                3                    GCSAM                       3     protein</span></span>
+<span><span class="co">## 3               12                    KLRB1                      12     protein</span></span>
+<span><span class="co">## 4               14                    IGHA1                      14     protein</span></span>
+<span><span class="co">## 5                7                    HDAC9                       7     protein</span></span>
+<span><span class="co">## 6                1                     NFIA                       1     protein</span></span>
+<span><span class="co">##                                                                                                                                                                                                                                                                                                                                                                               category</span></span>
+<span><span class="co">## 1                                                                                                                                                                                                                                                                                                                                                         intracellular, transmembrane</span></span>
+<span><span class="co">## 2                                                                                                                                                                                                                                                                                                                                                       intracellular, plasma_membrane</span></span>
+<span><span class="co">## 3 receptor, scavenger, other_receptor_family, transmembrane, intracellular, plasma_membrane_transmembrane, cell_surface_ligand, transmembrane_phobius, cell_adhesion, plasma_membrane, transmembrane_predicted, cell_surface, klr, class_e, scar, extracellular, transmembrane_sosui, killer_cell_lectin_like, adhesion, c_lectinn_containing_scavenger_scavenger, transmembrane_tmhmm</span></span>
+<span><span class="co">## 4                                                                                                                                                                                                                                                                                               secreted, immunoglobulin_heavy, extracellular, cell_surface, receptor, plasma_membrane</span></span>
+<span><span class="co">## 5                                                                                                                                                                                                                                                                                                                                                              intracellular, receptor</span></span>
+<span><span class="co">## 6                                                                                                                                                                                                                                                                                                                                                                        intracellular</span></span>
+<span><span class="co">##                                                                                                                                                                                       parent</span></span>
+<span><span class="co">## 1                                                                                                                                                               intracellular, transmembrane</span></span>
+<span><span class="co">## 2                                                                                                                                                             intracellular, plasma_membrane</span></span>
+<span><span class="co">## 3 receptor, transmembrane, intracellular, transmembrane_predicted, plasma_membrane_transmembrane, cell_surface_ligand, cell_adhesion, plasma_membrane, cell_surface, extracellular, adhesion</span></span>
+<span><span class="co">## 4                                                                                                                           secreted, cell_surface, extracellular, receptor, plasma_membrane</span></span>
+<span><span class="co">## 5                                                                                                                                                                    intracellular, receptor</span></span>
+<span><span class="co">## 6                                                                                                                                                                              intracellular</span></span>
+<span><span class="co">##   consensus_score is_cs</span></span>
+<span><span class="co">## 1               4  TRUE</span></span>
+<span><span class="co">## 2               3 FALSE</span></span>
+<span><span class="co">## 3              10  TRUE</span></span>
+<span><span class="co">## 4              11  TRUE</span></span>
+<span><span class="co">## 5               3 FALSE</span></span>
+<span><span class="co">## 6               3 FALSE</span></span>
+<span><span class="co">##                                                                                                                                                                                        database_cs</span></span>
+<span><span class="co">## 1                                                                                                                                                  ComPPI, UniProt, OmniPath, LOCATE, GO_Intercell</span></span>
+<span><span class="co">## 2                                                                                                                                                          UniProt, GO_Intercell, OmniPath, ComPPI</span></span>
+<span><span class="co">## 3 CellPhoneDB, CellChatDB, HPMR, OmniPath, LOCATE, Phobius, UniProt, Almen2009, HGNC, GO_Intercell, CellCellInteractions, Surfaceome, connectomeDB2020, Ramilowski_location, CellTalkDB, Cellinker</span></span>
+<span><span class="co">## 4                                                                                                                                             OmniPath, HGNC, DGIdb, CellCellInteractions, UniProt</span></span>
+<span><span class="co">## 5                                                                                                                                       GO_Intercell, OmniPath, ComPPI, scConnect, LOCATE, UniProt</span></span>
+<span><span class="co">## 6                                                                                                                                                  OmniPath, LOCATE, UniProt, ComPPI, GO_Intercell</span></span>
+<span><span class="co">##   is_tf</span></span>
+<span><span class="co">## 1 FALSE</span></span>
+<span><span class="co">## 2 FALSE</span></span>
+<span><span class="co">## 3 FALSE</span></span>
+<span><span class="co">## 4 FALSE</span></span>
+<span><span class="co">## 5  TRUE</span></span>
+<span><span class="co">## 6  TRUE</span></span>
+<span><span class="co">##                                                                                                                                                                                                                                                                        database_tf</span></span>
+<span><span class="co">## 1                                                                                                                                                                                                                                                                             &lt;NA&gt;</span></span>
+<span><span class="co">## 2                                                                                                                                                                                                                                                                             &lt;NA&gt;</span></span>
+<span><span class="co">## 3                                                                                                                                                                                                                                                                             &lt;NA&gt;</span></span>
+<span><span class="co">## 4                                                                                                                                                                                                                                                                             &lt;NA&gt;</span></span>
+<span><span class="co">## 5                                                                                                                                                                                                                                         CollecTRI;TRRUST_CollecTRI;GOA_CollecTRI</span></span>
+<span><span class="co">## 6 CollecTRI;ExTRI_CollecTRI;Pavlidis2021_CollecTRI;DoRothEA;GEREDB_CollecTRI;PAZAR_DoRothEA;NTNU.Curated_CollecTRI;TRRUST_CollecTRI;TRRUST_DoRothEA;RegNetwork_DoRothEA;TRED_DoRothEA;TFactS_CollecTRI;ARACNe-GTEx_DoRothEA;GOA_CollecTRI;SIGNOR;SIGNOR_CollecTRI;CytReg_CollecTRI</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="generating-ma-volcano-plots">Generating MA &amp; volcano plots<a class="anchor" aria-label="anchor" href="#generating-ma-volcano-plots"></a>
@@ -807,7 +843,7 @@ was added to the dataframe using the
 <p>Here we will use <code><a href="../reference/plot_ma.html">plot_ma()</a></code> and
 <code><a href="../reference/plot_volcano.html">plot_volcano()</a></code> to generate a single MA plot for the
 <code>IgG_vs_IgA</code> comparison as a demonstration.</p>
-<div class="sourceCode" id="cb333"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb331"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># generate MA plot for the "IgG_vs_IgA" comparison</span></span>
 <span><span class="fu"><a href="../reference/plot_ma.html">plot_ma</a></span><span class="op">(</span><span class="va">res</span>, save_plot <span class="op">=</span> <span class="va">save_plot</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
@@ -820,19 +856,19 @@ was added to the dataframe using the
 <pre><code><span><span class="co">## Warning: ggrepel: 954 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-13-2.png" width="700"></p>
-<div class="sourceCode" id="cb340"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb338"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Generate volcano plot for the "IgA_vs_IgG" comparison</span></span>
 <span><span class="fu"><a href="../reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res</span>, save_plot <span class="op">=</span> <span class="cn">FALSE</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
 <pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 15580 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 15579 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <pre><code><span><span class="co">## Warning: ggrepel: 37 unlabeled data points (too many overlaps). Consider</span></span>
 <span><span class="co">## increasing max.overlaps</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-13-3.png" width="700"></p>
-<pre><code><span><span class="co">## Warning: Removed 15580 rows containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 15579 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span>
 <span><span class="co">## ggrepel: 37 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-13-4.png" width="700"></p>
@@ -851,7 +887,7 @@ genes to be tested.</p>
 </h3>
 <p>This returns a list of gseaResult class objects for each gene set
 collection and comparison.</p>
-<div class="sourceCode" id="cb348"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb346"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run gsea analysis</span></span>
 <span><span class="co"># gsea &lt;- run_gsea_pip(res, org = org, save_data = save_data, save_dir = save_dir)</span></span>
 <span></span>
@@ -891,7 +927,7 @@ collection and comparison.</p>
 <pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
 <pre><code><span><span class="co">## done...</span></span></code></pre>
-<div class="sourceCode" id="cb383"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb381"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">gsea</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##  [1] "ID"              "Description"     "setSize"         "enrichmentScore"</span></span>
 <span><span class="co">##  [5] "NES"             "pvalue"          "p.adjust"        "qvalue"         </span></span>
@@ -905,7 +941,7 @@ collection and comparison.</p>
 single barplot for the <code>IgA_vs_IgG</code> comparison using GOBP
 collection as a demonstration. By default, the barplot will show the top
 10 upregulated and downregulated terms.</p>
-<div class="sourceCode" id="cb385"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb383"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># generate barplot for the "IgA_vs_IgG" comparison</span></span>
 <span><span class="fu"><a href="../reference/plot_gsea_barplot.html">plot_gsea_barplot</a></span><span class="op">(</span><span class="va">gsea</span>, n <span class="op">=</span> <span class="fl">10</span>, save_plot <span class="op">=</span> <span class="cn">FALSE</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
@@ -915,10 +951,10 @@ collection as a demonstration. By default, the barplot will show the top
 <span><span class="co">## has length &gt; 1 and only the first element will be used</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
 <span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 1 row containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
-<pre><code><span><span class="co">## Warning: Removed 1 row containing missing values or values outside the scale range</span></span>
+<pre><code><span><span class="co">## Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">## (`geom_text()`).</span></span></code></pre>
 <p><img src="rna_guide_files/figure-html/unnamed-chunk-15-2.png" width="700"></p>
 </div>
@@ -930,7 +966,7 @@ creates a enrichmentmap directory containing files formated for
 EnrichmentMap visualization.</p>
 <p>By default, the function will only use the HALLMARK, GOBP, KEGG and
 REACTOME collections. We will skip this step here.</p>
-<div class="sourceCode" id="cb393"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb391"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run enrichmentmap pipeline</span></span>
 <span><span class="co">#enrichmentmap_pip(gsea, org = org, group_by = group_by, group_dir = group_dir, save_dir = group_dir)</span></span></code></pre></div>
 </div>
