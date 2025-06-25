@@ -12,7 +12,7 @@
 .onLoad <- function(libname, pkgname) {
   ### load default packages
   packages <- c(
-    "strpip", "plotr", "DESeq2", "biomaRt", "ggalt", "pheatmap", "ggplotify", "clusterProfiler", "msigdbr", "fgsea", "ggpubr", "grid", "scales", "forcats", "limma", "labeling", "sva", "ashr", "enrichplot", "renv")
+    "strpip", "plotr", "DESeq2", "biomaRt", "ggalt", "pheatmap", "ggplotify", "clusterProfiler", "msigdbr", "fgsea", "ggpubr", "grid", "scales", "forcats", "limma", "labeling", "sva", "ashr", "enrichplot", "renv", "ggprism")
   invisible(lapply(packages, library, character.only = TRUE))
 
   ### start up settings

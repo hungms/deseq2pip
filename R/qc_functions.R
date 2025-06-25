@@ -95,8 +95,7 @@ remove_low_expression <- function(dds, group_by, quantile = 0.05, save_plot = TR
             geom_vline(xintercept = threshold, color = "red", linetype = "dashed") +
             xlab("Expression") +
             ylab("Density") +
-            theme_line() +
-            theme_text()
+            ggprism::theme_prism()
     print(p)
 
     if(save_plot){
@@ -133,11 +132,10 @@ check_library <- function(dds, save_plot = TRUE, save_dir = getwd()){
         pivot_longer(everything(), names_to = "samples", values_to = "exprs") %>%
         ggplot(aes(x = samples, y = exprs)) +
         geom_boxplot(fill = "grey", width = 0.75) +
-        theme_border() +
-        theme_text() +
+        ggprism::theme_prism() +
+        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
         xlab(NULL) +
-        ylab("Expression") +
-        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+        ylab("Expression")
     print(p)
 
     if(save_plot){

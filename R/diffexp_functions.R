@@ -278,8 +278,7 @@ plot_volcano <- function(res, n = 25, fc.thresh = 0.5, p.thresh = 0.05, crop = T
         guides(color = guide_legend(title = "", override.aes = list(size = 5)), size = guide_none()) +
         geom_text_repel(data = res.highlight, aes(label = gene), size = 3.5) +
         xlim(c(-range, range)) +
-        theme_border() +
-        theme_text() +
+        ggprism::theme_prism(border = T) +
         coord_cartesian(clip = 'off') +
         theme(plot.margin = margin(5,5,10,5)) +
         scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +

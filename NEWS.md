@@ -1,4 +1,7 @@
 # NEWS
+## v1.0.2 (2025-06-25)
+Change all plotr dependencies to ggprism.
+
 ## v1.0.1 (2025-05-30)
 reverse groups in all one-to-all comparisons.
 

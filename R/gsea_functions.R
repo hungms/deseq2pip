@@ -193,17 +193,12 @@ plot_gsea_barplot <- function(gsea, n = 10, signif = F, save_plot = T, save_dir 
                 ticks.colour = "black", 
                 order = 1), 
             size = guide_none()) + 
-        ggtitle(comparison, subtitle = paste0(collection, " COLLECTION")) + 
-        theme_border() + 
-        theme_text() + 
+        ggtitle(comparison, subtitle = paste0(collection, " COLLECTION")) +  
+        ggprism::theme_prism(border = T) + 
         theme(
-            panel.border = element_rect(fill = NA, color = "black", size = 0.7), 
-            plot.title = element_text(size = 16, face = "bold", hjust = 0.5), 
-            plot.subtitle = element_text(size = 10, face = "plain", hjust = 0.5), 
             axis.line.y = element_blank(), 
             axis.text.y = element_blank(), 
-            axis.ticks.y = element_blank()) + 
-        theme_gridlines() + 
+            axis.ticks.y = element_blank()) +
         ylim(c(-yrange, yrange)) + 
         geom_hline(yintercept = 0, color = "grey40", size = 0.5) + 
         scale_x_discrete(expand = c(0.05, 0.05)) + 
