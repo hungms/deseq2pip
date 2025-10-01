@@ -54,56 +54,85 @@ remove_mt_genes <- function(dds, org, ...){
 
 #' Remove Genes with Low Expression
 #'
-#' This function filters out genes with expression values below a specified quantile threshold
+#' This function filters out genes with raw count values below a specified minimum count threshold
 #' in at least a minimum number of replicates per condition.
 #'
 #' @param dds A DESeq2 object containing the gene expression data
-#' @param quantile Quantile threshold for filtering. Default is 0.05 (lowest 5%)
+#' @param min_count Minimum count threshold for filtering. Default is 10
 #' @param group_by Column name in colData(dds) to use for defining conditions. Default is "Group1"
 #' @param save_plot Logical. If TRUE, saves the expression distribution plot. Default is TRUE
 #' @param save_dir Directory to save the plot. Default is the current working directory
 #' @return A filtered DESeq2 object with low-expression genes removed
 #' @examples
 #' \dontrun{
-#' # Remove bottom 5% of genes
-#' dds_filtered <- remove_low_expression(dds, quantile = 0.05)
+#' # Remove genes with counts < 10
+#' dds_filtered <- remove_low_expression(dds, min_count = 10)
 #' 
-#' # Remove bottom 10% of genes and save plot
-#' dds_filtered <- remove_low_expression(dds, quantile = 0.1, save_plot = TRUE)
+#' # Remove genes with counts < 5 and save plot
+#' dds_filtered <- remove_low_expression(dds, min_count = 5, save_plot = TRUE)
 #' }
 #' @export
-remove_low_expression <- function(dds, group_by, quantile = 0.05, save_plot = TRUE, save_dir = getwd()){
+remove_low_expression <- function(dds, group_by, min_count = 10, save_plot = TRUE, save_dir = getwd()){
 
     # validations
     dds <- validate_dds_group_by(dds, group_by)
-    quantile <- validate_quantile(quantile)
+    min_count <- validate_min_count(min_count)
     validate_paths(save_dir)
     
     # run filter
     message("Filtering genes with low expressions...")
-    vsd <- vst(dds, blind=FALSE)
-    colnames(vsd) <- colnames(dds)
     
-    vsd.mean <- rowMeans(assay(vsd)) %>%
+    # Use raw counts for filtering
+    raw_counts <- counts(dds, normalized = FALSE)
+    
+    # Calculate mean raw counts per gene for visualization
+    raw_counts.mean <- rowMeans(raw_counts) %>%
         as.numeric(.) %>%
         as.data.frame(.)
-    threshold <- quantile(vsd.mean[[1]], quantile)
 
-    p <- vsd.mean %>%
-            ggplot(aes(x = .)) +
+    # Create before filtering plot
+    p_before <- raw_counts.mean %>%
+            ggplot(aes(x = log10(.))) +
             geom_density(size = 0.6, color = "grey40") +
-            geom_vline(xintercept = threshold, color = "red", linetype = "dashed") +
-            xlab("Expression") +
+            geom_vline(xintercept = log10(min_count), color = "red", linetype = "dashed") +
+            xlab("Raw Count Expression") +
             ylab("Density") +
+            ggtitle("Gene Expression Distribution (Before Filtering)") +
             ggprism::theme_prism()
-    print(p)
+    print(p_before)
 
     if(save_plot){
-        save_plot(p, plot_name = "low_expression.pdf", save_dir = save_dir, w=8, h=4)}
+        save_plot(p_before, plot_name = "low_expression_before.pdf", save_dir = save_dir, w=8, h=4)}
 
     min_rep <- min(table(colData(dds)[[group_by]]))
-    keep <- rowSums(assay(vsd) >= threshold) >= min_rep
+    keep <- rowSums(raw_counts >= min_count) >= min_rep
+    
+    # Calculate and report percentage of genes remaining
+    total_genes <- nrow(dds)
+    remaining_genes <- sum(keep)
+    percentage_remaining <- round((remaining_genes / total_genes) * 100, 2)
+    message(paste0("After filtering: ", remaining_genes, " out of ", total_genes, " genes remaining (", percentage_remaining, "%)"))
+    
     dds <- dds[keep,]
+    
+    # Create after filtering plot
+    raw_counts_filtered <- counts(dds, normalized = FALSE)
+    raw_counts_filtered.mean <- rowMeans(raw_counts_filtered) %>%
+        as.numeric(.) %>%
+        as.data.frame(.)
+
+    p_after <- raw_counts_filtered.mean %>%
+            ggplot(aes(x = log10(.))) +
+            geom_density(size = 0.6, color = "steelblue") +
+            xlab("Raw Count Expression") +
+            ylab("Density") +
+            ggtitle("Gene Expression Distribution (After Filtering)") +
+            ggprism::theme_prism()
+    print(p_after)
+
+    if(save_plot){
+        save_plot(p_after, plot_name = "low_expression_after.pdf", save_dir = save_dir, w=8, h=4)}
+    
     return(dds)}
 
 #' Check Library Size Distribution
@@ -154,7 +183,7 @@ check_library <- function(dds, save_plot = TRUE, save_dir = getwd()){
 #' @param remove_xy Logical. If TRUE, removes genes on X and Y chromosomes. Default is TRUE
 #' @param remove_mt Logical. If TRUE, removes mitochondrial genes. Default is TRUE
 #' @param group_by Column name in colData(dds) to use for grouping.
-#' @param quantile Quantile threshold for filtering lowly expressed genes. Default is 0.05
+#' @param min_count Minimum count threshold for filtering lowly expressed genes. Default is 10
 #' @param save_dir Directory where all output files will be saved. Default is current working directory
 #' @param save_dir_name Name of the subdirectory to save files in. Default is "qc_results"
 #' @return The processed DESeq2 object
@@ -173,14 +202,14 @@ run_qc_pip <- function(
     remove_xy = TRUE,
     remove_mt = TRUE,
     group_by,
-    quantile = 0.05,
+    min_count = 10,
     save_dir = getwd(), 
     save_dir_name = "qc_results") {
     
     # validations
     dds <- validate_dds_group_by(dds, group_by)
     org <- validate_org(org)
-    quantile <- validate_quantile(quantile)
+    min_count <- validate_min_count(min_count)
     validate_logical(c(remove_xy, remove_mt))
     validate_paths(save_dir)
 
@@ -197,7 +226,7 @@ run_qc_pip <- function(
         dds <- remove_mt_genes(dds, org = org)}
     
     # Filter lowly expressed genes
-    dds <- remove_low_expression(dds, quantile = quantile, group_by = group_by, save_dir = qc_save_dir)
+    dds <- remove_low_expression(dds, min_count = min_count, group_by = group_by, save_dir = qc_save_dir)
     check_library(dds, save_dir = qc_save_dir)
 
     # Save expression data

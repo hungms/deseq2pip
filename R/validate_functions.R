@@ -128,19 +128,19 @@ validate_org <- function(org){
 validate_logical <- function(logical){
     stopifnot("Please make sure all variables are logical" = all(is.logical(logical)))}
 
-#' Validate quantile
+#' Validate min_count
 #' 
-#' This function validates a quantile.
+#' This function validates a min_count.
 #'
-#' @param quantile A numeric.
+#' @param min_count A numeric.
 #' @return A numeric.
 #' @export
-validate_quantile <- function(quantile){
-    stopifnot("Please make sure that the quantile is numeric" = is.numeric(quantile))
-    if(quantile > 0.2){
-        message("Quantile is greater than 0.2, setting to 0.2")
-        quantile <- 0.2}
-    return(quantile)}
+validate_min_count <- function(min_count){
+    stopifnot("Please make sure that min_count is numeric and positive" = is.numeric(min_count) && min_count > 0)
+    if(min_count < 1){
+        message("min_count is less than 1, setting to 1")
+        min_count <- 1}
+    return(min_count)}
 
 #' Validate pals
 #' 

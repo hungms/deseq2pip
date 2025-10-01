@@ -7,7 +7,7 @@
 remove_low_expression(
   dds,
   group_by,
-  quantile = 0.05,
+  min_count = 10,
   save_plot = TRUE,
   save_dir = getwd()
 )
@@ -17,7 +17,7 @@ remove_low_expression(
 
 \item{group_by}{Column name in colData(dds) to use for defining conditions. Default is "Group1"}
 
-\item{quantile}{Quantile threshold for filtering. Default is 0.05 (lowest 5\%)}
+\item{min_count}{Minimum count threshold for filtering. Default is 10}
 
 \item{save_plot}{Logical. If TRUE, saves the expression distribution plot. Default is TRUE}
 
@@ -27,15 +27,15 @@ remove_low_expression(
 A filtered DESeq2 object with low-expression genes removed
 }
 \description{
-This function filters out genes with expression values below a specified quantile threshold
+This function filters out genes with raw count values below a specified minimum count threshold
 in at least a minimum number of replicates per condition.
 }
 \examples{
 \dontrun{
-# Remove bottom 5\% of genes
-dds_filtered <- remove_low_expression(dds, quantile = 0.05)
+# Remove genes with counts < 10
+dds_filtered <- remove_low_expression(dds, min_count = 10)
 
-# Remove bottom 10\% of genes and save plot
-dds_filtered <- remove_low_expression(dds, quantile = 0.1, save_plot = TRUE)
+# Remove genes with counts < 5 and save plot
+dds_filtered <- remove_low_expression(dds, min_count = 5, save_plot = TRUE)
 }
 }

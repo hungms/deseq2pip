@@ -139,7 +139,7 @@ qc_results/
 ├── dds_qc.rds                       # processed DESeq2 object
 ├── dds_counts.txt                   # raw count matrix
 ├── dds_vst.txt                      # normalized expression matrix after VST
-├── low_expression.pdf               # density plot of gene expression levels
+├── low_expression_*.pdf             # density plot of gene expression levels
 ├── library_size_distribution.pdf    # boxplot of gene expression per sample
 ├── pca_*.tsv                        # PCA scores
 ├── pca_*.pdf                        # PCA plot
