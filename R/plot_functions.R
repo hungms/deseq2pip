@@ -53,9 +53,7 @@ plot_gene_exprs <- function(dds, res = NULL, group_by, genes, plot_name, pal = N
         geom_point() +
         facet_wrap(~gene, ncol = 5, scales = "free") +
         guides(fill = guide_legend(title = "")) +
-        theme_border() +
-        theme_text() +
-        facet_aes() +
+        ggprism::theme_prism(border = T) +
         xlab(NULL) +
         ylab("Expression") +
         scale_y_continuous(expand = expansion(mult = c(0.1, 0.1)))
@@ -172,9 +170,7 @@ plot_gsea_enriched <- function(gsea.obj, gene_set, gene_set_title = NULL, gene_s
     plot[[1]] <- plot[[1]] +
         geom_text(x = xmax, y = ymax, label = label, size = 3, fontface = "italic") +
         ylab("Enrichment Score") +
-        theme_border() +
-        theme_text() + 
-        theme_gridlines() +
+        ggprism::theme_prism(border = T) +
         ggtitle(
             comparison,
             subtitle = gene_set_title
@@ -187,17 +183,13 @@ plot_gsea_enriched <- function(gsea.obj, gene_set, gene_set_title = NULL, gene_s
             legend.position="none")
     
     plot[[2]] <- plot[[2]] +
-        theme_border() +
-        no_gridlines() +
-        theme_text() +
+        ggprism::theme_prism(border = T) +
         no_axis_text() + 
         theme(legend.position="none")
     
     plot[[3]] <- plot[[3]] +
         ylab("Rank") +
-        theme_border() +
-        no_gridlines() +
-        theme_text() +
+        ggprism::theme_prism(border = T) +
         theme(
             axis.text.x = element_text(size = 12),
             axis.text.y = element_blank(),

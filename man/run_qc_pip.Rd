@@ -10,7 +10,7 @@ run_qc_pip(
   remove_xy = TRUE,
   remove_mt = TRUE,
   group_by,
-  quantile = 0.05,
+  min_count = 10,
   save_dir = getwd(),
   save_dir_name = "qc_results"
 )
@@ -26,7 +26,7 @@ run_qc_pip(
 
 \item{group_by}{Column name in colData(dds) to use for grouping.}
 
-\item{quantile}{Quantile threshold for filtering lowly expressed genes. Default is 0.05}
+\item{min_count}{Minimum count threshold for filtering lowly expressed genes. Default is 10}
 
 \item{save_dir}{Directory where all output files will be saved. Default is current working directory}
 

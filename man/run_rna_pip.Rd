@@ -10,7 +10,7 @@ run_rna_pip(
   group_by,
   remove_xy = FALSE,
   remove_mt = FALSE,
-  quantile = 0.05,
+  min_count = 10,
   pals = NULL,
   batch = NULL,
   order = "pxfc",
@@ -28,7 +28,7 @@ run_rna_pip(
 
 \item{remove_mt}{Logical. If TRUE, removes mitochondrial genes. Default is FALSE}
 
-\item{quantile}{Quantile threshold for filtering lowly expressed genes. Default is 0.05}
+\item{min_count}{Minimum count threshold for filtering lowly expressed genes. Default is 10}
 
 \item{pals}{Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL}
 

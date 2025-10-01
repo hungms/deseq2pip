@@ -1,4 +1,28 @@
 # NEWS
+## v1.0.3 (2025-01-15)
+### Major Changes
+- **Updated `remove_low_expression()` function:**
+  - Changed parameter from `quantile` to `min_count` for more intuitive filtering
+  - Now filters based on raw count values (default: min_count = 10) instead of quantile-based filtering on transformed data
+  - Added percentage reporting of genes remaining after filtering
+  - Enhanced visualization with separate before/after filtering density plots
+  - Improved plot naming: "low_expression_before.pdf" and "low_expression_after.pdf"
+
+- **Updated validation functions:**
+  - Added `validate_min_count()` function for validating minimum count thresholds
+  - Removed `validate_quantile()` function (no longer needed)
+
+- **Updated pipeline functions:**
+  - `run_qc_pip()`, `run_rna_pip()`, and `run_atac_pip()` now use `min_count` parameter
+  - All functions consistently use the new parameter naming convention
+
+- **Updated documentation:**
+  - Updated vignettes and examples to reflect new `min_count` parameter
+  - Improved function documentation and parameter descriptions
+
+## v1.0.2 (2025-06-25)
+Change all plotr dependencies to ggprism.
+
 ## v1.0.1 (2025-05-30)
 reverse groups in all one-to-all comparisons.
 

@@ -70,12 +70,14 @@ run_pca <- function(vsd, group_by, shape = NULL, pals = NULL, size = 4, save_pre
     
     # run pca
     pcadf <- plotPCA(vsd, intgroup=group_by, returnData=TRUE)
+    
+    percentVar <- round(100 * attr(pcadf, "percentVar"))
     p <- ggplot(pcadf, aes_string("PC1", "PC2", color=group_by[1])) +
         ggalt::geom_encircle(aes_string(fill = group_by[1]), alpha = 0.3) +
         geom_hline(yintercept = 0, color = "grey40", linetype = "dashed") +
         geom_vline(xintercept = 0, color = "grey40", linetype = "dashed") +
-        umap_aes() +
-        theme_text()
+        ggprism::theme_prism(border = T) +
+        labs(x = paste0("PC1 (", round(percentVar[1], 1), "% variance)"), y = paste0("PC2 (", round(percentVar[2], 1), "% variance)"))
 
     # add pals if provided
     if(!is.null(pals)) {

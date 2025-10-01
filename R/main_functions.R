@@ -10,7 +10,7 @@
 #' @param group_by Column name in colData(dds) to use for grouping.
 #' @param remove_xy Logical. If TRUE, removes genes on X and Y chromosomes. Default is FALSE
 #' @param remove_mt Logical. If TRUE, removes mitochondrial genes. Default is FALSE
-#' @param quantile Quantile threshold for filtering lowly expressed genes. Default is 0.05
+#' @param min_count Minimum count threshold for filtering lowly expressed genes. Default is 10
 #' @param pals Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL
 #' @param batch Column name in colData(dds) to use for batch correction. Default is NULL 
 #' @param order Column name to use for ranking genes. Default is "pxfc"
@@ -38,7 +38,7 @@ run_rna_pip <- function(
     group_by,
     remove_xy = FALSE,
     remove_mt = FALSE,
-    quantile = 0.05,
+    min_count = 10,
     pals = NULL,
     batch = NULL,
     order = "pxfc",
@@ -52,7 +52,7 @@ run_rna_pip <- function(
         validate_paths(save_dir)
         dds <- validate_dds_group_by(dds, group_by)
         org <- validate_org(org)
-        quantile <- validate_quantile(quantile)
+        min_count <- validate_min_count(min_count)
         pals <- validate_pals(dds, group_by, pals)
         dds <- validate_batch(dds, batch)
         order <- validate_order(order)
@@ -67,7 +67,7 @@ run_rna_pip <- function(
             remove_xy = remove_xy,
             remove_mt = remove_mt,
             group_by = group_by,
-            quantile = quantile,
+            min_count = min_count,
             save_dir = save_dir)
 
         # Run distance pipeline
@@ -145,7 +145,7 @@ run_rna_pip <- function(
 #' @param group_by Column name in colData(dds) to use for grouping.
 #' @param remove_xy Logical. If TRUE, removes genes on X and Y chromosomes. Default is FALSE
 #' @param remove_mt Logical. If TRUE, removes mitochondrial genes. Default is FALSE
-#' @param quantile Quantile threshold for filtering lowly expressed genes. Default is 0.05
+#' @param min_count Minimum count threshold for filtering lowly expressed genes. Default is 10
 #' @param pals Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL
 #' @param batch Column name in colData(dds) to use for batch correction. Default is NULL 
 #' @param order Column name to use for ranking genes. Default is "pxfc"
@@ -174,7 +174,7 @@ run_atac_pip <- function(
     group_by,
     remove_xy = FALSE,
     remove_mt = FALSE,
-    quantile = 0.05,
+    min_count = 10,
     pals = NULL,
     batch = NULL,
     order = "pxfc",
@@ -190,7 +190,7 @@ run_atac_pip <- function(
         dds <- validate_dds_atac(dds)
         dds <- validate_dds_group_by(dds, group_by)
         org <- validate_org(org)
-        quantile <- validate_quantile(quantile)
+        min_count <- validate_min_count(min_count)
         pals <- validate_pals(dds, group_by, pals)
         dds <- validate_batch(dds, batch)
         order <- validate_order(order)
@@ -206,7 +206,7 @@ run_atac_pip <- function(
             remove_xy = remove_xy,
             remove_mt = remove_mt,
             group_by = group_by,
-            quantile = quantile,
+            min_count = min_count,
             save_dir = save_dir)
 
         # Run distance pipeline
