@@ -83,7 +83,7 @@ group_by <- "Group2"
 org <- "mouse"
 remove_xy <- TRUE
 remove_mt <- TRUE
-quantile <- 0.05
+min_count <- 10
 batch <- NULL
 pals <- NULL
 order <- "pxfc"
@@ -100,7 +100,7 @@ Below are the commands to run each individual module:
 
 ```{r}
 # Module 1: Quality Control
-dds <- run_qc_pip(dds, org = org, group_by = group_by, remove_xy = remove_xy, remove_mt = remove_mt, quantile = quantile, save_dir = save_dir)
+dds <- run_qc_pip(dds, org = org, group_by = group_by, remove_xy = remove_xy, remove_mt = remove_mt, min_count = min_count, save_dir = save_dir)
 dds <- run_dist_pip(dds, group_by = group_by, batch = batch, pals = pals, save_dir = save_dir)
 ```
 
@@ -142,12 +142,12 @@ if(remove_mt) {
 ### Remove lowly expressed genes
 RNA-seq is a high-throughput technology that can be noisy, and certain genes are poorly captured from RNA-seq. To control for this, we will remove these genes to improve statistical power for subsequent analysis.
 
-By default we keep genes with at least 5% of total expression (`remove_low_expression(..., quantile = 0.05)`). The gene must also be expressed in at least n replicates, where n is the minimum replicates in the group.
+By default we keep genes with at least 10 raw counts (`remove_low_expression(..., min_count = 10)`). The gene must also be expressed in at least n replicates, where n is the minimum replicates in the group.
 
 ```{r}
 #| vscode: {languageId: r}
 # remove low expression genes
-dds <- remove_low_expression(dds, quantile = quantile, group_by = group_by, save_plot = save_plot, save_dir = save_dir)
+dds <- remove_low_expression(dds, min_count = min_count, group_by = group_by, save_plot = save_plot, save_dir = save_dir)
 ```
 
 
