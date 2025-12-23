@@ -28,7 +28,6 @@ Imports:
     enrichplot,
     fgsea,
     forcats,
-    ggalt,
     ggplot2 (<= 3.5.2),
     ggplotify,
     ggpubr,
@@ -52,6 +51,7 @@ Suggests:
     testthat,
     Cairo
 Remotes: 
+    hrbrmstr/ggalt,
     hungms/plotr,
     hungms/strpip
 BuildVignettes: no
