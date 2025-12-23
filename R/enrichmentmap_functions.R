@@ -142,7 +142,8 @@ enrichmentmap_pip <- function(
         #gsea
         files <- list.files(comparison[i], full.names = T)
         collection.pattern <- paste0(collection, collapse = "|")
-        stopifnot(any(str_detect(files, collection.pattern)))
+        if(length(files) == 0){next}
+        if(!any(str_detect(files, collection.pattern))){next}
         files <- files[str_detect(files, collection.pattern)]
         files <- files[which(str_detect(files, ".tsv$"))]
         
