@@ -25,8 +25,8 @@ suppressPackageStartupMessages(library(deseq2pip))
 ```{r}
 #| vscode: {languageId: r}
 # create a directory for results, currently set to tempdir()
-save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/git-repos/r-pipelines/deseq2pip/tests/rnaseq/pipeline/"
-#save_dir <- tempdir()
+#save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/git-repos/r-pipelines/deseq2pip/tests/rnaseq/pipeline/"
+save_dir <- tempdir()
 dir.create(save_dir, recursive = TRUE)
 ```
 
@@ -43,6 +43,8 @@ dds <- import_nfcore_rna(rdata = rdata, tx2gene = tx2gene)
 ```{r}
 #| vscode: {languageId: r}
 # run run pipeline
+design(dds) <- ~ 1
+dds$Group2 <- factor(dds$Group2, c('IgM', 'IgG', 'IgA'))
 run_rna_pip(
     dds,
     org = "mouse",
@@ -61,8 +63,8 @@ run_rna_pip(
 ```{r}
 #| vscode: {languageId: r}
 # create a directory for results, currently set to tempdir()
-save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/git-repos/r-pipelines/deseq2pip/tests/atacseq/pipeline/"
-#save_dir <- tempdir()
+#save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/git-repos/r-pipelines/deseq2pip/tests/atacseq/pipeline/"
+save_dir <- tempdir()
 dir.create(save_dir, recursive = TRUE)
 ```
 

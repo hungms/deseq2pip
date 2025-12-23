@@ -1,4 +1,9 @@
 # NEWS
+## v1.0.4 (2025-12-23)
+### Minor Changes
+- **Updated `generate_comparisons` function:**
+  - set comparisons with regards to factor levels
+
 ## v1.0.3 (2025-01-15)
 ### Major Changes
 - **Updated `remove_low_expression()` function:**

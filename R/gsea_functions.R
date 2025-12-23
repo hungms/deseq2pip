@@ -93,6 +93,12 @@ run_gsea <- function(res, org, msigdbr = import_msigdbr(org), save_data = T, sav
 
         gsea.obj <- GSEA(de.order, TERM2GENE = msigdbr.collection[[i]], pvalueCutoff = 1.1, pAdjustMethod = "fdr", minGSSize = 10, maxGSSize = 1000)
         collection <- names(msigdbr.collection)[i]
+        
+        # Skip if result is empty or has 0 rows
+        if(is.null(gsea.obj@result) || nrow(gsea.obj@result) == 0){
+            message(paste0("Skipping collection '", collection, "' - no GSEA results found"))
+            next}
+        
         gsea.obj@result$collection <- collection
         gsea.obj@result$comparison <- comparison
 

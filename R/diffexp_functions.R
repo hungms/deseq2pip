@@ -11,7 +11,7 @@ generate_comparisons <- function(group_vec){
     # generate comparisons
     combos <- combn(group_vec, 2)
     comparisons_vec <- apply(combos, 2, function(pair) {
-        if (pair[1] < pair[2]) paste0(c(as.character(pair[1]), as.character(pair[2])), collapse = "_vs_")
+        if (pair[2] < pair[1]) paste0(c(as.character(pair[2]), as.character(pair[1])), collapse = "_vs_")
         else paste0(c(as.character(pair)), collapse = "_vs_")})    
     # return comparison names
     return(comparisons_vec)
@@ -56,15 +56,19 @@ run_diffexp <- function(dds, org, group_by, comparison, order = "pxfc", save_dat
     org.to <- ifelse(org == "human", "mouse", "human")
 
     # subset dds
-    comparison_groups <- str_split(comparison, "_vs_") %>% unlist(.) %>% rev(.)
+    comparison_groups <- str_split(comparison, "_vs_") %>% unlist(.)
     dds <- dds[,which(colData(dds)[[group_by]] %in% comparison_groups)]
-    colData(dds)[[group_by]] <- factor(colData(dds)[[group_by]], levels = comparison_groups)
+    dds[[group_by]] <- droplevels(dds[[group_by]])
 
     # run deseq2
     dds <- DESeq(dds, ...)
-    res <- results(dds)
+    # Explicitly specify contrast: numerator vs reference
+    # For "A_vs_B": A (numerator, comparison_groups[1]) vs B (reference, comparison_groups[2])
+    # This gives positive log2FC when A > B, which matches the comparison name
+    contrast_vec <- c(group_by, comparison_groups[1], comparison_groups[2])
+    res <- results(dds, contrast = contrast_vec)
 
-    # shrink lfc by ashr
+    # shrink lfc by ashr (contrast is already specified in res object)
     res <- lfcShrink(dds, res = res, type = "ashr") %>% 
         as.data.frame(.)
     

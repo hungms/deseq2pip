@@ -1,6 +1,6 @@
 Package: deseq2pip
 Title: DESeq2 Pipeline for RNA-seq Analysis
-Version: 1.0.3
+Version: 1.0.4
 Authors@R: 
     person(given = "Miu Shing", family = "Hung", email = "matthewhungms@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0009-0004-0412-4374"))
 Description: A comprehensive pipeline for RNA-seq data analysis combining DESeq2-based 
@@ -11,7 +11,7 @@ Description: A comprehensive pipeline for RNA-seq data analysis combining DESeq2
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 URL: https://hungms.github.io/deseq2pip/
 BugReports: https://github.com/hungms/deseq2pip/issues
 LazyData: true
@@ -22,7 +22,7 @@ Depends:
 Imports:
     ashr,
     biomaRt,
-    clusterProfiler,
+    clusterProfiler (<= 4.17.0),
     DESeq2,
     dplyr,
     enrichplot,
@@ -55,6 +55,3 @@ Remotes:
     hungms/plotr,
     hungms/strpip
 BuildVignettes: no
-
-
-

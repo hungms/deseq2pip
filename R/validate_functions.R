@@ -46,15 +46,16 @@ validate_dds_group_by <- function(dds, group_by){
         message("group_by is not a factor, converting to factor")
         colData(dds)[[group_by]] <- factor(colData(dds)[[group_by]], levels = unique(colData(dds)[[group_by]]))}
 
-    # check if group_by is in the design
     if(class(dds) != "DESeqTransform"){
-        des <- paste0(as.character(design(dds)), collapse = " ")
-        if(!str_detect(des, group_by)){
-            message("group_by is not in the design, adding to design")
-            design(dds) <- as.formula(paste0(des, " + ", group_by))}
-    
-        # validate dds
-        dds <- validate_dds(dds)}
+    if(!str_detect(paste0(as.character(design(dds)), collapse = " "), group_by)){
+        message("group_by is not in the design, adding to design")
+        if(paste0(as.character(design(dds)), collapse = " ") == "~ 1"){
+            design(dds) <- as.formula(paste0("~ ", group_by))
+        } else {
+            design(dds) <- as.formula(paste0(as.character(design(dds)), " + ", group_by))}}
+    }
+
+    dds <- validate_dds(dds)
     return(dds)}
 
 #' Validate DESeq2 object for comparison
