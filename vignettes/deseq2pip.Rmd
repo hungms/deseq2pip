@@ -22,78 +22,103 @@ suppressPackageStartupMessages(library(deseq2pip))
 ```
 
 ## Run deseq2pip on RNA-seq data
+
+Create a directory for results, currently set to tempdir()
 ```{r}
 #| vscode: {languageId: r}
-# create a directory for results, currently set to tempdir()
-#save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/git-repos/r-pipelines/deseq2pip/tests/rnaseq/pipeline/"
-save_dir <- tempdir()
+save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/git-repos/r-pipelines/deseq2pip/tests/rnaseq/pipeline/"
+#save_dir <- tempdir()
 dir.create(save_dir, recursive = TRUE)
 ```
 
-### Load DESeq2 object processed by nf-core/rnaseq
+Load DESeq2 object processed by nf-core/rnaseq.
 ```{r}
 #| vscode: {languageId: r}
-# load deseq2 object processed by nf-core/rnaseq
 rdata <- system.file("data", "GSE189410.dds.RData", package = "deseq2pip")
 tx2gene <- gzfile(system.file("data", "GSE189410.tx2gene.tsv.gz", package = "deseq2pip"))
 dds <- import_nfcore_rna(rdata = rdata, tx2gene = tx2gene)
 ```
 
-### Run RNA pipeline
+Setup dds comparisons and design.
 ```{r}
 #| vscode: {languageId: r}
-# run run pipeline
-design(dds) <- ~ 1
+# set correct group factors
 dds$Group2 <- factor(dds$Group2, c('IgM', 'IgG', 'IgA'))
-run_rna_pip(
+dds$Group3 <- factor(dds$Group3, c(1:4))
+
+# set design
+design(dds) <- ~ Group3 + Group2
+```
+
+Run RNA pipeline.
+```{r}
+#| vscode: {languageId: r}
+dds <- run_rna_pip(
     dds,
     org = "mouse",
-    group_by = "Group2",
+    var = "Group2",
+    design = "~ Group3 + Group2",
+    batch = "Group3",
     remove_xy = TRUE,
     remove_mt = TRUE,
     min_count = 10,
     pals = NULL,
-    batch = NULL,
     order = "pxfc",
     save_dir = save_dir)
+
+dds # return dds object
 ```
 
 ## Run deseq2pip on ATAC-seq data
 
+Create a directory for results, currently set to tempdir()
 ```{r}
 #| vscode: {languageId: r}
-# create a directory for results, currently set to tempdir()
 #save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/git-repos/r-pipelines/deseq2pip/tests/atacseq/pipeline/"
 save_dir <- tempdir()
 dir.create(save_dir, recursive = TRUE)
 ```
 
-### Load DESeq2 object processed by nf-core/atacseq
+Load DESeq2 object processed by nf-core/atacseq
 ```{r}
-# load deseq2 object processed by nf-core/atacseq
 rdata <- system.file("data", "GSE224512.dds.RData", package = "deseq2pip")
 annotatePeaks <- gzfile(system.file("data", "GSE224512.annotatePeaks.txt.gz", package = "deseq2pip"))
 dds <- import_nfcore_atac(rdata = rdata, annotatePeaks = annotatePeaks)
+```
 
+Setup dds comparisons and design.
+```{r}
 # subset groups for brevity
 dds <- dds[, dds$Group1 %in% c("WT", 'BC', 'BCK')]
+
+# set correct group factors
+dds$Group1 <- factor(dds$Group1, c("WT", 'BC', 'BCK'))
+dds$BC <- ifelse(dds$Group1 == "WT", 0, 1)
+dds$BC <- factor(dds$BC, c(0, 1))
+dds$K <- ifelse(dds$Group1 == "BCK", 1, 0)
+dds$K <- factor(dds$K, c(0, 1))
+
+# set design
+design(dds) <- ~ BC + K
 ```
 
 
-### Run ATAC pipeline
+Run ATAC pipeline.
 ```{r}
 #| vscode: {languageId: r}
-# run atac pipeline
-run_atac_pip(
+dds <- run_atac_pip(
     dds,
     org = "mouse",
-    group_by = "Group1",
+    var = "BC",
+    design = "~ BC + K",
+    batch = NULL,
+    comparisons = NULL,
     remove_xy = TRUE,
     remove_mt = TRUE,
     min_count = 10,
-    pals = NULL,
-    batch = NULL,
     order = "pxfc",
     TSS = TRUE,
     save_dir = save_dir)
+
+dds # return dds object
 ```

@@ -1,3 +1,37 @@
+#' Plot ATAC-seq Peak Annotation
+#'
+#' This function plots the annotation distribution of ATAC-seq peaks.
+#'
+#' @param dds DESeq2 object containing the ATAC-seq peaks data
+#' @param res Differential expression results data frame from run_diffexp()
+#' @param save_dir Directory to save the plot. Default is current working directory
+#' @param ... Additional arguments (ignored, for compatibility)
+#' @return A list of ggplot objects showing the pie charts
+#' @export
+plot_peak_annot_pip <- function(
+    dds,        
+    res,
+    save_dir = getwd(),
+    ...) {
+    
+    # validation
+    #dds <- validate_dds_atac(dds)
+    #res <- validate_res(res)
+    #validate_paths(group_save_dir)
+
+    # get comparison
+    comparisons <- unique(res$comparison)
+
+    # run plot_peak_annot
+    plots <- list()
+    for(i in seq_along(comparisons)){
+        selected_res <- res %>% filter(comparison == comparisons[i])
+        plots[[i]] <- plot_peak_annot(dds, selected_res, save_dir = save_dir)}
+
+    # return plots
+    return(plots)
+}
+
 #' Get TSS peaks from DESeq2 object
 #'
 #' This function extracts TSS peaks from a DESeq2 object and removes duplicate genes.
@@ -38,7 +72,7 @@ plot_pie_chart <- function (annots, comparison, subtitle = "") {
         str_replace_all(input_string, "\\b[a-z]", function(x) str_to_title(x))
     }
 
-    message("Creating pie charts for ", length(annots), " peaks in ", subtitle, "...")
+    message("\t- generating pie charts for ", length(annots), " ", subtitle, "...")
 
     annot_counts <- table(annots[!is.na(annots)])
 
@@ -96,27 +130,26 @@ plot_peak_annot <- function(
     p.thresh = 0.05,
     fc.thresh = 0.5,
     save_plot = TRUE,
-    group_save_dir) {
+    save_dir = getwd()) {
     
     # validation
-    dds <- validate_dds_atac(dds)
-    res <- validate_res_comparison(res)
-    validate_paths(group_save_dir)
+    #dds <- validate_dds_atac(dds)
+    #res <- validate_res_comparison(res)
+    #validate_paths(save_dir)
 
     # get comparison
     comparison <- unique(res$comparison)
-    comparison_save_dir <- paste0(group_save_dir, "/", comparison, "/")
+    comparison_save_dir <- paste0(save_dir, "/", comparison, "/")
 
     # Filter differentially expressed peaks
-    message("Filtering differentially expressed peaks...")
+    message("\t- extracting annotations for all differentially expressed peaks...")
     res <- res %>%
         filter(padj < p.thresh & abs(log2FoldChange) > fc.thresh)
 
     if (nrow(res) == 0) {
-        message("No peaks pass the filtering criteria for ", comparison)
+        message("\t- no peaks pass the filtering criteria for ", comparison)
         return()}
 
-    message("Processing peak annotations...")
     peak_annots <- rowData(dds)$Annotation
     names(peak_annots) <- rownames(rowData(dds))
     
@@ -132,14 +165,12 @@ plot_peak_annot <- function(
     down_annots <- peak_annots[names(peak_annots) %in% res$peaks[!up_idx]]
     
     # Create the three pie charts
-    message("Plotting pie charts...")
-    all_plot <- plot_pie_chart(de_annots, subtitle = "All DE Peaks", comparison = comparison)
+    all_plot <- plot_pie_chart(de_annots, subtitle = "DE Peaks", comparison = comparison)
     up_plot <- plot_pie_chart(up_annots, subtitle = "Upregulated DE Peaks", comparison = comparison)
     down_plot <- plot_pie_chart(down_annots, subtitle = "Downregulated DE Peaks", comparison = comparison)
     
     # Save plots if requested
     if(save_plot) {
-        message("Saving pie charts to PDF...")
         
         # Save each plot to its own PDF file using save_plot function
         save_plot(all_plot, 
@@ -158,6 +189,9 @@ plot_peak_annot <- function(
                   w = 6, h = 5)
         
     }
+    print(all_plot)
+    print(up_plot)
+    print(down_plot)
     
     # Return the plots
     return(list(
@@ -165,38 +199,4 @@ plot_peak_annot <- function(
         up = up_plot,
         down = down_plot
     ))
-}
-
-#' Plot ATAC-seq Peak Annotation
-#'
-#' This function plots the annotation distribution of ATAC-seq peaks.
-#'
-#' @param dds DESeq2 object containing the ATAC-seq peaks data
-#' @param res Differential expression results data frame from run_diffexp()
-#' @param save_dir Directory to save the plot. Default is current working directory
-#' @param ... Additional arguments passed to plot_peak_annot()
-#' @return A list of ggplot objects showing the pie charts
-#' @export
-plot_peak_annot_pip <- function(
-    dds,        
-    res,
-    group_save_dir,
-    ...) {
-    
-    # validation
-    dds <- validate_dds_atac(dds)
-    res <- validate_res(res)
-    validate_paths(group_save_dir)
-
-    # get comparison
-    comparison_vec <- unique(res$comparison)
-
-    # run plot_peak_annot
-    plots <- list()
-    for(i in seq_along(comparison_vec)){
-        res.comparison <- res %>% filter(comparison == comparison_vec[i])
-        plots[[i]] <- plot_peak_annot(dds, res.comparison, group_save_dir = group_save_dir, ...)}
-
-    # return plots
-    return(plots)
 }

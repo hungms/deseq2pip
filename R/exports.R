@@ -92,11 +92,11 @@ save_plot <- function(input, plot_name, save_dir, w, h){
 #' save_expression(dds)
 #' 
 #' # Save expression data with custom grouping and directory name
-#' save_expression(dds, group_by = "Treatment", save_dir_name = "custom_results")
+#' save_expression(dds, var = "Treatment", save_dir_name = "custom_results")
 #' }
 #' @export
-save_expression <- function(dds, group_by, save_dir = getwd()){
-    message("Saving DESeq2 object & expressions...")
+save_expression <- function(dds, var, save_dir = getwd()){
+    message("saving DESeq2 object & expressions...")
     counts <- assay(dds)
     data <- assay(vst(dds, blind = T))
 

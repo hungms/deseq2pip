@@ -1,3 +1,5 @@
+
+
 #' Validate DESeq2 object
 #'
 #' This function validates a DESeq2 object.
@@ -20,7 +22,7 @@ validate_dds <- function(dds){
 #' @param dds A DESeq2 object.
 #' @return A DESeq2 object.
 #' @export
-validate_dds_atac <- function(dds){
+validate_atac <- function(dds){
     if(!"peaks" %in% colnames(rowData(dds))){
         if(all(str_detect(rownames(dds), "Intervals"))){
             message("No peaks column detected in rowData, adding rownames as peaks column")
@@ -39,20 +41,20 @@ validate_dds_atac <- function(dds){
 #' @param dds A DESeq2 object.
 #' @return A DESeq2 object.
 #' @export          
-validate_dds_group_by <- function(dds, group_by){
+validate_var <- function(dds, var){
 
-    # check if group_by is a factor
-    if(!is.factor(colData(dds)[[group_by]])){
-        message("group_by is not a factor, converting to factor")
-        colData(dds)[[group_by]] <- factor(colData(dds)[[group_by]], levels = unique(colData(dds)[[group_by]]))}
+    # check if var is a factor
+    if(!is.factor(colData(dds)[[var]])){
+        message("var is not a factor, converting to factor")
+        colData(dds)[[var]] <- factor(colData(dds)[[var]], levels = unique(colData(dds)[[var]]))}
 
     if(class(dds) != "DESeqTransform"){
-    if(!str_detect(paste0(as.character(design(dds)), collapse = " "), group_by)){
-        message("group_by is not in the design, adding to design")
+    if(!str_detect(paste0(as.character(design(dds)), collapse = " "), var)){
+        message("var is not in the design, adding to design")
         if(paste0(as.character(design(dds)), collapse = " ") == "~ 1"){
-            design(dds) <- as.formula(paste0("~ ", group_by))
+            design(dds) <- as.formula(paste0("~ ", var))
         } else {
-            design(dds) <- as.formula(paste0(as.character(design(dds)), " + ", group_by))}}
+            design(dds) <- as.formula(paste0(as.character(design(dds)), " + ", var))}}
     }
 
     dds <- validate_dds(dds)
@@ -65,9 +67,9 @@ validate_dds_group_by <- function(dds, group_by){
 #' @param dds A DESeq2 object.
 #' @return A DESeq2 object.
 #' @export
-validate_dds_comparison <- function(dds, group_by, comparison){
-    stopifnot("Please make sure that each group variable is present in group_by" = all(str_split(comparison, "_vs_") %>% unlist(.) %in% colData(dds)[[group_by]]))
-    dds <- validate_dds_group_by(dds, group_by)
+validate_comparison <- function(dds, var, comparison){
+    stopifnot("Please make sure that each group variable is present in var" = all(str_split(comparison, "_vs_") %>% unlist(.) %in% colData(dds)[[var]]))
+    dds <- validate_dds_var(dds, var)
     return(dds)}
 
 #' Validate methods
@@ -94,18 +96,6 @@ validate_res <- function(res){
     for(c in c("baseMean", "log2FoldChange", "padj", "rank")) {
         message(paste0("Converting ", c, " to numeric"))
         res[[c]] <- as.numeric(res[[c]])}
-    return(res)}
-
-#' Validate differential expression results for comparison
-#' 
-#' This function validates differential expression results for comparison.
-#'
-#' @param res A data frame of differential expression results.
-#' @return A data frame of differential expression results.
-#' @export
-validate_res_comparison <- function(res){
-    res <- validate_res(res)
-    stopifnot("Please make sure that the differential expression results contains only one comparison pair" = length(unique(res$comparison)) == 1)
     return(res)}
 
 #' Validate organism
@@ -153,13 +143,13 @@ validate_min_count <- function(min_count){
 #' @return A vector of colors.
 validate_pals <- function(dds, group.by, pals){
     if(!is.null(pals)){
-        stopifnot("Please make sure that length(pals) is equal or greater than the number of levels in group_by" = length(pals) >= length(levels(colData(dds)[[group.by]])))
+        stopifnot("Please make sure that length(pals) is equal or greater than the number of levels in var" = length(pals) >= length(levels(colData(dds)[[group.by]])))
         if(is.null(names(pals))){
-            message("No names for pals, setting names to group_by levels")
+            message("No names for pals, setting names to var levels")
             group.lv <- levels(colData(dds)[[group.by]])
             pals <- pals[1:length(group.lv)]
             names(pals) <- group.lv}
-        stopifnot("Please make sure that the names(pals) contains all group_by levels" = all(names(pals) %in% levels(colData(dds)[[group.by]])))}
+        stopifnot("Please make sure that the names(pals) contains all var levels" = all(names(pals) %in% levels(colData(dds)[[group.by]])))}
     return(pals)}
 
 #' Validate shape
@@ -190,7 +180,7 @@ validate_batch <- function(dds, batch){
         if(!is.factor(colData(dds)[[batch]])){
             colData(dds)[[batch]] <- factor(colData(dds)[[batch]], levels = unique(colData(dds)[[batch]]))}
 
-        # check if group_by is in the design
+        # check if var is in the design
         if(class(dds) != "DESeqTransform"){
             des <- paste0(as.character(design(dds)), collapse = " ")
             if(!str_detect(des, batch)){
@@ -233,22 +223,11 @@ validate_msigdbr <- function(msigdbr){
 #'
 #' @param gsea A data frame of gsea.
 #' @return A data frame of gsea.
-validate_gsea <- function(gsea){
+validate_gsea_result <- function(gsea){
     stopifnot("Please make sure that the gsea is a data frame and contains ID, NES, pvalue, qvalue, comparison, and collection columns" = is.data.frame(gsea) & all(c("ID", "NES", "pvalue", "qvalue", "comparison", "collection") %in% colnames(gsea)))
     for(c in c("NES", "pvalue", "qvalue")) {
         message(paste0("Converting ", c, " to numeric"))
         gsea[[c]] <- as.numeric(gsea[[c]])}
-    return(gsea)}
-
-#' Validate gsea for comparison
-#' 
-#' This function validates gsea for comparison.
-#'
-#' @param gsea A data frame of gsea.
-#' @return A data frame of gsea.
-validate_gsea_comparison <- function(gsea){
-    gsea <- validate_gsea(gsea)
-    stopifnot("Please make sure that the gsea contains only one comparison pair" = length(unique(gsea$comparison)) == 1)
     return(gsea)}
     
 #' Validate gsea object
@@ -279,4 +258,3 @@ validate_gene_set <- function(gsea, gene_set){
 #' @return A character string of the paths.
 validate_paths <- function(paths){
     stopifnot("Please make sure that all paths exist" = all(dir.exists(paths)))}
-

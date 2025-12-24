@@ -109,3 +109,24 @@ log_output <- function(call, save_dir, expr = NULL) {
     # If an error occurs, it will stop here and propagate up
   }
 }
+
+
+#' Suppress messages
+#' 
+#' This function suppresses messages.
+#' 
+#' @param message Message to suppress.
+#' @return Nothing, but suppresses the message.
+#' @export
+quiet <- function(expr) {
+  invisible(
+    suppressWarnings(
+      suppressMessages(
+        capture.output({
+          result <- eval.parent(substitute(expr))
+        })
+      )
+    )
+  )
+  result
+}

@@ -1,3 +1,68 @@
+#' Run Quality Control Pipeline
+#'
+#' This function runs the quality control portion of the RNA-seq analysis pipeline,
+#' including filtering genes, generating QC plots, and saving expression data.
+#'
+#' @param dds DESeq2 object containing the expression data
+#' @param org The organism to use, either "human" or "mouse".
+#' @param remove_xy Logical. If TRUE, removes genes on X and Y chromosomes. Default is TRUE
+#' @param remove_mt Logical. If TRUE, removes mitochondrial genes. Default is TRUE
+#' @param var Column name in colData(dds) to use for grouping.
+#' @param min_count Minimum count threshold for filtering lowly expressed genes. Default is 10
+#' @param save_dir Directory where all output files will be saved. Default is current working directory
+#' @param save_dir_name Name of the subdirectory to save files in. Default is "qc_results"
+#' @return The processed DESeq2 object
+#' @examples
+#' \dontrun{
+#' # Run QC pipeline with default settings
+#' dds <- run_qc_pip(dds)
+#' 
+#' # Run QC pipeline with custom settings
+#' dds <- run_qc_pip(dds, org = "mouse", remove_xy = TRUE, save_dir_name = "custom_results")
+#' }
+#' @export
+run_qc_pip <- function(
+    dds,
+    org,
+    var,
+    remove_xy = TRUE,
+    remove_mt = TRUE,
+    min_count = 10,
+    save_dir = getwd(), 
+    save_dir_name = "qc_results") {
+    
+    # validations
+    #dds <- validate_dds_var(dds, var)
+    #org <- validate_org(org)
+    #min_count <- validate_min_count(min_count)
+    #validate_logical(c(remove_xy, remove_mt))
+    #validate_paths(save_dir)
+
+    message("\n########################################################\nRunning Quality Control Pipeline\n########################################################")
+
+    # create save directory
+    qc_save_dir <- paste0(save_dir, "/", save_dir_name)
+    dir.create(qc_save_dir, showWarnings = FALSE, recursive = TRUE)
+    
+    # remove XY genes if requested
+    if(remove_xy){
+        dds <- remove_xy_genes(dds, org = org)}
+
+    # remove MT genes if requested
+    if(remove_mt){
+        dds <- remove_mt_genes(dds, org = org)}
+    
+    # filter lowly expressed genes
+    dds <- remove_low_expression(dds, min_count = min_count, var = var, save_dir = qc_save_dir)
+    check_library(dds, save_dir = qc_save_dir)
+
+    # save expression data
+    save_expression(dds, var = var, save_dir = qc_save_dir)
+    
+    return(dds)
+}
+
+
 #' Remove XY Chromosome Genes from DESeq2 Object
 #'
 #' This function removes genes located on the X and Y chromosomes from a DESeq2 object.
@@ -16,11 +81,9 @@
 #' }
 #' @export
 remove_xy_genes <- function(dds, org, ...){
-    dds <- validate_dds(dds)
-    org <- validate_org(org)
     xy.genes <- get_xy_genes(org = org, ...)
     count <- count(rowData(dds)$gene %in% xy.genes)
-    message(paste0("Removing ", count, " XY genes out of ", nrow(dds), " total genes..."))
+    message(paste0("removing ", count, " XY genes out of ", nrow(dds), " total genes..."))
     dds <- dds[which(!rowData(dds)$gene %in% xy.genes),]
     return(dds)
 }
@@ -43,11 +106,9 @@ remove_xy_genes <- function(dds, org, ...){
 #' }
 #' @export
 remove_mt_genes <- function(dds, org, ...){
-    dds <- validate_dds(dds)
-    org <- validate_org(org)
     mt.genes <- get_mt_genes(org = org, ...)
     count <- count(rowData(dds)$gene %in% mt.genes)
-    message(paste0("Removing ", count, " MT genes out of ", nrow(dds), " total genes..."))
+    message(paste0("removing ", count, " MT genes out of ", nrow(dds), " total genes..."))
     dds <- dds[which(!rowData(dds)$gene %in% mt.genes),]
     return(dds)
 }
@@ -59,7 +120,7 @@ remove_mt_genes <- function(dds, org, ...){
 #'
 #' @param dds A DESeq2 object containing the gene expression data
 #' @param min_count Minimum count threshold for filtering. Default is 10
-#' @param group_by Column name in colData(dds) to use for defining conditions. Default is "Group1"
+#' @param var Column name in colData(dds) to use for defining conditions. Default is "Group1"
 #' @param save_plot Logical. If TRUE, saves the expression distribution plot. Default is TRUE
 #' @param save_dir Directory to save the plot. Default is the current working directory
 #' @return A filtered DESeq2 object with low-expression genes removed
@@ -72,15 +133,7 @@ remove_mt_genes <- function(dds, org, ...){
 #' dds_filtered <- remove_low_expression(dds, min_count = 5, save_plot = TRUE)
 #' }
 #' @export
-remove_low_expression <- function(dds, group_by, min_count = 10, save_plot = TRUE, save_dir = getwd()){
-
-    # validations
-    dds <- validate_dds_group_by(dds, group_by)
-    min_count <- validate_min_count(min_count)
-    validate_paths(save_dir)
-    
-    # run filter
-    message("Filtering genes with low expressions...")
+remove_low_expression <- function(dds, var, min_count = 10, save_plot = TRUE, save_dir = getwd()){
     
     # Use raw counts for filtering
     raw_counts <- counts(dds, normalized = FALSE)
@@ -104,14 +157,14 @@ remove_low_expression <- function(dds, group_by, min_count = 10, save_plot = TRU
     if(save_plot){
         save_plot(p_before, plot_name = "low_expression_before.pdf", save_dir = save_dir, w=8, h=4)}
 
-    min_rep <- min(table(colData(dds)[[group_by]]))
+    min_rep <- min(table(colData(dds)[[var]]))
     keep <- rowSums(raw_counts >= min_count) >= min_rep
     
     # Calculate and report percentage of genes remaining
     total_genes <- nrow(dds)
     remaining_genes <- sum(keep)
     percentage_remaining <- round((remaining_genes / total_genes) * 100, 2)
-    message(paste0("After filtering: ", remaining_genes, " out of ", total_genes, " genes remaining (", percentage_remaining, "%)"))
+    message(paste0("after removing low expression genes, ", remaining_genes, " out of ", total_genes, " genes remain (", percentage_remaining, "%)"))
     
     dds <- dds[keep,]
     
@@ -154,6 +207,8 @@ remove_low_expression <- function(dds, group_by, min_count = 10, save_plot = TRU
 #' }
 #' @export
 check_library <- function(dds, save_plot = TRUE, save_dir = getwd()){
+
+    message("generating boxplots to check library size distribution...")
     vsd <- vst(dds, blind=FALSE) 
     assay <- assay(vsd) %>% as.data.frame(.)
     colnames(vsd) <- colnames(dds)
@@ -172,65 +227,3 @@ check_library <- function(dds, save_plot = TRUE, save_dir = getwd()){
         hscale <- max(nchar(colnames(dds)))
         save_plot(p, plot_name = "library_size_distribution.pdf", save_dir = save_dir, w=0.4*wscale, h=3+0.2*hscale)}
     }
-
-#' Run Quality Control Pipeline
-#'
-#' This function runs the quality control portion of the RNA-seq analysis pipeline,
-#' including filtering genes, generating QC plots, and saving expression data.
-#'
-#' @param dds DESeq2 object containing the expression data
-#' @param org The organism to use, either "human" or "mouse".
-#' @param remove_xy Logical. If TRUE, removes genes on X and Y chromosomes. Default is TRUE
-#' @param remove_mt Logical. If TRUE, removes mitochondrial genes. Default is TRUE
-#' @param group_by Column name in colData(dds) to use for grouping.
-#' @param min_count Minimum count threshold for filtering lowly expressed genes. Default is 10
-#' @param save_dir Directory where all output files will be saved. Default is current working directory
-#' @param save_dir_name Name of the subdirectory to save files in. Default is "qc_results"
-#' @return The processed DESeq2 object
-#' @examples
-#' \dontrun{
-#' # Run QC pipeline with default settings
-#' dds <- run_qc_pip(dds)
-#' 
-#' # Run QC pipeline with custom settings
-#' dds <- run_qc_pip(dds, org = "mouse", remove_xy = TRUE, save_dir_name = "custom_results")
-#' }
-#' @export
-run_qc_pip <- function(
-    dds,
-    org,
-    remove_xy = TRUE,
-    remove_mt = TRUE,
-    group_by,
-    min_count = 10,
-    save_dir = getwd(), 
-    save_dir_name = "qc_results") {
-    
-    # validations
-    dds <- validate_dds_group_by(dds, group_by)
-    org <- validate_org(org)
-    min_count <- validate_min_count(min_count)
-    validate_logical(c(remove_xy, remove_mt))
-    validate_paths(save_dir)
-
-    # create save directory
-    qc_save_dir <- paste0(save_dir, "/", save_dir_name)
-    dir.create(qc_save_dir, showWarnings = FALSE, recursive = TRUE)
-    
-    # Remove XY genes if requested
-    if(remove_xy){
-        dds <- remove_xy_genes(dds, org = org)}
-
-    # Remove MT genes if requested
-    if(remove_mt){
-        dds <- remove_mt_genes(dds, org = org)}
-    
-    # Filter lowly expressed genes
-    dds <- remove_low_expression(dds, min_count = min_count, group_by = group_by, save_dir = qc_save_dir)
-    check_library(dds, save_dir = qc_save_dir)
-
-    # Save expression data
-    save_expression(dds, group_by = group_by, save_dir = qc_save_dir)
-    
-    return(dds)
-}
