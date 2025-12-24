@@ -51,7 +51,15 @@ run_rna_pip <- function(
             
         # validations
         message("Running RNA-seq pipeline with DESeq2pip v", packageVersion("deseq2pip"))
-        #validate_arguments(match.call())
+        dds <- validate_var(dds, var)
+        dds <- validate_design(dds, design)
+        org <- validate_org(org)
+        min_count <- validate_min_count(min_count)
+        order <- validate_order(order)
+        validate_logical(c(remove_xy, remove_mt))
+        if(!is.null(batch)) dds <- validate_batch(dds, batch)
+        if(!is.null(pals)) pals <- validate_pals(dds, var, pals)
+        comparisons <- validate_comparisons(dds, var, comparisons)
 
         # Run quality control pipeline
         dds <- run_qc_pip(
@@ -150,6 +158,16 @@ run_atac_pip <- function(
         
         # validations
         message("Running ATAC-seq pipeline with DESeq2pip v", packageVersion("deseq2pip"))
+        dds <- validate_dds_atac(dds)
+        dds <- validate_var(dds, var)
+        dds <- validate_design(dds, design)
+        org <- validate_org(org)
+        min_count <- validate_min_count(min_count)
+        order <- validate_order(order)
+        validate_logical(c(remove_xy, remove_mt, TSS))
+        if(!is.null(batch)) dds <- validate_batch(dds, batch)
+        if(!is.null(pals)) pals <- validate_pals(dds, var, pals)
+        comparisons <- validate_comparisons(dds, var, comparisons)
 
         # Run quality control pipeline
         dds <- run_qc_pip(
@@ -188,6 +206,7 @@ run_atac_pip <- function(
             tss_var <- paste0(var, "_TSS")
             tss_dds[[tss_var]] <- factor(tss_dds[[var]], levels = levels(tss_dds[[var]]))
             tss_design <- gsub(var, tss_var, design)
+            tss_dds <- validate_design(tss_dds, tss_design)
             design(tss_dds) <- as.formula(tss_design)
 
 

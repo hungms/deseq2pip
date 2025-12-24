@@ -74,8 +74,8 @@ dds # return dds object
 Create a directory for results, currently set to tempdir()
 ```{r}
 #| vscode: {languageId: r}
-#save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/git-repos/r-pipelines/deseq2pip/tests/atacseq/pipeline/"
-save_dir <- tempdir()
+save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/git-repos/r-pipelines/deseq2pip/tests/atacseq/pipeline/"
+#save_dir <- tempdir()
 dir.create(save_dir, recursive = TRUE)
 ```
 
@@ -93,10 +93,10 @@ dds <- dds[, dds$Group1 %in% c("WT", 'BC', 'BCK')]
 
 # set correct group factors
 dds$Group1 <- factor(dds$Group1, c("WT", 'BC', 'BCK'))
-dds$BC <- ifelse(dds$Group1 == "WT", 0, 1)
-dds$BC <- factor(dds$BC, c(0, 1))
-dds$K <- ifelse(dds$Group1 == "BCK", 1, 0)
-dds$K <- factor(dds$K, c(0, 1))
+dds$BC <- ifelse(dds$Group1 == "WT", "noBC", "BC")
+dds$BC <- factor(dds$BC, c("noBC", "BC"))
+dds$K <- ifelse(dds$Group1 == "BCK", "K", "noK")
+dds$K <- factor(dds$K, c("noK", "K"))
 
 # set design
 design(dds) <- ~ BC + K

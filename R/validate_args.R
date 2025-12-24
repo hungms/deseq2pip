@@ -21,6 +21,7 @@ validate_dds <- function(dds){
 #'
 #' @param dds A DESeq2 object.
 #' @return A DESeq2 object.
+#' @aliases validate_dds_atac
 #' @export
 validate_atac <- function(dds){
     if(!"peaks" %in% colnames(rowData(dds))){
@@ -34,6 +35,10 @@ validate_atac <- function(dds){
     validate_logical(rowData(dds)$TSS)
     return(dds)}
 
+#' @rdname validate_atac
+#' @export
+validate_dds_atac <- validate_atac
+
 #' Validate DESeq2 object for RNA-seq
 #'
 #' This function validates a DESeq2 object for RNA-seq.
@@ -43,9 +48,14 @@ validate_atac <- function(dds){
 #' @export          
 validate_var <- function(dds, var){
 
+    # Handle vector of vars
+    if(length(var) > 1){
+        for(v in var){
+            dds <- validate_var(dds, v)}
+        return(dds)}
+    
     # check if var is a factor
     if(!is.factor(colData(dds)[[var]])){
-        message("var is not a factor, converting to factor")
         colData(dds)[[var]] <- factor(colData(dds)[[var]], levels = unique(colData(dds)[[var]]))}
 
     if(class(dds) != "DESeqTransform"){
@@ -69,8 +79,99 @@ validate_var <- function(dds, var){
 #' @export
 validate_comparison <- function(dds, var, comparison){
     stopifnot("Please make sure that each group variable is present in var" = all(str_split(comparison, "_vs_") %>% unlist(.) %in% colData(dds)[[var]]))
-    dds <- validate_dds_var(dds, var)
+    dds <- validate_var(dds, var)
     return(dds)}
+
+#' Validate design formula
+#'
+#' This function validates a design formula and ensures all colData columns used in the design are factors with levels set.
+#'
+#' @param dds A DESeq2 object.
+#' @param design A design formula (character string or formula object).
+#' @return A DESeq2 object with validated and converted factors.
+#' @export
+validate_design <- function(dds, design){
+    
+    # Convert design to formula if it's a character string
+    if(is.character(design)){
+        design <- as.formula(design)}
+    
+    # Extract variable names from the design formula
+    # all.vars() extracts all variable names from a formula
+    vars_in_design <- all.vars(design)
+    
+    # Remove intercept term if present
+    vars_in_design <- vars_in_design[vars_in_design != "."]
+    
+    # Check that all variables exist in colData
+    missing_vars <- vars_in_design[!vars_in_design %in% colnames(colData(dds))]
+    stopifnot("Please make sure that all variables in the design formula exist in colData(dds)" = length(missing_vars) == 0)
+    
+    # Ensure all variables are factors with levels set
+    for(var in vars_in_design){
+        if(!is.factor(colData(dds)[[var]])){
+            message(paste0("Variable '", var, "' in design is not a factor, converting to factor"))
+            colData(dds)[[var]] <- factor(colData(dds)[[var]], levels = unique(colData(dds)[[var]]))}
+        else{
+            # Check if factor has levels set
+            if(length(levels(colData(dds)[[var]])) == 0){
+                message(paste0("Variable '", var, "' is a factor but has no levels, setting levels"))
+                colData(dds)[[var]] <- factor(colData(dds)[[var]], levels = unique(colData(dds)[[var]]))}
+        }
+    }
+    
+    return(dds)}
+
+#' Validate comparisons
+#'
+#' This function validates that all comparisons listed are found in dds[[var]].
+#' If comparisons is NULL, it will automatically generate all possible comparisons.
+#'
+#' @param dds A DESeq2 object.
+#' @param var Column name in colData(dds) to use for grouping.
+#' @param comparisons Vector of comparisons to validate. If NULL, generates all possible comparisons.
+#' @return A validated vector of comparisons.
+#' @export
+validate_comparisons <- function(dds, var, comparisons){
+    
+    # Ensure var exists and is a factor
+    stopifnot("Please make sure that var exists in colData(dds)" = var %in% colnames(colData(dds)))
+    
+    if(!is.factor(colData(dds)[[var]])){
+        message("var is not a factor, converting to factor")
+        colData(dds)[[var]] <- factor(colData(dds)[[var]], levels = unique(colData(dds)[[var]]))}
+    
+    # Generate comparisons if NULL
+    if(is.null(comparisons)){
+        comparisons <- generate_comparisons(levels(colData(dds)[[var]]))}
+    
+    # Get all valid levels from dds[[var]]
+    valid_levels <- levels(colData(dds)[[var]])
+    
+    # Validate each comparison
+    for(i in seq_along(comparisons)){
+        comparison <- comparisons[i]
+        
+        # Split comparison by "_vs_"
+        groups <- str_split(comparison, "_vs_") %>% unlist(.)
+        
+        # Handle group comparisons (with +)
+        all_groups <- c()
+        for(group in groups){
+            if(str_detect(group, "\\+")){
+                # Split by + and add individual groups
+                sub_groups <- str_split(group, "\\+") %>% unlist(.) %>% str_trim(.)
+                all_groups <- c(all_groups, sub_groups)}
+            else{
+                all_groups <- c(all_groups, group)}}
+        
+        # Check that all groups are in valid_levels
+        missing_groups <- all_groups[!all_groups %in% valid_levels]
+        if(length(missing_groups) > 0){
+            stop(paste0("please make sure that all groups in comparison '", comparison, "' are present in dds[[var]]. Missing groups: ", paste0(missing_groups, collapse = ", ")))}
+    }
+    
+    return(comparisons)}
 
 #' Validate methods
 #' 
@@ -94,7 +195,6 @@ validate_method <- function(method){
 validate_res <- function(res){  
     stopifnot("Please make sure that the differential expression results is a data frame and contains baseMean, log2FoldChange, padj, gene, rank, and comparison columns" = is.data.frame(res) & all(c("baseMean", "log2FoldChange", "padj", "gene", "rank", "comparison") %in% colnames(res)))
     for(c in c("baseMean", "log2FoldChange", "padj", "rank")) {
-        message(paste0("Converting ", c, " to numeric"))
         res[[c]] <- as.numeric(res[[c]])}
     return(res)}
 
@@ -139,17 +239,20 @@ validate_min_count <- function(min_count){
 #'
 #' @param dds A DESeq2 object.
 #' @param group.by A character string of the group by.
-#' @param pals A vector of colors.
-#' @return A vector of colors.
+#' @param pals A vector of colors. If NULL, returns NULL.
+#' @return A vector of colors or NULL.
+#' @export
 validate_pals <- function(dds, group.by, pals){
-    if(!is.null(pals)){
-        stopifnot("Please make sure that length(pals) is equal or greater than the number of levels in var" = length(pals) >= length(levels(colData(dds)[[group.by]])))
-        if(is.null(names(pals))){
-            message("No names for pals, setting names to var levels")
-            group.lv <- levels(colData(dds)[[group.by]])
-            pals <- pals[1:length(group.lv)]
-            names(pals) <- group.lv}
-        stopifnot("Please make sure that the names(pals) contains all var levels" = all(names(pals) %in% levels(colData(dds)[[group.by]])))}
+    if(is.null(pals)){
+        return(pals)}
+    
+    stopifnot("Please make sure that length(pals) is equal or greater than the number of levels in var" = length(pals) >= length(levels(colData(dds)[[group.by]])))
+    if(is.null(names(pals))){
+        message("No names for pals, setting names to var levels")
+        group.lv <- levels(colData(dds)[[group.by]])
+        pals <- pals[1:length(group.lv)]
+        names(pals) <- group.lv}
+    stopifnot("Please make sure that the names(pals) contains all var levels" = all(names(pals) %in% levels(colData(dds)[[group.by]])))
     return(pals)}
 
 #' Validate shape
@@ -170,24 +273,27 @@ validate_shape <- function(dds, group.by, shape){
 #' This function validates a batch.
 #'
 #' @param dds A DESeq2 object.
-#' @param batch A character string of the batch.
-#' @return A character string of the batch.
+#' @param batch A character string of the batch. If NULL, returns dds unchanged.
+#' @return A DESeq2 object.
+#' @export
 validate_batch <- function(dds, batch){
-    if(!is.null(batch)){
-        stopifnot("Please make sure batch is a column in colData" = batch %in% colnames(colData(dds)))
+    if(is.null(batch)){
+        return(dds)}
+    
+    stopifnot("Please make sure batch is a column in colData" = batch %in% colnames(colData(dds)))
 
-        # check if batch is a factor
-        if(!is.factor(colData(dds)[[batch]])){
-            colData(dds)[[batch]] <- factor(colData(dds)[[batch]], levels = unique(colData(dds)[[batch]]))}
+    # check if batch is a factor
+    if(!is.factor(colData(dds)[[batch]])){
+        colData(dds)[[batch]] <- factor(colData(dds)[[batch]], levels = unique(colData(dds)[[batch]]))}
 
-        # check if var is in the design
-        if(class(dds) != "DESeqTransform"){
-            des <- paste0(as.character(design(dds)), collapse = " ")
-            if(!str_detect(des, batch)){
-                message("batch is not in the design, adding to design")
-                    design(dds) <- as.formula(paste0(des, " + ", batch))}
-            }
+    # check if var is in the design
+    if(class(dds) != "DESeqTransform"){
+        des <- paste0(as.character(design(dds)), collapse = " ")
+        if(!str_detect(des, batch)){
+            message("batch is not in the design, adding to design")
+                design(dds) <- as.formula(paste0(des, " + ", batch))}
         }
+    
     return(dds)}
 
 #' Validate order
@@ -226,7 +332,6 @@ validate_msigdbr <- function(msigdbr){
 validate_gsea_result <- function(gsea){
     stopifnot("Please make sure that the gsea is a data frame and contains ID, NES, pvalue, qvalue, comparison, and collection columns" = is.data.frame(gsea) & all(c("ID", "NES", "pvalue", "qvalue", "comparison", "collection") %in% colnames(gsea)))
     for(c in c("NES", "pvalue", "qvalue")) {
-        message(paste0("Converting ", c, " to numeric"))
         gsea[[c]] <- as.numeric(gsea[[c]])}
     return(gsea)}
     

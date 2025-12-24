@@ -32,11 +32,10 @@ run_qc_pip <- function(
     save_dir_name = "qc_results") {
     
     # validations
-    #dds <- validate_dds_var(dds, var)
-    #org <- validate_org(org)
-    #min_count <- validate_min_count(min_count)
-    #validate_logical(c(remove_xy, remove_mt))
-    #validate_paths(save_dir)
+    dds <- validate_var(dds, var)
+    org <- validate_org(org)
+    min_count <- validate_min_count(min_count)
+    validate_logical(c(remove_xy, remove_mt))
 
     message("\n########################################################\nRunning Quality Control Pipeline\n########################################################")
 
@@ -81,6 +80,8 @@ run_qc_pip <- function(
 #' }
 #' @export
 remove_xy_genes <- function(dds, org, ...){
+    dds <- validate_dds(dds)
+    org <- validate_org(org)
     xy.genes <- get_xy_genes(org = org, ...)
     count <- count(rowData(dds)$gene %in% xy.genes)
     message(paste0("removing ", count, " XY genes out of ", nrow(dds), " total genes..."))
@@ -106,6 +107,8 @@ remove_xy_genes <- function(dds, org, ...){
 #' }
 #' @export
 remove_mt_genes <- function(dds, org, ...){
+    dds <- validate_dds(dds)
+    org <- validate_org(org)
     mt.genes <- get_mt_genes(org = org, ...)
     count <- count(rowData(dds)$gene %in% mt.genes)
     message(paste0("removing ", count, " MT genes out of ", nrow(dds), " total genes..."))
@@ -134,6 +137,11 @@ remove_mt_genes <- function(dds, org, ...){
 #' }
 #' @export
 remove_low_expression <- function(dds, var, min_count = 10, save_plot = TRUE, save_dir = getwd()){
+    
+    # validations
+    dds <- validate_var(dds, var)
+    min_count <- validate_min_count(min_count)
+    validate_logical(save_plot)
     
     # Use raw counts for filtering
     raw_counts <- counts(dds, normalized = FALSE)
@@ -207,6 +215,10 @@ remove_low_expression <- function(dds, var, min_count = 10, save_plot = TRUE, sa
 #' }
 #' @export
 check_library <- function(dds, save_plot = TRUE, save_dir = getwd()){
+
+    # validations
+    dds <- validate_dds(dds)
+    validate_logical(save_plot)
 
     message("generating boxplots to check library size distribution...")
     vsd <- vst(dds, blind=FALSE) 

@@ -14,10 +14,9 @@ plot_peak_annot_pip <- function(
     save_dir = getwd(),
     ...) {
     
-    # validation
-    #dds <- validate_dds_atac(dds)
-    #res <- validate_res(res)
-    #validate_paths(group_save_dir)
+    # validations
+    dds <- validate_dds_atac(dds)
+    res <- validate_res(res)
 
     # get comparison
     comparisons <- unique(res$comparison)
@@ -132,10 +131,10 @@ plot_peak_annot <- function(
     save_plot = TRUE,
     save_dir = getwd()) {
     
-    # validation
-    #dds <- validate_dds_atac(dds)
-    #res <- validate_res_comparison(res)
-    #validate_paths(save_dir)
+    # validations
+    dds <- validate_dds_atac(dds)
+    res <- validate_res(res)
+    validate_logical(save_plot)
 
     # get comparison
     comparison <- unique(res$comparison)

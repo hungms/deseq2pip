@@ -28,10 +28,9 @@ run_dist_pip <- function(
     save_dir_name = "qc_results") {
     
     # validations
-    #dds <- validate_dds_var(dds, var)
-    #dds <- validate_batch(dds, batch)
-    #pals <- validate_pals(dds, var, pals)
-    #validate_paths(save_dir)
+    dds <- validate_var(dds, var)
+    if(!is.null(batch)) dds <- validate_batch(dds, batch)
+    if(!is.null(pals)) pals <- validate_pals(dds, var, pals)
 
     message("\n########################################################\nRunning Distance Analysis Pipeline\n########################################################")
 
@@ -97,9 +96,11 @@ run_dist_pip <- function(
 #' @export
 run_batch_correction <- function(dds, batch, method = c("limma", "combat"), save_data = TRUE, save_dir = getwd()) {
 
-    #dds <- validate_dds(dds)
-    #method <- validate_method(method)
-    #batch <- validate_batch(dds, batch)
+    # validations
+    dds <- validate_dds(dds)
+    method <- validate_method(method)
+    dds <- validate_batch(dds, batch)
+    validate_logical(save_data)
 
     uncorrected <- vst(dds, blind=FALSE)
     colnames(uncorrected) <- colnames(dds)
@@ -159,10 +160,9 @@ run_batch_correction <- function(dds, batch, method = c("limma", "combat"), save
 run_pca <- function(vsd, var, pals = NULL, size = 4, save_prefix = NULL, save_data = TRUE, save_plot = TRUE, save_dir = getwd()){
 
     # validations
-    #dds <- validate_dds_var(vsd, var)
-    #pals <- validate_pals(vsd, var, pals)
-    #shape <- validate_shape(vsd, var, shape)
-    #validate_paths(save_dir)
+    vsd <- validate_var(vsd, var)
+    if(!is.null(pals) && length(var) == 1) pals <- validate_pals(vsd, var, pals)
+    validate_logical(c(save_data, save_plot))
 
     # run pca
     message("running PCA analysis...")
@@ -227,8 +227,8 @@ run_pca <- function(vsd, var, pals = NULL, size = 4, save_prefix = NULL, save_da
 run_distance <- function(vsd, save_prefix = NULL, save_data = TRUE, save_plot = TRUE, save_dir = getwd(),  ...){
 
     # validations
-    #vsd <- validate_dds(vsd)
-    #validate_paths(save_dir)
+    vsd <- validate_dds(vsd)
+    validate_logical(c(save_data, save_plot))
 
     # calculate euclidean distance
     message("calculating euclidean distance between samples...")

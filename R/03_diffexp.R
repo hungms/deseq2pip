@@ -29,19 +29,13 @@ run_diffexp_pip <- function(
     save_dir = getwd()) {
     
     # validations
-    #dds <- validate_dds(dds)
-    #dds <- validate_dds_design(dds, design)
-    #org <- validate_org(org)
-    #var <- validate_dds_var(dds, var)
-    #comparisons <- validate_dds_comparisons(dds, var, comparisons)
-    #order <- validate_order(order)
-    #validate_paths(save_dir)
-
+    dds <- validate_var(dds, var)
+    dds <- validate_design(dds, design)
+    org <- validate_org(org)
+    order <- validate_order(order)
+    comparisons <- validate_comparisons(dds, var, comparisons)
+    
     message("\n########################################################\nRunning Differential Expression Analysis Pipeline\n########################################################")
-
-    if(is.null(comparisons)){
-        comparisons <- generate_comparisons(levels(dds[[var]]))}
-
     message("running differential expression analysis for the following comparisons:\n")
     
     # Initialize list to store results
@@ -60,10 +54,6 @@ run_diffexp_pip <- function(
         # generate ma and volcano plots
         plot_ma(res, save_plot = TRUE, save_dir = comparison_save_dir)
         plot_volcano(res, save_plot = TRUE, save_dir = comparison_save_dir)
-
-        # save data
-        if(save_data){
-            save_tsv(res, tsv_name = paste0("diffexp_DESeq2.tsv"), save_dir = comparison_save_dir)}
 
         res.list[[c]] <- res}
 
@@ -117,6 +107,13 @@ generate_comparisons <- function(var_levels){
 #' @return A data frame containing differential expression results for a comparison
 #' @export
 run_diffexp <- function(dds, org, var, design, comparison, order, save_data = TRUE, save_dir = getwd()){
+
+    # validations
+    dds <- validate_comparison(dds, var, comparison)
+    dds <- validate_design(dds, design)
+    org <- validate_org(org)
+    order <- validate_order(order)
+    validate_logical(save_data)
 
     org.to <- ifelse(org == "human", "mouse", "human")
     message("<<", comparison, ">>")
@@ -202,8 +199,8 @@ run_diffexp <- function(dds, org, var, design, comparison, order, save_data = TR
 plot_ma <- function(res, fc.thresh = 0.5, save_plot = TRUE, save_dir = getwd()) {
 
     # validations
-    #res <- validate_res_comparison(res)
-    #validate_paths(save_dir)
+    res <- validate_res(res)
+    validate_logical(save_plot)
     comparison <- unique(res$comparison)
     message("\t- generating MA plot...")
 
@@ -293,8 +290,8 @@ plot_ma <- function(res, fc.thresh = 0.5, save_plot = TRUE, save_dir = getwd()) 
 plot_volcano <- function(res, n = 25, fc.thresh = 0.5, p.thresh = 0.05, crop = T, highlight.genes = NULL, save_plot = T, save_dir = getwd()){
 
     # validations
-    #res <- validate_res_comparison(res)
-    #validate_paths(save_dir)
+    res <- validate_res(res)
+    validate_logical(c(crop, save_plot))
     comparison <- unique(res$comparison)
     message("\t- generating volcano plot...")
 

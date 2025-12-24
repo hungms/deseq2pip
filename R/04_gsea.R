@@ -12,10 +12,10 @@
 run_gsea_pip <- function(res, org, msigdbr = import_msigdbr(org), save_data = T, save_dir = getwd()){
  
     # validations
-    #res <- validate_res(res)
-    #org <- validate_org(org)
-    #msigdbr <- validate_msigdbr(msigdbr)
-    #validate_paths(group_save_dir)
+    res <- validate_res(res)
+    org <- validate_org(org)
+    msigdbr <- validate_msigdbr(msigdbr)
+    validate_logical(save_data)
 
     # get comparisons
     comparisons <- unique(res$comparison)
@@ -93,10 +93,10 @@ import_msigdbr <- function(org) {
 run_gsea <- function(res, org, msigdbr = import_msigdbr(org), save_data = T, save_dir = getwd()){
 
     # validations
-    #res <- validate_res_comparison(res)
-    #validate_org(org)
-    #msigdbr <- validate_msigdbr(msigdbr)
-    #validate_paths(save_dir)
+    res <- validate_res(res)
+    org <- validate_org(org)
+    msigdbr <- validate_msigdbr(msigdbr)
+    validate_logical(save_data)
 
     # get comparison
     comparison <- unique(res$comparison)
@@ -179,8 +179,8 @@ run_gsea <- function(res, org, msigdbr = import_msigdbr(org), save_data = T, sav
 plot_gsea_barplot <- function(gsea, n = 10, signif = F, save_plot = T, save_dir = getwd()){
 
     # validations
-    #gsea <- validate_gsea_comparison(gsea)
-    #validate_paths(save_dir)
+    gsea <- validate_gsea_result(gsea)
+    validate_logical(c(signif, save_plot))
 
     # get comparison and collection
     comparison <- unique(gsea$comparison)

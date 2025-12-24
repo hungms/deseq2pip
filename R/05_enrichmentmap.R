@@ -27,9 +27,9 @@ enrichmentmap_pip <- function(
     save_dir = group_dir,
     save_dir_name = "enrichmentmap"){
 
-    #dds <- validate_dds_var(dds, var)
-    #org <- validate_org(org)
-    #validate_paths(c(group_dir, save_dir))
+    # validations
+    dds <- validate_var(dds, var)
+    org <- validate_org(org)
 
     message("exporting data for EnrichmentMap")
 
@@ -100,8 +100,7 @@ enrichmentmap_pip <- function(
 write_cls <- function(dds, var, cls_name = "dds_class.cls", save_dir = getwd()){
 
     # validations
-    #dds <- validate_dds_var(dds, var)
-    #validate_paths(save_dir)
+    dds <- validate_var(dds, var)
 
     # get group levels
     group.lv <- rev(levels(dds[[var]]))
@@ -134,8 +133,7 @@ write_cls <- function(dds, var, cls_name = "dds_class.cls", save_dir = getwd()){
 write_cls_pip <- function(dds, var, group_dir = group_dir, save_dir = getwd()){
 
     # validations
-    #dds <- validate_dds_var(dds, var)
-    #validate_paths(save_dir)
+    dds <- validate_var(dds, var)
 
     # get comparison
     comparison <- list.files(group_dir)
