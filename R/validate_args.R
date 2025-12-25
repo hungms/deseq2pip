@@ -58,15 +58,6 @@ validate_var <- function(dds, var){
     if(!is.factor(colData(dds)[[var]])){
         colData(dds)[[var]] <- factor(colData(dds)[[var]], levels = unique(colData(dds)[[var]]))}
 
-    if(class(dds) != "DESeqTransform"){
-    if(!str_detect(paste0(as.character(design(dds)), collapse = " "), var)){
-        message("var is not in the design, adding to design")
-        if(paste0(as.character(design(dds)), collapse = " ") == "~ 1"){
-            design(dds) <- as.formula(paste0("~ ", var))
-        } else {
-            design(dds) <- as.formula(paste0(as.character(design(dds)), " + ", var))}}
-    }
-
     dds <- validate_dds(dds)
     return(dds)}
 
