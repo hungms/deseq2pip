@@ -69,7 +69,17 @@ validate_var <- function(dds, var){
 #' @return A DESeq2 object.
 #' @export
 validate_comparison <- function(dds, var, comparison){
-    stopifnot("Please make sure that each group variable is present in var" = all(str_split(comparison, "_vs_") %>% unlist(.) %in% colData(dds)[[var]]))
+    groups <- str_split(comparison, "_vs_") %>% unlist(.)
+    all_groups <- c()
+    for(group in groups){
+        if(str_detect(group, "\\+")){
+            sub_groups <- str_split(group, "\\+") %>% unlist(.) %>% str_trim(.)
+            all_groups <- c(all_groups, sub_groups)
+        } else {
+            all_groups <- c(all_groups, group)
+        }
+    }
+    stopifnot("Please make sure that each group variable is present in var" = all(all_groups %in% colData(dds)[[var]]))
     dds <- validate_var(dds, var)
     return(dds)}
 
