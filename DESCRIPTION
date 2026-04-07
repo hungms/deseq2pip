@@ -51,7 +51,6 @@ Suggests:
     testthat,
     Cairo
 Remotes: 
-    hrbrmstr/ggalt,
     hungms/plotr,
     hungms/strpip
 BuildVignettes: no

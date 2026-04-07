@@ -175,7 +175,7 @@ run_pca <- function(vsd, var, pals = NULL, size = 4, save_prefix = NULL, save_da
         message("\t- generating PCA plot for ", var[i], "...")
         percentVar <- round(100 * attr(pcadf, "percentVar"))
         p <- ggplot(pcadf, aes_string("PC1", "PC2", color=var[i])) +
-            ggalt::geom_encircle(aes_string(fill = var[i]), alpha = 0.3) +
+            #ggalt::geom_encircle(aes_string(fill = var[i]), alpha = 0.3) +
             geom_point(size = size) +
             geom_hline(yintercept = 0, color = "grey40", linetype = "dashed") +
             geom_vline(xintercept = 0, color = "grey40", linetype = "dashed") +

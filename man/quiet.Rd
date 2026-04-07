@@ -15,3 +15,4 @@ Nothing, but suppresses the message.
 \description{
 This function suppresses messages.
 }
+\keyword{internal}
