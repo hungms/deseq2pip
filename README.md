@@ -1,7 +1,7 @@
 # deseq2pip: A DESeq2 Pipeline for RNA/ATAC-seq Analysis
 
-[![R-CMD-check](https://github.com/hungms/deseq2pip/workflows/R-CMD-check/badge.svg)](https://github.com/hungms/deseq2pip/actions)
-[![pkgdown](https://github.com/hungms/deseq2pip/workflows/pkgdown/badge.svg)](https://github.com/hungms/deseq2pip/actions)
+[![R-CMD-check](https://github.com/hungms/deseq2pip/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/hungms/deseq2pip/actions/workflows/R-CMD-check.yaml)
+[![pkgdown](https://github.com/hungms/deseq2pip/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/hungms/deseq2pip/actions/workflows/pkgdown.yaml)
 
 ## Overview
 
