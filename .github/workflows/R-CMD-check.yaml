@@ -58,3 +58,7 @@ jobs:
           upload-snapshots: true
           build_args: 'c("--no-manual", "--no-build-vignettes")'
           error-on: '"error"'
+
+      - name: Show install log on failure
+        if: failure()
+        run: find . -name "00install.out" -exec echo "=== {} ===" \; -exec cat {} \; || true
