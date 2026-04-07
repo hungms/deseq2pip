@@ -44,7 +44,7 @@ jobs:
 
       - name: Set up Bioconductor
         run: |
-          install.packages("BiocManager")
+          install.packages("BiocManager", repos = "https://cloud.r-project.org")
           BiocManager::install(version = "3.21", ask = FALSE, update = FALSE)
         shell: Rscript {0}
 
