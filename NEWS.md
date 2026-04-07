@@ -1,4 +1,15 @@
 # NEWS
+## v2.1.0 (2026-03-17)
+### New Features
+- **`comparisons` argument in main pipeline functions:**
+  - `run_rna_pip()` and `run_atac_pip()` now accept an explicit `comparisons` argument, allowing users to specify a custom subset of comparisons to run instead of the default auto-generated full set.
+  - When `comparisons = NULL` (default), all pairwise and one-to-all comparisons are automatically generated from the factor levels of `var`.
+  - Supports standard pairwise comparisons (e.g. `"B_vs_A"`), combined-group comparisons (e.g. `"IgA+IgG_vs_IgM"`), or any mix of both.
+
+### Bug Fixes
+- **Fixed `validate_comparison()` for combined-group comparisons:**
+  - `validate_comparison()` now correctly handles comparisons containing `+` (e.g. `"IgA+IgG_vs_IgM"`) by splitting each side of `_vs_` further on `+` before checking group membership. Previously, combined-group comparisons that passed `validate_comparisons()` would fail at the inner `validate_comparison()` call inside `run_diffexp()`.
+
 ## v1.0.4 (2025-12-23)
 ### Minor Changes
 - **Updated `generate_comparisons` function:**

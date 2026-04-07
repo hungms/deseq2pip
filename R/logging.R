@@ -117,6 +117,7 @@ log_output <- function(call, save_dir, expr = NULL) {
 #' 
 #' @param message Message to suppress.
 #' @return Nothing, but suppresses the message.
+#' @keywords internal
 #' @export
 quiet <- function(expr) {
   invisible(

@@ -26,8 +26,7 @@ suppressPackageStartupMessages(library(deseq2pip))
 Create a directory for results, currently set to tempdir()
 ```{r}
 #| vscode: {languageId: r}
-save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/git-repos/r-pipelines/deseq2pip/tests/rnaseq/pipeline/"
-#save_dir <- tempdir()
+save_dir <- tempdir()
 dir.create(save_dir, recursive = TRUE)
 ```
 
@@ -50,7 +49,7 @@ dds$Group3 <- factor(dds$Group3, c(1:4))
 design(dds) <- ~ Group3 + Group2
 ```
 
-Run RNA pipeline.
+Run RNA pipeline. When `comparisons = NULL` (default), all pairwise and one-to-all comparisons are automatically generated from the factor levels of `var`.
 ```{r}
 #| vscode: {languageId: r}
 dds <- run_rna_pip(
@@ -59,6 +58,7 @@ dds <- run_rna_pip(
     var = "Group2",
     design = "~ Group3 + Group2",
     batch = "Group3",
+    comparisons = NULL,
     remove_xy = TRUE,
     remove_mt = TRUE,
     min_count = 10,
@@ -69,13 +69,61 @@ dds <- run_rna_pip(
 dds # return dds object
 ```
 
+## Specifying Custom Comparisons
+
+By default, `comparisons = NULL` auto-generates all pairwise and one-to-all comparisons from the factor levels of `var`. You can instead pass a character vector of specific comparisons to run.
+
+### Comparison string format
+
+Comparisons follow the format `"numerator_vs_denominator"`. A positive `log2FoldChange` means a gene is upregulated in the **numerator** group relative to the **denominator** group.
+
+```{r eval=FALSE}
+#| vscode: {languageId: r}
+# Run only selected pairwise comparisons
+dds <- run_rna_pip(
+    dds,
+    org = "mouse",
+    var = "Group2",
+    design = "~ Group3 + Group2",
+    comparisons = c("IgA_vs_IgM", "IgG_vs_IgM"),
+    save_dir = save_dir)
+```
+
+### Combined-group comparisons
+
+Use `+` to pool multiple groups on one side of the comparison:
+
+```{r eval=FALSE}
+#| vscode: {languageId: r}
+# IgA and IgG pooled vs IgM
+dds <- run_rna_pip(
+    dds,
+    org = "mouse",
+    var = "Group2",
+    design = "~ Group3 + Group2",
+    comparisons = c("IgA+IgG_vs_IgM"),
+    save_dir = save_dir)
+```
+
+### Mix pairwise and combined-group comparisons
+
+```{r eval=FALSE}
+#| vscode: {languageId: r}
+dds <- run_rna_pip(
+    dds,
+    org = "mouse",
+    var = "Group2",
+    design = "~ Group3 + Group2",
+    comparisons = c("IgA_vs_IgM", "IgG_vs_IgM", "IgA+IgG_vs_IgM"),
+    save_dir = save_dir)
+```
+
 ## Run deseq2pip on ATAC-seq data
 
 Create a directory for results, currently set to tempdir()
 ```{r}
 #| vscode: {languageId: r}
-save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/git-repos/r-pipelines/deseq2pip/tests/atacseq/pipeline/"
-#save_dir <- tempdir()
+save_dir <- tempdir()
 dir.create(save_dir, recursive = TRUE)
 ```
 

@@ -34,18 +34,23 @@ rdata <- system.file("data", "GSE189410.dds.RData", package = "deseq2pip")
 tx2gene <- gzfile(system.file("data", "GSE189410.tx2gene.tsv.gz", package = "deseq2pip"))
 dds <- import_nfcore_rna(rdata = rdata, tx2gene = tx2gene)
 
+# set group factor levels
+dds$Group2 <- factor(dds$Group2, c("IgM", "IgG", "IgA"))
+
 # run rna pipeline
 run_rna_pip(
-    dds = dds, # DESeq2 object
-    org = "mouse", # organism, either "mouse" or "human"
-    group_by = "Group2", # column name to group by in colData(dds)
-    remove_xy = TRUE, # whether to remove genes from XY chromosome
-    remove_mt = TRUE, # whether to remove mitochondrial genes
-    quantile = 0.05, # remove bottom 5% expressing genes
-    pals = NULL, # named vector of hex colors for the group variables
-    batch = NULL, # column name to batch-correct in colData(dds)
-    order = "pxfc", # method to rank DEGs, either "log2FoldChange", "padj" or "pxfc"
-    save_dir = getwd() # path to store results
+    dds = dds,              # DESeq2 object
+    org = "mouse",          # organism, either "mouse" or "human"
+    var = "Group2",         # column name in colData(dds) to group by
+    design = "~ Group2",    # design formula
+    comparisons = NULL,     # NULL auto-generates all comparisons; see below for custom comparisons
+    remove_xy = TRUE,       # whether to remove genes from XY chromosomes
+    remove_mt = TRUE,       # whether to remove mitochondrial genes
+    min_count = 10,         # minimum count threshold for low-expression filtering
+    pals = NULL,            # named vector of hex colors for group variables
+    batch = NULL,           # column name in colData(dds) for batch correction
+    order = "pxfc",         # method to rank DEGs: "log2FoldChange", "padj", or "pxfc"
+    save_dir = getwd()      # path to store results
     )
 ```
 
@@ -58,31 +63,56 @@ library(deseq2pip)
 rdata <- system.file("data", "GSE224512.dds.RData", package = "deseq2pip")
 annotatePeaks <- gzfile(system.file("data", "GSE224512.annotatePeaks.txt.gz", package = "deseq2pip"))
 dds <- import_nfcore_atac(rdata = rdata, annotatePeaks = annotatePeaks)
-dds <- dds[, dds$Group1 %in% c("WT", 'BC', 'BCK')] # subset groups for brevity
+dds <- dds[, dds$Group1 %in% c("WT", "BC", "BCK")] # subset groups for brevity
 
 # run atac pipeline
 run_atac_pip(
-    dds = dds, # DESeq2 object
-    org = "mouse", # organism, either "mouse" or "human"
-    group_by = "Group2", # column name to group by in colData(dds)
-    remove_xy = TRUE, # whether to remove genes from XY chromosome
-    remove_mt = TRUE, # whether to remove mitochondrial genes
-    quantile = 0.05, # remove bottom 5% expressing genes
-    pals = NULL, # named vector of hex colors for the group variables
-    batch = NULL, # column name to batch-correct in colData(dds)
-    order = "pxfc", # method to rank DEGs, either "log2FoldChange", "padj" or "pxfc"
-    TSS = TRUE, # repeat pipeline for TSS peaks
-    save_dir = getwd() # path to store results
+    dds = dds,              # DESeq2 object
+    org = "mouse",          # organism, either "mouse" or "human"
+    var = "Group1",         # column name in colData(dds) to group by
+    design = "~ Group1",    # design formula
+    comparisons = NULL,     # NULL auto-generates all comparisons; see below for custom comparisons
+    remove_xy = TRUE,       # whether to remove peaks on XY chromosomes
+    remove_mt = TRUE,       # whether to remove mitochondrial peaks
+    min_count = 10,         # minimum count threshold for low-expression filtering
+    pals = NULL,            # named vector of hex colors for group variables
+    batch = NULL,           # column name in colData(dds) for batch correction
+    order = "pxfc",         # method to rank DEGs: "log2FoldChange", "padj", or "pxfc"
+    TSS = TRUE,             # repeat pipeline for TSS peaks
+    save_dir = getwd()      # path to store results
     )
 ```
+
+## Specifying Custom Comparisons
+
+By default (`comparisons = NULL`), the pipeline automatically generates all pairwise and one-to-all comparisons from the factor levels of `var`. To run only a specific subset, pass a character vector to the `comparisons` argument.
+
+### Comparison string format
+
+Comparisons follow the format `"numerator_vs_denominator"`. A positive `log2FoldChange` means a gene is upregulated in the **numerator** group relative to the **denominator** group.
+
+```r
+# Run only selected pairwise comparisons
+run_rna_pip(dds, org = "mouse", var = "Group2", design = "~ Group2",
+    comparisons = c("IgA_vs_IgM", "IgG_vs_IgM"))
+
+# Run a combined-group comparison (IgA and IgG pooled vs IgM)
+run_rna_pip(dds, org = "mouse", var = "Group2", design = "~ Group2",
+    comparisons = c("IgA+IgG_vs_IgM"))
+
+# Mix pairwise and combined-group comparisons
+run_rna_pip(dds, org = "mouse", var = "Group2", design = "~ Group2",
+    comparisons = c("IgA_vs_IgM", "IgG_vs_IgM", "IgA+IgG_vs_IgM"))
+```
+
 ## Pipeline Workflows
 ### Input requirements
 Once the pipeline is initiated, pre-flight checks will be carried out to confirm if the following requirements are met:
 
 * dds: DESeq2 object containing a count matrix: columns are samples, rows are genes
-* colData(dds): must contain a `group_by` column, in addition to an optional `batch` column if specified
+* colData(dds): must contain a `var` column, in addition to an optional `batch` column if specified
 * rowData(dds): must contain a `gene` column. `peak` and `annotations` columns are also <b>required for ATAC-seq only</b>
-* design(dds): must contain the `group_by` and `batch` columns if specified
+* design(dds): must contain the `var` and `batch` columns if specified
 
 ### Subprocesses
 - **Modular Pipeline**: Separate analysis steps that can be run independently or as a complete workflow
@@ -99,6 +129,7 @@ Once the pipeline is initiated, pre-flight checks will be carried out to confirm
 
 - **Differential Expression Analysis**:
   - Automated PAIRWISE and ONE-TO-ALL comparisons between experimental groups
+  - Support for custom comparison subsets and combined-group comparisons via the `comparisons` argument
   - Integrated DESeq2 workflow with convenient parameter settings
   - Comprehensive result tables with gene-level functional annotation
 
