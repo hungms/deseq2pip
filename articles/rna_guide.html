@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">deseq2pip</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Author: Matthew
 Hung</h4>
             
-            <h4 data-toc-skip class="date">Last Updated: 2025/05/30</h4>
+            <h4 data-toc-skip class="date">Last Updated: 2026/04/08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/hungms/deseq2pip/blob/main/vignettes/rna_guide.Rmd" class="external-link"><code>vignettes/rna_guide.Rmd</code></a></small>
       <div class="d-none name"><code>rna_guide.Rmd</code></div>
@@ -76,31 +76,24 @@ Hung</h4>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hungms.github.io/deseq2pip/">deseq2pip</a></span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by</span></span>
 <span><span class="co">## 'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'</span></span></code></pre>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">save_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">save_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/Rtmp2r7ayE' already</span></span>
-<span><span class="co">## exists</span></span></code></pre>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#setwd("/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/github-repos/r-pipelines/deseq2pip/tests/rnaseq/module/")</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="data-import-and-setup">Data Import and Setup<a class="anchor" aria-label="anchor" href="#data-import-and-setup"></a>
 </h2>
 <p>Let’s import and prepare your data. We’ll use the example dataset
 GSE189410 to demonstrate the workflow:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load example DESeq2 object</span></span>
 <span><span class="va">rdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"GSE189410.dds.RData"</span>, package <span class="op">=</span> <span class="st">"deseq2pip"</span><span class="op">)</span></span>
 <span><span class="va">tx2gene</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html" class="external-link">gzfile</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"GSE189410.tx2gene.tsv.gz"</span>, package <span class="op">=</span> <span class="st">"deseq2pip"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_nfcore_rna.html">import_nfcore_rna</a></span><span class="op">(</span>rdata <span class="op">=</span> <span class="va">rdata</span>, tx2gene <span class="op">=</span> <span class="va">tx2gene</span><span class="op">)</span></span>
 <span></span>
-<span></span>
 <span><span class="co"># set group variable (optional to manually set reference level)</span></span>
 <span><span class="va">dds</span><span class="op">$</span><span class="va">Group2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">dds</span><span class="op">$</span><span class="va">Group2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'IgM'</span>, <span class="st">'IgG'</span>, <span class="st">'IgA'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">dds</span><span class="op">$</span><span class="va">Group3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">dds</span><span class="op">$</span><span class="va">Group3</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># set dds design with desired variables</span></span>
-<span><span class="co"># for more information about setting contrasts in DESeq2, see: https://github.com/tavareshugo/tutorial_DESeq2_contrasts?tab=readme-ov-file</span></span>
-<span><span class="fu">design</span><span class="op">(</span><span class="va">dds</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="op">~</span> <span class="va">Group2</span></span></code></pre></div>
+<span><span class="co"># for more information about setting design matrix in DESeq2, see: https://github.com/tavareshugo/tutorial_DESeq2_contrasts?tab=readme-ov-file</span></span>
+<span><span class="fu">design</span><span class="op">(</span><span class="va">dds</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="op">~</span> <span class="va">Group3</span> <span class="op">+</span> <span class="va">Group2</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="detailed-overview-of-deseq2-pipeline">Detailed Overview of DESeq2 pipeline<a class="anchor" aria-label="anchor" href="#detailed-overview-of-deseq2-pipeline"></a>
@@ -143,9 +136,24 @@ variable <code>Group2</code>: <code>IgM</code> vs <code>IgG</code>,
 <em>Note: Repeating run_deseq2_pip will overwrite the existing files if
 the same directory name is used. To prevent this, please specify a
 different save_dir directory.</em></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>First, set the global arguments.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># set pipeline arguments</span></span>
+<span><span class="va">var</span> <span class="op">&lt;-</span> <span class="st">"Group2"</span> <span class="co"># required</span></span>
+<span><span class="va">org</span> <span class="op">&lt;-</span> <span class="st">"mouse"</span> <span class="co"># required</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="st">"~ Group3 + Group2"</span> <span class="co"># required</span></span>
+<span><span class="va">comparisons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IgG_vs_IgM"</span>, <span class="st">"IgA_vs_IgM"</span>, <span class="st">"IgA_vs_IgG"</span>, <span class="st">"IgM_vs_IgA+IgG"</span>, <span class="st">"IgG_vs_IgA+IgM"</span>, <span class="st">"IgA_vs_IgG+IgM"</span><span class="op">)</span> <span class="co"># optional</span></span>
+<span><span class="va">batch</span> <span class="op">&lt;-</span> <span class="st">"Group3"</span> <span class="co"># optional</span></span>
+<span><span class="va">remove_xy</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span> <span class="co"># optional</span></span>
+<span><span class="va">remove_mt</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span> <span class="co"># optional</span></span>
+<span><span class="va">min_count</span> <span class="op">&lt;-</span> <span class="fl">10</span> <span class="co"># optional</span></span>
+<span><span class="va">pals</span> <span class="op">&lt;-</span> <span class="cn">NULL</span> <span class="co"># optional</span></span>
+<span><span class="va">order</span> <span class="op">&lt;-</span> <span class="st">"pxfc"</span> <span class="co"># optional</span></span>
+<span><span class="va">save_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">save_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run deseq2 pipeline</span></span>
-<span><span class="co">#run_rna_pip(dds, experiment = "GSE189410", org = "mouse", group_by = "Group2", remove_xy = TRUE, remove_mt = TRUE, save_dir = save_dir)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/run_rna_pip.html">run_rna_pip</a></span><span class="op">(</span>dds <span class="op">=</span> <span class="va">dds</span>, org <span class="op">=</span> <span class="va">org</span>, var <span class="op">=</span> <span class="va">var</span>, design <span class="op">=</span> <span class="va">design</span>, batch <span class="op">=</span> <span class="va">batch</span>, comparisons <span class="op">=</span> <span class="va">comparisons</span>, remove_xy <span class="op">=</span> <span class="va">remove_xy</span>, remove_mt <span class="op">=</span> <span class="va">remove_mt</span>, min_count <span class="op">=</span> <span class="va">min_count</span>, pals <span class="op">=</span> <span class="va">pals</span>, order <span class="op">=</span> <span class="va">order</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="run-individual-modules">Run individual modules<a class="anchor" aria-label="anchor" href="#run-individual-modules"></a>
@@ -153,811 +161,24 @@ different save_dir directory.</em></p>
 <p>After an initial run of the DESeq2 pipeline, you may wish to run a
 specific module using different parameters or comparison groups without
 repeating the entire pipeline.</p>
-<p>Here’s how to run each module separately. First, set the global
-arguments.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># set pipeline arguments</span></span>
-<span><span class="va">group_by</span> <span class="op">&lt;-</span> <span class="st">"Group2"</span></span>
-<span><span class="va">org</span> <span class="op">&lt;-</span> <span class="st">"mouse"</span></span>
-<span><span class="va">remove_xy</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
-<span><span class="va">remove_mt</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
-<span><span class="va">quantile</span> <span class="op">&lt;-</span> <span class="fl">0.05</span></span>
-<span><span class="va">batch</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
-<span><span class="va">pals</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
-<span><span class="va">order</span> <span class="op">&lt;-</span> <span class="st">"pxfc"</span></span>
-<span><span class="va">one_to_all</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
-<span><span class="va">msigdbr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_msigdbr.html">import_msigdbr</a></span><span class="op">(</span>org <span class="op">=</span> <span class="va">org</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># set additional arguments</span></span>
-<span><span class="va">save_data</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
-<span><span class="va">save_plot</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span></code></pre></div>
+<p>Here’s how to run each module separately.</p>
 <p>Below are the commands to run each individual module:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">save_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">save_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Module 1: Quality Control</span></span>
-<span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_qc_pip.html">run_qc_pip</a></span><span class="op">(</span><span class="va">dds</span>, org <span class="op">=</span> <span class="va">org</span>, group_by <span class="op">=</span> <span class="va">group_by</span>, remove_xy <span class="op">=</span> <span class="va">remove_xy</span>, remove_mt <span class="op">=</span> <span class="va">remove_mt</span>, quantile <span class="op">=</span> <span class="va">quantile</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Removing 4050 XY genes out of 54513 total genes...</span></span></code></pre>
-<pre><code><span><span class="co">## Removing 37 MT genes out of 50463 total genes...</span></span></code></pre>
-<pre><code><span><span class="co">## Filtering genes with low expressions...</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-5-1.png" width="700"><img src="rna_guide_files/figure-html/unnamed-chunk-5-2.png" width="700"></p>
-<pre><code><span><span class="co">## Saving DESeq2 object &amp; expressions...</span></span></code></pre>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_dist_pip.html">run_dist_pip</a></span><span class="op">(</span><span class="va">dds</span>, group_by <span class="op">=</span> <span class="va">group_by</span>, batch <span class="op">=</span> <span class="va">batch</span>, pals <span class="op">=</span> <span class="va">pals</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Running batch correction...</span></span></code></pre>
-<pre><code><span><span class="co">## Running PCA and distance analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## group_by is not a factor, converting to factor</span></span></code></pre>
-<pre><code><span><span class="co">## using ntop=500 top features by variance</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-5-3.png" width="700"></p>
-<pre><code><span><span class="co">## using ntop=500 top features by variance</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-5-4.png" width="700"></p>
-<pre><code><span><span class="co">## group_by is not a factor, converting to factor</span></span>
-<span><span class="co">## using ntop=500 top features by variance</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-5-5.png" width="700"></p>
-<pre><code><span><span class="co">## using ntop=500 top features by variance</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-5-6.png" width="700"><img src="rna_guide_files/figure-html/unnamed-chunk-5-7.png" width="700"></p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_qc_pip.html">run_qc_pip</a></span><span class="op">(</span>dds <span class="op">=</span> <span class="va">dds</span>, org <span class="op">=</span> <span class="va">org</span>, var <span class="op">=</span> <span class="va">var</span>, remove_xy <span class="op">=</span> <span class="va">remove_xy</span>, remove_mt <span class="op">=</span> <span class="va">remove_mt</span>, min_count <span class="op">=</span> <span class="va">min_count</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span>
+<span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_dist_pip.html">run_dist_pip</a></span><span class="op">(</span>dds <span class="op">=</span> <span class="va">dds</span>, var <span class="op">=</span> <span class="va">var</span>, batch <span class="op">=</span> <span class="va">batch</span>, pals <span class="op">=</span> <span class="va">pals</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Module 2: Differential Expression Analysis</span></span>
-<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_diffexp_pip.html">run_diffexp_pip</a></span><span class="op">(</span><span class="va">dds</span>, org <span class="op">=</span> <span class="va">org</span>, group_by <span class="op">=</span> <span class="va">group_by</span>, order <span class="op">=</span> <span class="va">order</span>, one_to_all <span class="op">=</span> <span class="va">one_to_all</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Running PAIRWISE differential expression analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## using pre-existing size factors</span></span></code></pre>
-<pre><code><span><span class="co">## estimating dispersions</span></span></code></pre>
-<pre><code><span><span class="co">## gene-wise dispersion estimates</span></span></code></pre>
-<pre><code><span><span class="co">## mean-dispersion relationship</span></span></code></pre>
-<pre><code><span><span class="co">## final dispersion estimates</span></span></code></pre>
-<pre><code><span><span class="co">## fitting model and testing</span></span></code></pre>
-<pre><code><span><span class="co">## using 'ashr' for LFC shrinkage. If used in published research, please cite:</span></span>
-<span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
-<span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
-<pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## Removed 8 rows with NA values or invalid gene symbols</span></span></code></pre>
-<pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 700 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 703 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 14978 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 35 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 14978 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 39 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
-<pre><code><span><span class="co">## using pre-existing size factors</span></span></code></pre>
-<pre><code><span><span class="co">## estimating dispersions</span></span></code></pre>
-<pre><code><span><span class="co">## gene-wise dispersion estimates</span></span></code></pre>
-<pre><code><span><span class="co">## mean-dispersion relationship</span></span></code></pre>
-<pre><code><span><span class="co">## final dispersion estimates</span></span></code></pre>
-<pre><code><span><span class="co">## fitting model and testing</span></span></code></pre>
-<pre><code><span><span class="co">## using 'ashr' for LFC shrinkage. If used in published research, please cite:</span></span>
-<span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
-<span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
-<pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## Removed 8 rows with NA values or invalid gene symbols</span></span></code></pre>
-<pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 1544 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 1546 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-6-3.png" width="700"></p>
-<pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 16549 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 23 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 16549 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 30 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-6-4.png" width="700"></p>
-<pre><code><span><span class="co">## using pre-existing size factors</span></span></code></pre>
-<pre><code><span><span class="co">## estimating dispersions</span></span></code></pre>
-<pre><code><span><span class="co">## gene-wise dispersion estimates</span></span></code></pre>
-<pre><code><span><span class="co">## mean-dispersion relationship</span></span></code></pre>
-<pre><code><span><span class="co">## final dispersion estimates</span></span></code></pre>
-<pre><code><span><span class="co">## fitting model and testing</span></span></code></pre>
-<pre><code><span><span class="co">## using 'ashr' for LFC shrinkage. If used in published research, please cite:</span></span>
-<span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
-<span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
-<pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## Removed 8 rows with NA values or invalid gene symbols</span></span></code></pre>
-<pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 951 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 952 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-6-5.png" width="700"></p>
-<pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 15579 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 35 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 15579 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 37 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-6-6.png" width="700"></p>
-<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#res &lt;- plot_peak_annot_pip(res, org = org, save_dir = save_dir)</span></span></code></pre></div>
-<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_diffexp_pip.html">run_diffexp_pip</a></span><span class="op">(</span><span class="va">dds</span>, org <span class="op">=</span> <span class="va">org</span>, var <span class="op">=</span> <span class="va">var</span>, design <span class="op">=</span> <span class="va">design</span>, comparisons <span class="op">=</span> <span class="cn">NULL</span>, order <span class="op">=</span> <span class="va">order</span>, save_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">save_dir</span>, <span class="st">"/"</span>, <span class="va">var</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Module 3: GSEA Analysis</span></span>
-<span><span class="va">group_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">save_dir</span>, <span class="st">"/pairwise_"</span>, <span class="va">group_by</span><span class="op">)</span></span>
-<span><span class="va">gsea</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_gsea_pip.html">run_gsea_pip</a></span><span class="op">(</span>res <span class="op">=</span> <span class="va">res</span>, org <span class="op">=</span> <span class="va">org</span>, msigdbr <span class="op">=</span> , group_save_dir <span class="op">=</span> <span class="va">group_dir</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 8 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 8 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 6 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 6 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-2.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-3.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 20 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 20 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-4.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 3 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 3 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-5.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 8 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 8 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-6.png" width="700"></p>
-<pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.03% of the list).</span></span>
-<span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.03% of the list).</span></span>
-<span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.03% of the list).</span></span>
-<span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.03% of the list).</span></span>
-<span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.03% of the list).</span></span>
-<span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.03% of the list).</span></span>
-<span><span class="co">## The order of those tied genes will be arbitrary, which may produce unexpected results.</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 10 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 10 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-7.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 4 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 4 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-8.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 3 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 3 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-9.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 6 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 6 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-10.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"): Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span>
-<span><span class="co">## Removed 6 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 6 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-11.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 1 row containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 1 row containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-12.png" width="700"></p>
-<pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 17 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 17 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-13.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 9 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 9 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-14.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 2 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 2 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-15.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 4 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 4 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-16.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 3 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 3 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-17.png" width="700"></p>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 11 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## Removed 11 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-7-18.png" width="700"></p>
-<div class="sourceCode" id="cb308"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/enrichmentmap_pip.html">enrichmentmap_pip</a></span><span class="op">(</span><span class="va">dds</span>, org <span class="op">=</span> <span class="va">org</span>, group_by <span class="op">=</span> <span class="va">group_by</span>, group_dir <span class="op">=</span> <span class="va">group_dir</span>, save_dir <span class="op">=</span> <span class="va">group_dir</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Formatting for enrichmentmap...</span></span></code></pre>
-<pre><code><span><span class="co">## Writing class files for PAIRWISE comparisons...</span></span></code></pre>
-</div>
-<div class="section level2">
-<h2 id="module-1-breakdown">Module 1 Breakdown<a class="anchor" aria-label="anchor" href="#module-1-breakdown"></a>
-</h2>
-<p>The <code><a href="../reference/run_qc_pip.html">run_qc_pip()</a></code> module contains a sequence of
-subprocesses that performs quality control checks on the data. This
-includes removing XY and MT genes, removing lowly expressed genes, and
-checking library size distribution.</p>
-<div class="section level3">
-<h3 id="remove-xy-and-mt-genes">Remove XY and MT genes<a class="anchor" aria-label="anchor" href="#remove-xy-and-mt-genes"></a>
-</h3>
-<p>If your data contains samples taken from both males and females that
-you are not interested in, you can optionally remove gender-specific
-genes on X and Y chromosomes. This can be done with the
-<code><a href="../reference/remove_xy_genes.html">remove_xy_genes()</a></code> function.</p>
-<p>Similarly, if your data contains mitochondrial genes that you are not
-interested in, you can optionally remove them with the
-<code><a href="../reference/remove_mt_genes.html">remove_mt_genes()</a></code> function.</p>
-<p>This is optional but recommended if you see a gender-specific effect
-in downstream PCA and distance analysis.</p>
-<div class="sourceCode" id="cb311"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># when remove_xy or remove_mt are TRUE</span></span>
-<span><span class="kw">if</span><span class="op">(</span><span class="va">remove_xy</span><span class="op">)</span> <span class="op">{</span> </span>
-<span>  <span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/remove_xy_genes.html">remove_xy_genes</a></span><span class="op">(</span><span class="va">dds</span>, org <span class="op">=</span> <span class="va">org</span><span class="op">)</span><span class="op">}</span></span></code></pre></div>
-<pre><code><span><span class="co">## Removing 0 XY genes out of 50426 total genes...</span></span></code></pre>
-<div class="sourceCode" id="cb313"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="va">remove_mt</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/remove_mt_genes.html">remove_mt_genes</a></span><span class="op">(</span><span class="va">dds</span>, org <span class="op">=</span> <span class="va">org</span><span class="op">)</span><span class="op">}</span></span></code></pre></div>
-<pre><code><span><span class="co">## Removing 0 MT genes out of 50426 total genes...</span></span></code></pre>
-</div>
-<div class="section level3">
-<h3 id="remove-lowly-expressed-genes">Remove lowly expressed genes<a class="anchor" aria-label="anchor" href="#remove-lowly-expressed-genes"></a>
-</h3>
-<p>RNA-seq is a high-throughput technology that can be noisy, and
-certain genes are poorly captured from RNA-seq. To control for this, we
-will remove these genes to improve statistical power for subsequent
-analysis.</p>
-<p>By default we keep genes with at least 5% of total expression
-(<code>remove_low_expression(..., quantile = 0.05)</code>). The gene
-must also be expressed in at least n replicates, where n is the minimum
-replicates in the group.</p>
-<div class="sourceCode" id="cb315"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># remove low expression genes</span></span>
-<span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/remove_low_expression.html">remove_low_expression</a></span><span class="op">(</span><span class="va">dds</span>, quantile <span class="op">=</span> <span class="va">quantile</span>, group_by <span class="op">=</span> <span class="va">group_by</span>, save_plot <span class="op">=</span> <span class="va">save_plot</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Filtering genes with low expressions...</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
-</div>
-<div class="section level3">
-<h3 id="check-library-size-distribution">Check library size distribution<a class="anchor" aria-label="anchor" href="#check-library-size-distribution"></a>
-</h3>
-<p>Expression of genes may vary between samples, and this may be due to
-sample/batch quality issues.</p>
-<p>Here we draw a boxplot representing expression level of every gene
-and compare the gene expression distribution from each sample using the
-<code><a href="../reference/check_library.html">check_library()</a></code> function.</p>
-<p>If the boxplots show little variation in expression level across
-samples, this indicates that the samples are of high quality and
-suitable for differential expression analysis.</p>
-<p>Otherwise, one should consider removing the samples with low quality
-or perform batch correction downstream to address quality issues. This
-will address technical variation between samples/batches and improve the
-statistical power for true biological variations.</p>
-<div class="sourceCode" id="cb317"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># check library size distribution</span></span>
-<span><span class="fu"><a href="../reference/check_library.html">check_library</a></span><span class="op">(</span><span class="va">dds</span>, save_plot <span class="op">=</span> <span class="va">save_plot</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
-</div>
-<div class="section level3">
-<h3 id="run-pca-and-distance-analysis">Run PCA and distance analysis<a class="anchor" aria-label="anchor" href="#run-pca-and-distance-analysis"></a>
-</h3>
-<p>Next we visualize the relationship between samples/groups using PCA
-and distance analysis using the <code><a href="../reference/run_pca.html">run_pca()</a></code> and
-<code><a href="../reference/run_distance.html">run_distance()</a></code> functions.</p>
-<p>If there are true biological variability between groups, replicas
-from the same group should cluster closely in the PCA plot and have
-lower distance values in the distance heatmap.</p>
-<p>Again, one should consider sample/batch quality if the samples do not
-separate as expected.</p>
-<div class="sourceCode" id="cb318"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># run PCA for the samples with group information</span></span>
-<span><span class="va">vsd</span> <span class="op">&lt;-</span> <span class="fu">vst</span><span class="op">(</span><span class="va">dds</span>, blind <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/run_pca.html">run_pca</a></span><span class="op">(</span><span class="va">vsd</span>, group_by <span class="op">=</span> <span class="va">group_by</span>, size <span class="op">=</span> <span class="fl">4</span>, save_data <span class="op">=</span> <span class="va">save_data</span>, save_plot <span class="op">=</span> <span class="va">save_plot</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## using ntop=500 top features by variance</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-11-1.png" width="700"><img src="rna_guide_files/figure-html/unnamed-chunk-11-2.png" width="700"></p>
-<div class="sourceCode" id="cb320"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># run distance analysis between samples</span></span>
-<span><span class="fu"><a href="../reference/run_distance.html">run_distance</a></span><span class="op">(</span><span class="va">vsd</span>, save_data <span class="op">=</span> <span class="va">save_data</span>, save_plot <span class="op">=</span> <span class="va">save_plot</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-11-3.png" width="700"></p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="module-2-differential-expression-analysis">Module 2: Differential Expression Analysis<a class="anchor" aria-label="anchor" href="#module-2-differential-expression-analysis"></a>
-</h2>
-<p>The <code><a href="../reference/run_diffexp_pip.html">run_diffexp_pip()</a></code> module performs statistical
-analysis to identify differentially expressed genes between groups using
-<code><a href="https://rdrr.io/pkg/DESeq2/man/DESeq2-package.html" class="external-link">DESeq2::DESeq2()</a></code> function, with p-values were generated
-using DESeq2 test.</p>
-<div class="section level3">
-<h3 id="main-function">Main function<a class="anchor" aria-label="anchor" href="#main-function"></a>
-</h3>
-<p>The main function in the module is the <code><a href="../reference/run_diffexp_pip.html">run_diffexp_pip()</a></code>
-function, which by default will perform all pairwise/one-to-all
-comparisons between groups in the DESeq2 object.</p>
-<p>This returns a single dataframe all metrics from
-<code><a href="https://rdrr.io/pkg/DESeq2/man/results.html" class="external-link">DESeq2::results()</a></code>, and the differentially expressed genes
-for each comparison is separated by <code>comparison</code> column.</p>
-<p>Fold change shrinkage is also performed by <code>ashr</code>
-method.</p>
-<p>Additionally, chromosome loci and functional annotations of each gene
-was added to the dataframe using the
-<code><a href="https://hungms.github.io/deseq2pip/reference/run_annotation.html">strpip::run_annotation()</a></code> function (see <a href="https://github.com/hungms/strpip" class="external-link uri">https://github.com/hungms/strpip</a>).</p>
-<div class="sourceCode" id="cb321"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># run differential expression analysis for all comparisons; skipped here</span></span>
-<span><span class="co">#res &lt;- run_diffexp_pip(dds, group_by = group_by, one_to_all = one_to_all, save_data = save_data, save_dir = save_dir)</span></span>
-<span><span class="co">#head(res)</span></span>
-<span></span>
-<span><span class="co"># run differential expression analysis for a specific comparison</span></span>
-<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_diffexp.html">run_diffexp</a></span><span class="op">(</span><span class="va">dds</span>, org <span class="op">=</span> <span class="va">org</span>, group_by <span class="op">=</span> <span class="va">group_by</span>, comparison <span class="op">=</span> <span class="st">"IgG_vs_IgA"</span>, order <span class="op">=</span> <span class="va">order</span>, save_data <span class="op">=</span> <span class="va">save_data</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## using pre-existing size factors</span></span></code></pre>
-<pre><code><span><span class="co">## estimating dispersions</span></span></code></pre>
-<pre><code><span><span class="co">## gene-wise dispersion estimates</span></span></code></pre>
-<pre><code><span><span class="co">## mean-dispersion relationship</span></span></code></pre>
-<pre><code><span><span class="co">## final dispersion estimates</span></span></code></pre>
-<pre><code><span><span class="co">## fitting model and testing</span></span></code></pre>
-<pre><code><span><span class="co">## using 'ashr' for LFC shrinkage. If used in published research, please cite:</span></span>
-<span><span class="co">##     Stephens, M. (2016) False discovery rates: a new deal. Biostatistics, 18:2.</span></span>
-<span><span class="co">##     https://doi.org/10.1093/biostatistics/kxw041</span></span></code></pre>
-<pre><code><span><span class="co">## Combining row metadata to results...</span></span></code></pre>
-<pre><code><span><span class="co">## Removed 8 rows with NA values or invalid gene symbols</span></span></code></pre>
-<div class="sourceCode" id="cb331"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##       baseMean log2FoldChange     lfcSE        pvalue          padj     gene</span></span>
-<span><span class="co">## 1 1609294.3823       5.888986 0.2486099 2.150302e-127 3.564985e-123   Ighg2b</span></span>
-<span><span class="co">## 2  414449.8996       7.416217 0.4127803  1.333262e-75  1.105207e-71    Ighg1</span></span>
-<span><span class="co">## 3 1109964.2111       6.136009 0.3462582  1.711502e-73  9.458330e-70   Ighg2c</span></span>
-<span><span class="co">## 4     116.5320       4.668852 0.4445062  9.408951e-30  1.949888e-26    Smad3</span></span>
-<span><span class="co">## 5     490.8044       3.150512 0.3229892  1.222197e-24  1.688567e-21 BC035044</span></span>
-<span><span class="co">## 6    1329.3438       3.792944 0.4491024  2.942726e-20  2.217612e-17     Pld4</span></span>
-<span><span class="co">##        baseVar allZero dispGeneEst dispGeneIter    dispFit dispersion dispIter</span></span>
-<span><span class="co">## 1 3.115152e+12   FALSE  0.05815237            7 0.05148407 0.05866094        5</span></span>
-<span><span class="co">## 2 2.634566e+11   FALSE  0.29667561           10 0.05149559 0.15946279       10</span></span>
-<span><span class="co">## 3 1.402000e+12   FALSE  0.12433466            8 0.05148587 0.11288714        9</span></span>
-<span><span class="co">## 4 1.567870e+04   FALSE  0.07974167            9 0.10667979 0.09091352        7</span></span>
-<span><span class="co">## 5 1.921200e+05   FALSE  0.11029032            8 0.06458617 0.09178199        5</span></span>
-<span><span class="co">## 6 2.076169e+06   FALSE  0.27614296            9 0.05631895 0.18122957        9</span></span>
-<span><span class="co">##   dispOutlier    dispMAP Intercept Group2_IgG_vs_IgA SE_Intercept</span></span>
-<span><span class="co">## 1       FALSE 0.05866094 15.661421          5.933155    0.1747477</span></span>
-<span><span class="co">## 2       FALSE 0.15946279 12.154245          7.498636    0.2883103</span></span>
-<span><span class="co">## 3       FALSE 0.11288714 14.846632          6.216173    0.2424103</span></span>
-<span><span class="co">## 4       FALSE 0.09091352  2.947762          4.871319    0.3664599</span></span>
-<span><span class="co">## 5       FALSE 0.09178199  6.498391          3.301159    0.2349418</span></span>
-<span><span class="co">## 6       FALSE 0.18122957  7.237719          4.054703    0.3142603</span></span>
-<span><span class="co">##   SE_Group2_IgG_vs_IgA WaldStatistic_Intercept WaldStatistic_Group2_IgG_vs_IgA</span></span>
-<span><span class="co">## 1            0.2471047               89.623064                       24.010693</span></span>
-<span><span class="co">## 2            0.4075524               42.156816                       18.399197</span></span>
-<span><span class="co">## 3            0.3427872               61.245867                       18.134207</span></span>
-<span><span class="co">## 4            0.4299801                8.043889                       11.329172</span></span>
-<span><span class="co">## 5            0.3221623               27.659581                       10.246884</span></span>
-<span><span class="co">## 6            0.4397236               23.030968                        9.221025</span></span>
-<span><span class="co">##   WaldPvalue_Intercept WaldPvalue_Group2_IgG_vs_IgA betaConv betaIter  deviance</span></span>
-<span><span class="co">## 1         0.000000e+00                2.150302e-127     TRUE        3 199.93005</span></span>
-<span><span class="co">## 2         0.000000e+00                 1.333262e-75     TRUE        3 179.66890</span></span>
-<span><span class="co">## 3         0.000000e+00                 1.711502e-73     TRUE        3 199.11238</span></span>
-<span><span class="co">## 4         8.703135e-16                 9.408951e-30     TRUE        3  59.25030</span></span>
-<span><span class="co">## 5        2.140447e-168                 1.222197e-24     TRUE        3  88.69925</span></span>
-<span><span class="co">## 6        2.282327e-117                 2.942726e-20     TRUE        3 107.26246</span></span>
-<span><span class="co">##     maxCooks comparison      pxfc      rank mouse_chromosome human_gene_symbol</span></span>
-<span><span class="co">## 1 0.06337948 IgG_vs_IgA 721.09417 721.09417             &lt;NA&gt;              &lt;NA&gt;</span></span>
-<span><span class="co">## 2 0.66246996 IgG_vs_IgA 526.22919 526.22919             &lt;NA&gt;              &lt;NA&gt;</span></span>
-<span><span class="co">## 3 0.50039836 IgG_vs_IgA 423.53300 423.53300             &lt;NA&gt;              &lt;NA&gt;</span></span>
-<span><span class="co">## 4 0.07789860 IgG_vs_IgA 120.03614 120.03614                9             SMAD3</span></span>
-<span><span class="co">## 5 2.02423141 IgG_vs_IgA  65.44395  65.44395             &lt;NA&gt;              &lt;NA&gt;</span></span>
-<span><span class="co">## 6 0.31871834 IgG_vs_IgA  63.16813  63.16813               12              PLD4</span></span>
-<span><span class="co">##   human_chromosome human_gene_symbol_unique human_chromosome_unique entity_type</span></span>
-<span><span class="co">## 1             &lt;NA&gt;                     &lt;NA&gt;                    &lt;NA&gt;        &lt;NA&gt;</span></span>
-<span><span class="co">## 2             &lt;NA&gt;                     &lt;NA&gt;                    &lt;NA&gt;        &lt;NA&gt;</span></span>
-<span><span class="co">## 3             &lt;NA&gt;                     &lt;NA&gt;                    &lt;NA&gt;        &lt;NA&gt;</span></span>
-<span><span class="co">## 4               15                    SMAD3                      15     protein</span></span>
-<span><span class="co">## 5             &lt;NA&gt;                     &lt;NA&gt;                    &lt;NA&gt;        &lt;NA&gt;</span></span>
-<span><span class="co">## 6               14                     PLD4                      14     protein</span></span>
-<span><span class="co">##                       category</span></span>
-<span><span class="co">## 1                         &lt;NA&gt;</span></span>
-<span><span class="co">## 2                         &lt;NA&gt;</span></span>
-<span><span class="co">## 3                         &lt;NA&gt;</span></span>
-<span><span class="co">## 4                intracellular</span></span>
-<span><span class="co">## 5                         &lt;NA&gt;</span></span>
-<span><span class="co">## 6 transmembrane, intracellular</span></span>
-<span><span class="co">##                                                  parent consensus_score is_cs</span></span>
-<span><span class="co">## 1                                                  &lt;NA&gt;              NA    NA</span></span>
-<span><span class="co">## 2                                                  &lt;NA&gt;              NA    NA</span></span>
-<span><span class="co">## 3                                                  &lt;NA&gt;              NA    NA</span></span>
-<span><span class="co">## 4                                         intracellular               3 FALSE</span></span>
-<span><span class="co">## 5                                                  &lt;NA&gt;              NA    NA</span></span>
-<span><span class="co">## 6 transmembrane_predicted, intracellular, transmembrane               4  TRUE</span></span>
-<span><span class="co">##                                                     database_cs is_tf</span></span>
-<span><span class="co">## 1                                                          &lt;NA&gt;    NA</span></span>
-<span><span class="co">## 2                                                          &lt;NA&gt;    NA</span></span>
-<span><span class="co">## 3                                                          &lt;NA&gt;    NA</span></span>
-<span><span class="co">## 4               OmniPath, GO_Intercell, ComPPI, LOCATE, UniProt  TRUE</span></span>
-<span><span class="co">## 5                                                          &lt;NA&gt;    NA</span></span>
-<span><span class="co">## 6 Phobius, GO_Intercell, UniProt, OmniPath, Ramilowski_location FALSE</span></span>
-<span><span class="co">##                                                                                                                                                                                                                                                                                                                                                                                           database_tf</span></span>
-<span><span class="co">## 1                                                                                                                                                                                                                                                                                                                                                                                                &lt;NA&gt;</span></span>
-<span><span class="co">## 2                                                                                                                                                                                                                                                                                                                                                                                                &lt;NA&gt;</span></span>
-<span><span class="co">## 3                                                                                                                                                                                                                                                                                                                                                                                                &lt;NA&gt;</span></span>
-<span><span class="co">## 4 CollecTRI;DoRothEA;ExTRI_CollecTRI;NTNU.Curated_CollecTRI;RegNetwork_DoRothEA;TFactS_CollecTRI;TFactS_DoRothEA;TRED_DoRothEA;TRRUST_CollecTRI;TRRUST_DoRothEA;HTRI_CollecTRI;HTRIdb;HTRIdb_DoRothEA;ReMap_DoRothEA;FANTOM4_DoRothEA;CytReg_CollecTRI;GEREDB_CollecTRI;SIGNOR;SIGNOR_CollecTRI;ARACNe-GTEx_DoRothEA;GOA_CollecTRI;IntAct_CollecTRI;IntAct_DoRothEA;HOCOMOCO_DoRothEA;JASPAR_DoRothEA</span></span>
-<span><span class="co">## 5                                                                                                                                                                                                                                                                                                                                                                                                &lt;NA&gt;</span></span>
-<span><span class="co">## 6                                                                                                                                                                                                                                                                                                                                                                                                &lt;NA&gt;</span></span></code></pre>
-</div>
-<div class="section level3">
-<h3 id="generating-ma-volcano-plots">Generating MA &amp; volcano plots<a class="anchor" aria-label="anchor" href="#generating-ma-volcano-plots"></a>
-</h3>
-<p>Here we will use <code><a href="../reference/plot_ma.html">plot_ma()</a></code> and
-<code><a href="../reference/plot_volcano.html">plot_volcano()</a></code> to generate a single MA plot for the
-<code>IgG_vs_IgA</code> comparison as a demonstration.</p>
-<div class="sourceCode" id="cb333"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># generate MA plot for the "IgG_vs_IgA" comparison</span></span>
-<span><span class="fu"><a href="../reference/plot_ma.html">plot_ma</a></span><span class="op">(</span><span class="va">res</span>, save_plot <span class="op">=</span> <span class="va">save_plot</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 952 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
-<pre><code><span><span class="co">## Warning: ggrepel: 952 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-13-2.png" width="700"></p>
-<div class="sourceCode" id="cb340"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Generate volcano plot for the "IgA_vs_IgG" comparison</span></span>
-<span><span class="fu"><a href="../reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res</span>, save_plot <span class="op">=</span> <span class="cn">FALSE</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 15579 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<pre><code><span><span class="co">## Warning: ggrepel: 37 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-13-3.png" width="700"></p>
-<pre><code><span><span class="co">## Warning: Removed 15579 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span>
-<span><span class="co">## ggrepel: 37 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-13-4.png" width="700"></p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="module-3-gsea-analysis">Module 3: GSEA Analysis<a class="anchor" aria-label="anchor" href="#module-3-gsea-analysis"></a>
-</h2>
-<p>The final <code><a href="../reference/run_gsea_pip.html">run_gsea_pip()</a></code> module performs gene set
-enrichment analysis to identify biological pathways and processes using
-a list of MSigDB gene set collections (HALLMARK, GOBP, KEGG, REACTOME,
-TFT, BIOCARTA). Gene sets must have at least 10 and no more than 1000
-genes to be tested.</p>
-<div class="section level3">
-<h3 id="main-function-1">Main function<a class="anchor" aria-label="anchor" href="#main-function-1"></a>
-</h3>
-<p>This returns a list of gseaResult class objects for each gene set
-collection and comparison.</p>
-<div class="sourceCode" id="cb348"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># run gsea analysis</span></span>
-<span><span class="co"># gsea &lt;- run_gsea_pip(res, org = org, save_data = save_data, save_dir = save_dir)</span></span>
-<span></span>
-<span><span class="co"># run gsea analysis</span></span>
-<span><span class="va">gsea</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_gsea.html">run_gsea</a></span><span class="op">(</span><span class="va">res</span>, org <span class="op">=</span> <span class="va">org</span>, save_data <span class="op">=</span> <span class="va">save_data</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Converting baseMean to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting log2FoldChange to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting padj to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting rank to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<pre><code><span><span class="co">## using 'fgsea' for GSEA analysis, please cite Korotkevich et al (2019).</span></span></code></pre>
-<pre><code><span><span class="co">## preparing geneSet collections...</span></span></code></pre>
-<pre><code><span><span class="co">## GSEA analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## leading edge analysis...</span></span></code></pre>
-<pre><code><span><span class="co">## done...</span></span></code></pre>
-<div class="sourceCode" id="cb383"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">gsea</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "ID"              "Description"     "setSize"         "enrichmentScore"</span></span>
-<span><span class="co">##  [5] "NES"             "pvalue"          "p.adjust"        "qvalue"         </span></span>
-<span><span class="co">##  [9] "rank"            "leading_edge"    "core_enrichment" "collection"     </span></span>
-<span><span class="co">## [13] "comparison"</span></span></code></pre>
-</div>
-<div class="section level3">
-<h3 id="generate-barplots-for-top-enriched-gene-set-terms">Generate barplots for top enriched gene set terms<a class="anchor" aria-label="anchor" href="#generate-barplots-for-top-enriched-gene-set-terms"></a>
-</h3>
-<p>Here we will use <code><a href="../reference/plot_gsea_barplot.html">plot_gsea_barplot()</a></code> to generate a
-single barplot for the <code>IgA_vs_IgG</code> comparison using GOBP
-collection as a demonstration. By default, the barplot will show the top
-10 upregulated and downregulated terms.</p>
-<div class="sourceCode" id="cb385"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># generate barplot for the "IgA_vs_IgG" comparison</span></span>
-<span><span class="fu"><a href="../reference/plot_gsea_barplot.html">plot_gsea_barplot</a></span><span class="op">(</span><span class="va">gsea</span>, n <span class="op">=</span> <span class="fl">10</span>, save_plot <span class="op">=</span> <span class="cn">FALSE</span>, save_dir <span class="op">=</span> <span class="va">save_dir</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Converting NES to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting pvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Converting qvalue to numeric</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in sub(paste0("^", collection, "_"), "", gsea$ID): argument 'pattern'</span></span>
-<span><span class="co">## has length &gt; 1 and only the first element will be used</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in geom_col(aes(stroke = label), width = 0.75, col = "black"):</span></span>
-<span><span class="co">## Ignoring unknown aesthetics: <span style="color: #00BB00;">stroke</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: Removed 9 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
-<pre><code><span><span class="co">## Warning: Removed 9 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_text()`).</span></span></code></pre>
-<p><img src="rna_guide_files/figure-html/unnamed-chunk-15-2.png" width="700"></p>
-</div>
-<div class="section level3">
-<h3 id="enrichmentmap-pipeline">EnrichmentMap pipeline<a class="anchor" aria-label="anchor" href="#enrichmentmap-pipeline"></a>
-</h3>
-<p>Finally the module will run <code><a href="../reference/enrichmentmap_pip.html">enrichmentmap_pip()</a></code> which
-creates a enrichmentmap directory containing files formated for
-EnrichmentMap visualization.</p>
-<p>By default, the function will only use the HALLMARK, GOBP, KEGG and
-REACTOME collections. We will skip this step here.</p>
-<div class="sourceCode" id="cb393"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># run enrichmentmap pipeline</span></span>
-<span><span class="co">#enrichmentmap_pip(gsea, org = org, group_by = group_by, group_dir = group_dir, save_dir = group_dir)</span></span></code></pre></div>
-</div>
+<span><span class="va">gsea</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/run_gsea_pip.html">run_gsea_pip</a></span><span class="op">(</span>res <span class="op">=</span> <span class="va">res</span>, org <span class="op">=</span> <span class="va">org</span>, save_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">save_dir</span>, <span class="st">"/"</span>, <span class="va">var</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Module 4: EnrichmentMap</span></span>
+<span><span class="fu"><a href="../reference/enrichmentmap_pip.html">enrichmentmap_pip</a></span><span class="op">(</span><span class="va">dds</span>, org <span class="op">=</span> <span class="va">org</span>, var <span class="op">=</span> <span class="va">var</span>, group_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">save_dir</span>, <span class="st">"/"</span>, <span class="va">var</span><span class="op">)</span>, save_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">save_dir</span>, <span class="st">"/"</span>, <span class="va">var</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -970,7 +191,7 @@ REACTOME collections. We will skip this step here.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

@@ -13,7 +13,7 @@ organized directories."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">deseq2pip</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@ organized directories."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Run Complete ATAC-seq Pipeline</h1>
-      <small class="dont-index">Source: <a href="https://github.com/hungms/deseq2pip/blob/main/R/main_functions.R" class="external-link"><code>R/main_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/hungms/deseq2pip/blob/main/R/00_main.R" class="external-link"><code>R/00_main.R</code></a></small>
       <div class="d-none name"><code>run_atac_pip.Rd</code></div>
     </div>
 
@@ -58,12 +58,14 @@ organized directories.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">run_atac_pip</span><span class="op">(</span></span>
 <span>  <span class="va">dds</span>,</span>
 <span>  <span class="va">org</span>,</span>
-<span>  <span class="va">group_by</span>,</span>
+<span>  <span class="va">var</span>,</span>
+<span>  <span class="va">design</span>,</span>
+<span>  batch <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  comparisons <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pals <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  remove_xy <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  remove_mt <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  quantile <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>  pals <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  batch <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  min_count <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  order <span class="op">=</span> <span class="st">"pxfc"</span>,</span>
 <span>  TSS <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  save_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -82,8 +84,20 @@ organized directories.</p>
 <dd><p>The organism to use, either "human" or "mouse".</p></dd>
 
 
-<dt id="arg-group-by">group_by<a class="anchor" aria-label="anchor" href="#arg-group-by"></a></dt>
+<dt id="arg-var">var<a class="anchor" aria-label="anchor" href="#arg-var"></a></dt>
 <dd><p>Column name in colData(dds) to use for grouping.</p></dd>
+
+
+<dt id="arg-design">design<a class="anchor" aria-label="anchor" href="#arg-design"></a></dt>
+<dd><p>Design formula for the DESeq2 object.</p></dd>
+
+
+<dt id="arg-comparisons">comparisons<a class="anchor" aria-label="anchor" href="#arg-comparisons"></a></dt>
+<dd><p>Vector of comparisons to run. Default is NULL</p></dd>
+
+
+<dt id="arg-pals">pals<a class="anchor" aria-label="anchor" href="#arg-pals"></a></dt>
+<dd><p>Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL</p></dd>
 
 
 <dt id="arg-remove-xy">remove_xy<a class="anchor" aria-label="anchor" href="#arg-remove-xy"></a></dt>
@@ -94,16 +108,8 @@ organized directories.</p>
 <dd><p>Logical. If TRUE, removes mitochondrial genes. Default is FALSE</p></dd>
 
 
-<dt id="arg-quantile">quantile<a class="anchor" aria-label="anchor" href="#arg-quantile"></a></dt>
-<dd><p>Quantile threshold for filtering lowly expressed genes. Default is 0.05</p></dd>
-
-
-<dt id="arg-pals">pals<a class="anchor" aria-label="anchor" href="#arg-pals"></a></dt>
-<dd><p>Vector of colors to use for groups. If NULL, uses default ggplot2 colors. Default is NULL</p></dd>
-
-
-<dt id="arg-batch">batch<a class="anchor" aria-label="anchor" href="#arg-batch"></a></dt>
-<dd><p>Column name in colData(dds) to use for batch correction. Default is NULL</p></dd>
+<dt id="arg-min-count">min_count<a class="anchor" aria-label="anchor" href="#arg-min-count"></a></dt>
+<dd><p>Minimum count threshold for filtering lowly expressed genes. Default is 10</p></dd>
 
 
 <dt id="arg-order">order<a class="anchor" aria-label="anchor" href="#arg-order"></a></dt>
@@ -133,11 +139,9 @@ organized directories.</p>
 <span class="r-in"><span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu">run_atac_pip</span><span class="op">(</span><span class="va">dds</span>, </span></span>
 <span class="r-in"><span>                    org <span class="op">=</span> <span class="st">"mouse"</span>, </span></span>
 <span class="r-in"><span>                    remove_xy <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>                    group_by <span class="op">=</span> <span class="st">"Treatment"</span>,</span></span>
+<span class="r-in"><span>                    var <span class="op">=</span> <span class="st">"Treatment"</span>,</span></span>
 <span class="r-in"><span>                    save_dir <span class="op">=</span> <span class="st">"output"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Run pipeline with batch correction</span></span></span>
-<span class="r-in"><span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu">run_atac_pip</span><span class="op">(</span><span class="va">dds</span>, batch <span class="op">=</span> <span class="st">"Batch"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
@@ -150,7 +154,7 @@ organized directories.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

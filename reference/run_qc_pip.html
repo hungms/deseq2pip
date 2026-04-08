@@ -9,7 +9,7 @@ including filtering genes, generating QC plots, and saving expression data."></h
 
     <a class="navbar-brand me-2" href="../index.html">deseq2pip</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@ including filtering genes, generating QC plots, and saving expression data."></h
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Run Quality Control Pipeline</h1>
-      <small class="dont-index">Source: <a href="https://github.com/hungms/deseq2pip/blob/main/R/qc_functions.R" class="external-link"><code>R/qc_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/hungms/deseq2pip/blob/main/R/01_qc.R" class="external-link"><code>R/01_qc.R</code></a></small>
       <div class="d-none name"><code>run_qc_pip.Rd</code></div>
     </div>
 
@@ -52,10 +52,10 @@ including filtering genes, generating QC plots, and saving expression data.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">run_qc_pip</span><span class="op">(</span></span>
 <span>  <span class="va">dds</span>,</span>
 <span>  <span class="va">org</span>,</span>
+<span>  <span class="va">var</span>,</span>
 <span>  remove_xy <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  remove_mt <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  <span class="va">group_by</span>,</span>
-<span>  quantile <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  min_count <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  save_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  save_dir_name <span class="op">=</span> <span class="st">"qc_results"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -73,6 +73,10 @@ including filtering genes, generating QC plots, and saving expression data.</p>
 <dd><p>The organism to use, either "human" or "mouse".</p></dd>
 
 
+<dt id="arg-var">var<a class="anchor" aria-label="anchor" href="#arg-var"></a></dt>
+<dd><p>Column name in colData(dds) to use for grouping.</p></dd>
+
+
 <dt id="arg-remove-xy">remove_xy<a class="anchor" aria-label="anchor" href="#arg-remove-xy"></a></dt>
 <dd><p>Logical. If TRUE, removes genes on X and Y chromosomes. Default is TRUE</p></dd>
 
@@ -81,12 +85,8 @@ including filtering genes, generating QC plots, and saving expression data.</p>
 <dd><p>Logical. If TRUE, removes mitochondrial genes. Default is TRUE</p></dd>
 
 
-<dt id="arg-group-by">group_by<a class="anchor" aria-label="anchor" href="#arg-group-by"></a></dt>
-<dd><p>Column name in colData(dds) to use for grouping.</p></dd>
-
-
-<dt id="arg-quantile">quantile<a class="anchor" aria-label="anchor" href="#arg-quantile"></a></dt>
-<dd><p>Quantile threshold for filtering lowly expressed genes. Default is 0.05</p></dd>
+<dt id="arg-min-count">min_count<a class="anchor" aria-label="anchor" href="#arg-min-count"></a></dt>
+<dd><p>Minimum count threshold for filtering lowly expressed genes. Default is 10</p></dd>
 
 
 <dt id="arg-save-dir">save_dir<a class="anchor" aria-label="anchor" href="#arg-save-dir"></a></dt>
@@ -122,7 +122,7 @@ including filtering genes, generating QC plots, and saving expression data.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">deseq2pip</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +58,7 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="deseq2pip-a-deseq2-pipeline-for-rnaatac-seq-analysis">deseq2pip: A DESeq2 Pipeline for RNA/ATAC-seq Analysis<a class="anchor" aria-label="anchor" href="#deseq2pip-a-deseq2-pipeline-for-rnaatac-seq-analysis"></a>
 </h1></div>
-<p><a href="https://github.com/hungms/deseq2pip/actions" class="external-link"><img src="https://github.com/hungms/deseq2pip/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a> <a href="https://github.com/hungms/deseq2pip/actions" class="external-link"><img src="https://github.com/hungms/deseq2pip/workflows/pkgdown/badge.svg" alt="pkgdown"></a></p>
+<p><a href="https://github.com/hungms/deseq2pip/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/hungms/deseq2pip/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://github.com/hungms/deseq2pip/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/hungms/deseq2pip/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a></p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -93,18 +93,23 @@
 <span><span class="va">tx2gene</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html" class="external-link">gzfile</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"GSE189410.tx2gene.tsv.gz"</span>, package <span class="op">=</span> <span class="st">"deseq2pip"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/import_nfcore_rna.html">import_nfcore_rna</a></span><span class="op">(</span>rdata <span class="op">=</span> <span class="va">rdata</span>, tx2gene <span class="op">=</span> <span class="va">tx2gene</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># set group factor levels</span></span>
+<span><span class="va">dds</span><span class="op">$</span><span class="va">Group2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">dds</span><span class="op">$</span><span class="va">Group2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IgM"</span>, <span class="st">"IgG"</span>, <span class="st">"IgA"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># run rna pipeline</span></span>
 <span><span class="fu"><a href="reference/run_rna_pip.html">run_rna_pip</a></span><span class="op">(</span></span>
-<span>    dds <span class="op">=</span> <span class="va">dds</span>, <span class="co"># DESeq2 object</span></span>
-<span>    org <span class="op">=</span> <span class="st">"mouse"</span>, <span class="co"># organism, either "mouse" or "human"</span></span>
-<span>    group_by <span class="op">=</span> <span class="st">"Group2"</span>, <span class="co"># column name to group by in colData(dds)</span></span>
-<span>    remove_xy <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># whether to remove genes from XY chromosome</span></span>
-<span>    remove_mt <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># whether to remove mitochondrial genes</span></span>
-<span>    quantile <span class="op">=</span> <span class="fl">0.05</span>, <span class="co"># remove bottom 5% expressing genes</span></span>
-<span>    pals <span class="op">=</span> <span class="cn">NULL</span>, <span class="co"># named vector of hex colors for the group variables</span></span>
-<span>    batch <span class="op">=</span> <span class="cn">NULL</span>, <span class="co"># column name to batch-correct in colData(dds)</span></span>
-<span>    order <span class="op">=</span> <span class="st">"pxfc"</span>, <span class="co"># method to rank DEGs, either "log2FoldChange", "padj" or "pxfc"</span></span>
-<span>    save_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># path to store results</span></span>
+<span>    dds <span class="op">=</span> <span class="va">dds</span>,              <span class="co"># DESeq2 object</span></span>
+<span>    org <span class="op">=</span> <span class="st">"mouse"</span>,          <span class="co"># organism, either "mouse" or "human"</span></span>
+<span>    var <span class="op">=</span> <span class="st">"Group2"</span>,         <span class="co"># column name in colData(dds) to group by</span></span>
+<span>    design <span class="op">=</span> <span class="st">"~ Group2"</span>,    <span class="co"># design formula</span></span>
+<span>    comparisons <span class="op">=</span> <span class="cn">NULL</span>,     <span class="co"># NULL auto-generates all comparisons; see below for custom comparisons</span></span>
+<span>    remove_xy <span class="op">=</span> <span class="cn">TRUE</span>,       <span class="co"># whether to remove genes from XY chromosomes</span></span>
+<span>    remove_mt <span class="op">=</span> <span class="cn">TRUE</span>,       <span class="co"># whether to remove mitochondrial genes</span></span>
+<span>    min_count <span class="op">=</span> <span class="fl">10</span>,         <span class="co"># minimum count threshold for low-expression filtering</span></span>
+<span>    pals <span class="op">=</span> <span class="cn">NULL</span>,            <span class="co"># named vector of hex colors for group variables</span></span>
+<span>    batch <span class="op">=</span> <span class="cn">NULL</span>,           <span class="co"># column name in colData(dds) for batch correction</span></span>
+<span>    order <span class="op">=</span> <span class="st">"pxfc"</span>,         <span class="co"># method to rank DEGs: "log2FoldChange", "padj", or "pxfc"</span></span>
+<span>    save_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>      <span class="co"># path to store results</span></span>
 <span>    <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -118,22 +123,46 @@
 <span><span class="va">rdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"GSE224512.dds.RData"</span>, package <span class="op">=</span> <span class="st">"deseq2pip"</span><span class="op">)</span></span>
 <span><span class="va">annotatePeaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html" class="external-link">gzfile</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"GSE224512.annotatePeaks.txt.gz"</span>, package <span class="op">=</span> <span class="st">"deseq2pip"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/import_nfcore_atac.html">import_nfcore_atac</a></span><span class="op">(</span>rdata <span class="op">=</span> <span class="va">rdata</span>, annotatePeaks <span class="op">=</span> <span class="va">annotatePeaks</span><span class="op">)</span></span>
-<span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="va">dds</span><span class="op">[</span>, <span class="va">dds</span><span class="op">$</span><span class="va">Group1</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">'BC'</span>, <span class="st">'BCK'</span><span class="op">)</span><span class="op">]</span> <span class="co"># subset groups for brevity</span></span>
+<span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="va">dds</span><span class="op">[</span>, <span class="va">dds</span><span class="op">$</span><span class="va">Group1</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WT"</span>, <span class="st">"BC"</span>, <span class="st">"BCK"</span><span class="op">)</span><span class="op">]</span> <span class="co"># subset groups for brevity</span></span>
 <span></span>
 <span><span class="co"># run atac pipeline</span></span>
 <span><span class="fu"><a href="reference/run_atac_pip.html">run_atac_pip</a></span><span class="op">(</span></span>
-<span>    dds <span class="op">=</span> <span class="va">dds</span>, <span class="co"># DESeq2 object</span></span>
-<span>    org <span class="op">=</span> <span class="st">"mouse"</span>, <span class="co"># organism, either "mouse" or "human"</span></span>
-<span>    group_by <span class="op">=</span> <span class="st">"Group2"</span>, <span class="co"># column name to group by in colData(dds)</span></span>
-<span>    remove_xy <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># whether to remove genes from XY chromosome</span></span>
-<span>    remove_mt <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># whether to remove mitochondrial genes</span></span>
-<span>    quantile <span class="op">=</span> <span class="fl">0.05</span>, <span class="co"># remove bottom 5% expressing genes</span></span>
-<span>    pals <span class="op">=</span> <span class="cn">NULL</span>, <span class="co"># named vector of hex colors for the group variables</span></span>
-<span>    batch <span class="op">=</span> <span class="cn">NULL</span>, <span class="co"># column name to batch-correct in colData(dds)</span></span>
-<span>    order <span class="op">=</span> <span class="st">"pxfc"</span>, <span class="co"># method to rank DEGs, either "log2FoldChange", "padj" or "pxfc"</span></span>
-<span>    TSS <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># repeat pipeline for TSS peaks</span></span>
-<span>    save_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># path to store results</span></span>
+<span>    dds <span class="op">=</span> <span class="va">dds</span>,              <span class="co"># DESeq2 object</span></span>
+<span>    org <span class="op">=</span> <span class="st">"mouse"</span>,          <span class="co"># organism, either "mouse" or "human"</span></span>
+<span>    var <span class="op">=</span> <span class="st">"Group1"</span>,         <span class="co"># column name in colData(dds) to group by</span></span>
+<span>    design <span class="op">=</span> <span class="st">"~ Group1"</span>,    <span class="co"># design formula</span></span>
+<span>    comparisons <span class="op">=</span> <span class="cn">NULL</span>,     <span class="co"># NULL auto-generates all comparisons; see below for custom comparisons</span></span>
+<span>    remove_xy <span class="op">=</span> <span class="cn">TRUE</span>,       <span class="co"># whether to remove peaks on XY chromosomes</span></span>
+<span>    remove_mt <span class="op">=</span> <span class="cn">TRUE</span>,       <span class="co"># whether to remove mitochondrial peaks</span></span>
+<span>    min_count <span class="op">=</span> <span class="fl">10</span>,         <span class="co"># minimum count threshold for low-expression filtering</span></span>
+<span>    pals <span class="op">=</span> <span class="cn">NULL</span>,            <span class="co"># named vector of hex colors for group variables</span></span>
+<span>    batch <span class="op">=</span> <span class="cn">NULL</span>,           <span class="co"># column name in colData(dds) for batch correction</span></span>
+<span>    order <span class="op">=</span> <span class="st">"pxfc"</span>,         <span class="co"># method to rank DEGs: "log2FoldChange", "padj", or "pxfc"</span></span>
+<span>    TSS <span class="op">=</span> <span class="cn">TRUE</span>,             <span class="co"># repeat pipeline for TSS peaks</span></span>
+<span>    save_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>      <span class="co"># path to store results</span></span>
 <span>    <span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="specifying-custom-comparisons">Specifying Custom Comparisons<a class="anchor" aria-label="anchor" href="#specifying-custom-comparisons"></a>
+</h2>
+<p>By default (<code>comparisons = NULL</code>), the pipeline automatically generates all pairwise and one-to-all comparisons from the factor levels of <code>var</code>. To run only a specific subset, pass a character vector to the <code>comparisons</code> argument.</p>
+<div class="section level3">
+<h3 id="comparison-string-format">Comparison string format<a class="anchor" aria-label="anchor" href="#comparison-string-format"></a>
+</h3>
+<p>Comparisons follow the format <code>"numerator_vs_denominator"</code>. A positive <code>log2FoldChange</code> means a gene is upregulated in the <strong>numerator</strong> group relative to the <strong>denominator</strong> group.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Run only selected pairwise comparisons</span></span>
+<span><span class="fu"><a href="reference/run_rna_pip.html">run_rna_pip</a></span><span class="op">(</span><span class="va">dds</span>, org <span class="op">=</span> <span class="st">"mouse"</span>, var <span class="op">=</span> <span class="st">"Group2"</span>, design <span class="op">=</span> <span class="st">"~ Group2"</span>,</span>
+<span>    comparisons <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IgA_vs_IgM"</span>, <span class="st">"IgG_vs_IgM"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Run a combined-group comparison (IgA and IgG pooled vs IgM)</span></span>
+<span><span class="fu"><a href="reference/run_rna_pip.html">run_rna_pip</a></span><span class="op">(</span><span class="va">dds</span>, org <span class="op">=</span> <span class="st">"mouse"</span>, var <span class="op">=</span> <span class="st">"Group2"</span>, design <span class="op">=</span> <span class="st">"~ Group2"</span>,</span>
+<span>    comparisons <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IgA+IgG_vs_IgM"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Mix pairwise and combined-group comparisons</span></span>
+<span><span class="fu"><a href="reference/run_rna_pip.html">run_rna_pip</a></span><span class="op">(</span><span class="va">dds</span>, org <span class="op">=</span> <span class="st">"mouse"</span>, var <span class="op">=</span> <span class="st">"Group2"</span>, design <span class="op">=</span> <span class="st">"~ Group2"</span>,</span>
+<span>    comparisons <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IgA_vs_IgM"</span>, <span class="st">"IgG_vs_IgM"</span>, <span class="st">"IgA+IgG_vs_IgM"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="pipeline-workflows">Pipeline Workflows<a class="anchor" aria-label="anchor" href="#pipeline-workflows"></a>
@@ -144,10 +173,10 @@
 <p>Once the pipeline is initiated, pre-flight checks will be carried out to confirm if the following requirements are met:</p>
 <ul>
 <li>dds: DESeq2 object containing a count matrix: columns are samples, rows are genes</li>
-<li>colData(dds): must contain a <code>group_by</code> column, in addition to an optional <code>batch</code> column if specified</li>
+<li>colData(dds): must contain a <code>var</code> column, in addition to an optional <code>batch</code> column if specified</li>
 <li>rowData(dds): must contain a <code>gene</code> column. <code>peak</code> and <code>annotations</code> columns are also <b>required for ATAC-seq only</b>
 </li>
-<li>design(dds): must contain the <code>group_by</code> and <code>batch</code> columns if specified</li>
+<li>design(dds): must contain the <code>var</code> and <code>batch</code> columns if specified</li>
 </ul>
 </div>
 <div class="section level3">
@@ -176,6 +205,7 @@
 <strong>Differential Expression Analysis</strong>:
 <ul>
 <li>Automated PAIRWISE and ONE-TO-ALL comparisons between experimental groups</li>
+<li>Support for custom comparison subsets and combined-group comparisons via the <code>comparisons</code> argument</li>
 <li>Integrated DESeq2 workflow with convenient parameter settings</li>
 <li>Comprehensive result tables with gene-level functional annotation</li>
 </ul>
@@ -222,7 +252,7 @@
 ├── dds_qc.rds                       # processed DESeq2 object
 ├── dds_counts.txt                   # raw count matrix
 ├── dds_vst.txt                      # normalized expression matrix after VST
-├── low_expression.pdf               # density plot of gene expression levels
+├── low_expression_*.pdf             # density plot of gene expression levels
 ├── library_size_distribution.pdf    # boxplot of gene expression per sample
 ├── pca_*.tsv                        # PCA scores
 ├── pca_*.pdf                        # PCA plot
@@ -305,7 +335,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

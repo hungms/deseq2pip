@@ -1,0 +1,125 @@
+# RNA-seq Analysis Guide
+
+First, load the deseq2pip package:
+
+``` r
+suppressPackageStartupMessages(library(deseq2pip))
+```
+
+    ## Warning: replacing previous import 'S4Arrays::makeNindexFromArrayViewport' by
+    ## 'DelayedArray::makeNindexFromArrayViewport' when loading 'SummarizedExperiment'
+
+## Data Import and Setup
+
+Let’s import and prepare your data. We’ll use the example dataset
+GSE189410 to demonstrate the workflow:
+
+``` r
+# load example DESeq2 object
+rdata <- system.file("data", "GSE189410.dds.RData", package = "deseq2pip")
+tx2gene <- gzfile(system.file("data", "GSE189410.tx2gene.tsv.gz", package = "deseq2pip"))
+dds <- import_nfcore_rna(rdata = rdata, tx2gene = tx2gene)
+
+# set group variable (optional to manually set reference level)
+dds$Group2 <- factor(dds$Group2, c('IgM', 'IgG', 'IgA'))
+dds$Group3 <- factor(dds$Group3, c(1:4))
+
+# set dds design with desired variables
+# for more information about setting design matrix in DESeq2, see: https://github.com/tavareshugo/tutorial_DESeq2_contrasts?tab=readme-ov-file
+design(dds) <- ~ Group3 + Group2
+```
+
+## Detailed Overview of DESeq2 pipeline
+
+The run_deseq2_pip() function is a wrapper function that runs the
+complete RNA-seq analysis for **every PAIRWISE and ONE-TO-ALL comparison
+pairs** in the specified group variable.
+
+The analysis for each comparison pair can be broken down into three
+modules:
+
+1.  Quality Control: Filters genes, generates QC/PCA/distance plots, and
+    saves expression data
+
+- [`run_qc_pip()`](https://hungms.github.io/deseq2pip/reference/run_qc_pip.md)
+- [`run_dist_pip()`](https://hungms.github.io/deseq2pip/reference/run_dist_pip.md)
+
+2.  Differential Expression Analysis: Performs DESeq2 analysis,
+    functional gene annotation, and creates volcano plots
+
+- [`run_diffexp_pip()`](https://hungms.github.io/deseq2pip/reference/run_diffexp_pip.md)
+- [`plot_peak_annot_pip()`](https://hungms.github.io/deseq2pip/reference/plot_peak_annot_pip.md)
+  (ATAC-seq only)
+
+3.  GSEA Analysis: Find enriched pathways using MSigDB collections and
+    prepare results for EnrichmentMap visualization
+
+- [`run_gsea_pip()`](https://hungms.github.io/deseq2pip/reference/run_gsea_pip.md)
+- `run_enrichmentmap_pip()`
+
+For our example dataset, we have 3 comparison pairs in the group
+variable `Group2`: `IgM` vs `IgG`, `IgM` vs `IgA`, and `IgG` vs `IgA`.
+
+Here’s how to run the complete pipeline with a single command: *Note:
+Repeating run_deseq2_pip will overwrite the existing files if the same
+directory name is used. To prevent this, please specify a different
+save_dir directory.*
+
+First, set the global arguments.
+
+``` r
+# set pipeline arguments
+var <- "Group2" # required
+org <- "mouse" # required
+design <- "~ Group3 + Group2" # required
+comparisons <- c("IgG_vs_IgM", "IgA_vs_IgM", "IgA_vs_IgG", "IgM_vs_IgA+IgG", "IgG_vs_IgA+IgM", "IgA_vs_IgG+IgM") # optional
+batch <- "Group3" # optional
+remove_xy <- FALSE # optional
+remove_mt <- FALSE # optional
+min_count <- 10 # optional
+pals <- NULL # optional
+order <- "pxfc" # optional
+save_dir <- tempdir()
+dir.create(save_dir, recursive = TRUE)
+```
+
+``` r
+# run deseq2 pipeline
+run_rna_pip(dds = dds, org = org, var = var, design = design, batch = batch, comparisons = comparisons, remove_xy = remove_xy, remove_mt = remove_mt, min_count = min_count, pals = pals, order = order, save_dir = save_dir)
+```
+
+## Run individual modules
+
+After an initial run of the DESeq2 pipeline, you may wish to run a
+specific module using different parameters or comparison groups without
+repeating the entire pipeline.
+
+Here’s how to run each module separately.
+
+Below are the commands to run each individual module:
+
+``` r
+save_dir <- tempdir()
+dir.create(save_dir, recursive = TRUE)
+```
+
+``` r
+# Module 1: Quality Control
+dds <- run_qc_pip(dds = dds, org = org, var = var, remove_xy = remove_xy, remove_mt = remove_mt, min_count = min_count, save_dir = save_dir)
+dds <- run_dist_pip(dds = dds, var = var, batch = batch, pals = pals, save_dir = save_dir)
+```
+
+``` r
+# Module 2: Differential Expression Analysis
+res <- run_diffexp_pip(dds, org = org, var = var, design = design, comparisons = NULL, order = order, save_dir = paste0(save_dir, "/", var))
+```
+
+``` r
+# Module 3: GSEA Analysis
+gsea <- run_gsea_pip(res = res, org = org, save_dir = paste0(save_dir, "/", var))
+```
+
+``` r
+# Module 4: EnrichmentMap
+enrichmentmap_pip(dds, org = org, var = var, group_dir = paste0(save_dir, "/", var), save_dir = paste0(save_dir, "/", var))
+```
