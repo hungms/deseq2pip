@@ -32,7 +32,6 @@ rdata <- system.file("data", "GSE189410.dds.RData", package = "deseq2pip")
 tx2gene <- gzfile(system.file("data", "GSE189410.tx2gene.tsv.gz", package = "deseq2pip"))
 dds <- import_nfcore_rna(rdata = rdata, tx2gene = tx2gene)
 
-
 # set group variable (optional to manually set reference level)
 dds$Group2 <- factor(dds$Group2, c('IgM', 'IgG', 'IgA'))
 dds$Group3 <- factor(dds$Group3, c(1:4))
@@ -65,10 +64,9 @@ Here's how to run the complete pipeline with a single command:
 *Note: Repeating run_deseq2_pip will overwrite the existing files if the same directory name is used. To prevent this, please specify a different save_dir directory.*
 
 First, set the global arguments.
-```{r}
+```{r eval=FALSE}
 #| vscode: {languageId: r}
 # set pipeline arguments
-dds <- dds # required
 var <- "Group2" # required
 org <- "mouse" # required
 design <- "~ Group3 + Group2" # required
@@ -79,14 +77,14 @@ remove_mt <- FALSE # optional
 min_count <- 10 # optional
 pals <- NULL # optional
 order <- "pxfc" # optional
-save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/git-repos/r-pipelines/deseq2pip/tests/rnaseq/pipeline/"
+save_dir <- tempdir()
 dir.create(save_dir, recursive = TRUE)
 ```
 
-```{r}
+```{r eval=FALSE}
 #| vscode: {languageId: r}
 # run deseq2 pipeline
-run_rna_pip(dds = dds, org = org, var = var, design = design, batch = batch, comparisons = NULL, remove_xy = remove_xy, remove_mt = remove_mt, min_count = min_count, pals = pals, order = order, save_dir = save_dir)
+run_rna_pip(dds = dds, org = org, var = var, design = design, batch = batch, comparisons = comparisons, remove_xy = remove_xy, remove_mt = remove_mt, min_count = min_count, pals = pals, order = order, save_dir = save_dir)
 ```
 
 ## Run individual modules
@@ -97,31 +95,32 @@ Here's how to run each module separately.
 
 Below are the commands to run each individual module:
 
-```{r}
+```{r eval=FALSE}
 #| vscode: {languageId: r}
-save_dir <- "/Users/hungm/The Francis Crick Dropbox/CaladoD/Matthew/git-repos/r-pipelines/deseq2pip/tests/rnaseq/pipeline/"
+save_dir <- tempdir()
 dir.create(save_dir, recursive = TRUE)
 ```
-```{r}
+
+```{r eval=FALSE}
 #| vscode: {languageId: r}
 # Module 1: Quality Control
 dds <- run_qc_pip(dds = dds, org = org, var = var, remove_xy = remove_xy, remove_mt = remove_mt, min_count = min_count, save_dir = save_dir)
 dds <- run_dist_pip(dds = dds, var = var, batch = batch, pals = pals, save_dir = save_dir)
 ```
 
-```{r}
+```{r eval=FALSE}
 #| vscode: {languageId: r}
 # Module 2: Differential Expression Analysis
 res <- run_diffexp_pip(dds, org = org, var = var, design = design, comparisons = NULL, order = order, save_dir = paste0(save_dir, "/", var))
 ```
 
-```{r}
+```{r eval=FALSE}
 #| vscode: {languageId: r}
 # Module 3: GSEA Analysis
 gsea <- run_gsea_pip(res = res, org = org, save_dir = paste0(save_dir, "/", var))
 ```
 
-```{r}
+```{r eval=FALSE}
 #| vscode: {languageId: r}
 # Module 4: EnrichmentMap
 enrichmentmap_pip(dds, org = org, var = var, group_dir = paste0(save_dir, "/", var), save_dir = paste0(save_dir, "/", var))
