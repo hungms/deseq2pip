@@ -58,6 +58,5 @@
 #' }
 #'
 #' @importFrom SummarizedExperiment colData `colData<-`
-#' @importFrom S4Vectors DataFrame
 #' @name deseq2pip-package
 NULL

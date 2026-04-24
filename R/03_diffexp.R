@@ -162,14 +162,16 @@ run_diffexp <- function(dds, org, var, design, comparison, order, save_data = TR
     pair <- str_split(comparison, "_vs_") %>% unlist(.)
     contrast_vec <- c(var, pair[1], pair[2])
 
-    # Independent colData copy: pooled one-vs-rest must not mutate `dds`, which
-    # run_diffexp_pip() reuses for every comparison (would break later contrasts).
+    # Duplicate only `var` so pooled merges cannot collapse levels on parent `dds`
+    # (run_diffexp_pip reuses it). Replacing all of colData() drops mcols(colData)
+    # and breaks DESeq2 (e.g. replaceOutliers / mcols assignment).
     temp_dds <- dds
-    cd_df <- as.data.frame(colData(dds))
-    if (!identical(rownames(cd_df), colnames(dds))) {
-        rownames(cd_df) <- colnames(dds)
+    vr <- colData(dds)[[var]]
+    colData(temp_dds)[[var]] <- if (is.factor(vr)) {
+        factor(as.character(vr), levels = levels(vr))
+    } else {
+        factor(as.character(vr), levels = unique(as.character(vr)))
     }
-    colData(temp_dds) <- S4Vectors::DataFrame(cd_df)
 
     # fix groupings (one-vs-rest: merge levels using exact matches, not regex gsub)
     if (str_detect(pair[1], "\\+") | str_detect(pair[2], "\\+")) {

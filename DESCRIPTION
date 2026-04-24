@@ -45,8 +45,7 @@ Imports:
     tibble,
     tidyr,
     renv,
-    ggprism,
-    S4Vectors
+    ggprism
 Suggests:
     knitr,
     rmarkdown,
