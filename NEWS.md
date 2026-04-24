@@ -1,4 +1,12 @@
 # NEWS
+## v2.1.1 (2026-04-24)
+
+### Bug Fixes
+
+- **`run_diffexp()` one-vs-rest (pooled) comparisons:**
+  - Merging factor levels for comparisons containing `+` now uses exact level replacement instead of regular-expression `gsub()`, avoiding mis-mapping when level names are substrings of each other.
+  - Before calling `DESeq()`, the pipeline checks that the model matrix is full rank and raises a clear error when it is not (common when a covariate such as batch becomes confounded with the merged two-group contrast). This replaces the opaque DESeq2 `designAndArgChecker` rank-deficiency error in that situation.
+
 ## v2.1.0 (2026-03-17)
 ### New Features
 - **`comparisons` argument in main pipeline functions:**

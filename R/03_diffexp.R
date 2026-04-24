@@ -92,6 +92,41 @@ generate_comparisons <- function(var_levels){
     return(comparison_vec)
 }
 
+#' Fail early with a clear message if the design matrix is rank-deficient
+#' @noRd
+assert_full_rank_model_matrix <- function(dds_obj, design, comparison, group_var) {
+    mm <- stats::model.matrix(as.formula(design), data = as.data.frame(colData(dds_obj)))
+    rk <- qr(mm)$rank
+    nc <- ncol(mm)
+    if (rk >= nc) {
+        return(invisible(NULL))
+    }
+    pooled <- grepl("+", comparison, fixed = TRUE)
+    msg <- paste0(
+        "Model matrix is not full rank for comparison \"", comparison, "\" ",
+        "(rank ", rk, " < ", nc, " columns)."
+    )
+    if (pooled) {
+        msg <- paste0(
+            msg,
+            "\n\nOne-vs-rest comparisons merge several levels of `", group_var,
+            "` into one group. Other design terms (e.g. batch) can then become ",
+            "confounded with that merged grouping.\n\n",
+            "Try: use a simpler design if appropriate (e.g. `~ ", group_var, "`); ",
+            "or run only pairwise comparisons by passing `comparisons` without `+` ",
+            "(e.g. `comps <- generate_comparisons(levels(colData(dds)[['",
+            group_var, "']])); comps[!grepl(\"+\", comps, fixed = TRUE)]`)."
+        )
+    } else {
+        msg <- paste0(
+            msg,
+            "\n\nCheck that terms in the design are not linearly redundant with `",
+            group_var, "` for this contrast."
+        )
+    }
+    stop(msg, call. = FALSE)
+}
+
 #' Run Differential Expression Analysis
 #' 
 #' This function runs the differential expression analysis for a single comparison.
@@ -125,13 +160,24 @@ run_diffexp <- function(dds, org, var, design, comparison, order, save_data = TR
     # reset dds to full dds
     temp_dds <- dds
 
-    # fix groupings
-    if(str_detect(pair[1], "\\+") | str_detect(pair[2], "\\+")){
-        group1_vec <- str_split(pair[1], "\\+") %>% unlist(.)
-        group2_vec <- str_split(pair[2], "\\+") %>% unlist(.)
-        temp_dds[[var]] <- gsub(paste0(group1_vec, collapse = "|"), pair[1], temp_dds[[var]])
-        temp_dds[[var]] <- gsub(paste0(group2_vec, collapse = "|"), pair[2], temp_dds[[var]])
-        temp_dds[[var]] <- factor(temp_dds[[var]], c(pair[2], pair[1]))}
+    # fix groupings (one-vs-rest: merge levels using exact matches, not regex gsub)
+    if (str_detect(pair[1], "\\+") | str_detect(pair[2], "\\+")) {
+        group1_vec <- str_split(pair[1], "\\+") %>% unlist(.) %>% str_trim(.)
+        group2_vec <- str_split(pair[2], "\\+") %>% unlist(.) %>% str_trim(.)
+        v <- as.character(colData(temp_dds)[[var]])
+        if (length(intersect(group1_vec, group2_vec)) > 0) {
+            stop(
+                "Comparison \"", comparison, "\" has overlapping group names ",
+                "between the two sides after splitting on '+'.",
+                call. = FALSE
+            )
+        }
+        v[v %in% group1_vec] <- pair[1]
+        v[v %in% group2_vec] <- pair[2]
+        colData(temp_dds)[[var]] <- factor(v, levels = c(pair[2], pair[1]))
+    }
+
+    assert_full_rank_model_matrix(temp_dds, design, comparison, var)
 
     # fit DESeq2 model
     message("\t- fitting DESeq2 model...")
