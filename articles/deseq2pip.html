@@ -83,7 +83,7 @@ Hung</h4>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">save_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">save_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpM90eJq' already</span></span>
+<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpxM4lLS' already</span></span>
 <span><span class="co">## exists</span></span></code></pre>
 <p>Load DESeq2 object processed by nf-core/rnaseq.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -130,7 +130,7 @@ factor levels of <code>var</code>.</p>
 <span><span class="co">## The version of R recorded in the lockfile will be updated:</span></span>
 <span><span class="co">## - R      [* -&gt; 4.5.3]</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## - Lockfile written to "/tmp/RtmpM90eJq/logs/renv.lock".</span></span></code></pre>
+<span><span class="co">## - Lockfile written to "/tmp/RtmpxM4lLS/logs/renv.lock".</span></span></code></pre>
 <pre><code><span><span class="co">## Running RNA-seq pipeline with DESeq2pip v2.1.1</span></span></code></pre>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## ########################################################</span></span>
@@ -223,11 +223,11 @@ factor levels of <code>var</code>.</p>
 <pre><code><span><span class="co">##  - generating volcano plot...</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-17.png" class="r-plt" alt="" width="700"></p>
 <pre><code><span><span class="co">## &lt;&lt;IgM_vs_IgG+IgA&gt;&gt;</span></span></code></pre>
-<pre><code><span><span class="co">##  - fitting DESeq2 model...</span></span></code></pre>
 <pre><code><span><span class="co">##   Note: levels of factors in the design contain characters other than</span></span>
 <span><span class="co">##   letters, numbers, '_' and '.'. It is recommended (but not required) to use</span></span>
 <span><span class="co">##   only letters, numbers, and delimiters '_' or '.', as these are safe characters</span></span>
 <span><span class="co">##   for column names in R. [This is a message, not a warning or an error]</span></span></code></pre>
+<pre><code><span><span class="co">##  - fitting DESeq2 model...</span></span></code></pre>
 <pre><code><span><span class="co">##  - extracting differential expression results...</span></span></code></pre>
 <pre><code><span><span class="co">##  - shrinking lfc by ashr...</span></span></code></pre>
 <pre><code><span><span class="co">##  - 1049 DE genes found: 513 upregulated and 536 downregulated</span></span></code></pre>
@@ -236,11 +236,11 @@ factor levels of <code>var</code>.</p>
 <pre><code><span><span class="co">##  - generating volcano plot...</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-19.png" class="r-plt" alt="" width="700"></p>
 <pre><code><span><span class="co">## &lt;&lt;IgG_vs_IgM+IgA&gt;&gt;</span></span></code></pre>
-<pre><code><span><span class="co">##  - fitting DESeq2 model...</span></span></code></pre>
 <pre><code><span><span class="co">##   Note: levels of factors in the design contain characters other than</span></span>
 <span><span class="co">##   letters, numbers, '_' and '.'. It is recommended (but not required) to use</span></span>
 <span><span class="co">##   only letters, numbers, and delimiters '_' or '.', as these are safe characters</span></span>
 <span><span class="co">##   for column names in R. [This is a message, not a warning or an error]</span></span></code></pre>
+<pre><code><span><span class="co">##  - fitting DESeq2 model...</span></span></code></pre>
 <pre><code><span><span class="co">##  - extracting differential expression results...</span></span></code></pre>
 <pre><code><span><span class="co">##  - shrinking lfc by ashr...</span></span></code></pre>
 <pre><code><span><span class="co">##  - 671 DE genes found: 339 upregulated and 332 downregulated</span></span></code></pre>
@@ -249,11 +249,11 @@ factor levels of <code>var</code>.</p>
 <pre><code><span><span class="co">##  - generating volcano plot...</span></span></code></pre>
 <p><img src="deseq2pip_files/figure-html/unnamed-chunk-5-21.png" class="r-plt" alt="" width="700"></p>
 <pre><code><span><span class="co">## &lt;&lt;IgA_vs_IgM+IgG&gt;&gt;</span></span></code></pre>
-<pre><code><span><span class="co">##  - fitting DESeq2 model...</span></span></code></pre>
 <pre><code><span><span class="co">##   Note: levels of factors in the design contain characters other than</span></span>
 <span><span class="co">##   letters, numbers, '_' and '.'. It is recommended (but not required) to use</span></span>
 <span><span class="co">##   only letters, numbers, and delimiters '_' or '.', as these are safe characters</span></span>
 <span><span class="co">##   for column names in R. [This is a message, not a warning or an error]</span></span></code></pre>
+<pre><code><span><span class="co">##  - fitting DESeq2 model...</span></span></code></pre>
 <pre><code><span><span class="co">##  - extracting differential expression results...</span></span></code></pre>
 <pre><code><span><span class="co">##  - shrinking lfc by ashr...</span></span></code></pre>
 <pre><code><span><span class="co">##  - 1073 DE genes found: 528 upregulated and 545 downregulated</span></span></code></pre>
@@ -488,7 +488,7 @@ comparison:</p>
 <div class="sourceCode" id="cb211"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">save_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">save_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpM90eJq' already</span></span>
+<pre><code><span><span class="co">## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpxM4lLS' already</span></span>
 <span><span class="co">## exists</span></span></code></pre>
 <p>Load DESeq2 object processed by nf-core/atacseq</p>
 <div class="sourceCode" id="cb213"><pre class="downlit sourceCode r">

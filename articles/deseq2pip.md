@@ -17,7 +17,7 @@ save_dir <- tempdir()
 dir.create(save_dir, recursive = TRUE)
 ```
 
-    ## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpM90eJq' already
+    ## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpxM4lLS' already
     ## exists
 
 Load DESeq2 object processed by nf-core/rnaseq.
@@ -75,7 +75,7 @@ dds <- run_rna_pip(
     ## The version of R recorded in the lockfile will be updated:
     ## - R      [* -> 4.5.3]
     ## 
-    ## - Lockfile written to "/tmp/RtmpM90eJq/logs/renv.lock".
+    ## - Lockfile written to "/tmp/RtmpxM4lLS/logs/renv.lock".
 
     ## Running RNA-seq pipeline with DESeq2pip v2.1.1
 
@@ -242,12 +242,12 @@ dds <- run_rna_pip(
 
     ## <<IgM_vs_IgG+IgA>>
 
-    ##  - fitting DESeq2 model...
-
     ##   Note: levels of factors in the design contain characters other than
     ##   letters, numbers, '_' and '.'. It is recommended (but not required) to use
     ##   only letters, numbers, and delimiters '_' or '.', as these are safe characters
     ##   for column names in R. [This is a message, not a warning or an error]
+
+    ##  - fitting DESeq2 model...
 
     ##  - extracting differential expression results...
 
@@ -265,12 +265,12 @@ dds <- run_rna_pip(
 
     ## <<IgG_vs_IgM+IgA>>
 
-    ##  - fitting DESeq2 model...
-
     ##   Note: levels of factors in the design contain characters other than
     ##   letters, numbers, '_' and '.'. It is recommended (but not required) to use
     ##   only letters, numbers, and delimiters '_' or '.', as these are safe characters
     ##   for column names in R. [This is a message, not a warning or an error]
+
+    ##  - fitting DESeq2 model...
 
     ##  - extracting differential expression results...
 
@@ -288,12 +288,12 @@ dds <- run_rna_pip(
 
     ## <<IgA_vs_IgM+IgG>>
 
-    ##  - fitting DESeq2 model...
-
     ##   Note: levels of factors in the design contain characters other than
     ##   letters, numbers, '_' and '.'. It is recommended (but not required) to use
     ##   only letters, numbers, and delimiters '_' or '.', as these are safe characters
     ##   for column names in R. [This is a message, not a warning or an error]
+
+    ##  - fitting DESeq2 model...
 
     ##  - extracting differential expression results...
 
@@ -690,7 +690,7 @@ save_dir <- tempdir()
 dir.create(save_dir, recursive = TRUE)
 ```
 
-    ## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpM90eJq' already
+    ## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpxM4lLS' already
     ## exists
 
 Load DESeq2 object processed by nf-core/atacseq
