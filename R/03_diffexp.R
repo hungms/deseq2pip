@@ -169,7 +169,7 @@ run_diffexp <- function(dds, org, var, design, comparison, order, save_data = TR
     if (!identical(rownames(cd_df), colnames(dds))) {
         rownames(cd_df) <- colnames(dds)
     }
-    colData(temp_dds) <- cd_df
+    colData(temp_dds) <- S4Vectors::DataFrame(cd_df)
 
     # fix groupings (one-vs-rest: merge levels using exact matches, not regex gsub)
     if (str_detect(pair[1], "\\+") | str_detect(pair[2], "\\+")) {
