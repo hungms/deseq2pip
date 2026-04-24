@@ -5,7 +5,8 @@
 
 - **`run_diffexp()` one-vs-rest (pooled) comparisons:**
   - Merging factor levels for comparisons containing `+` now uses exact level replacement instead of regular-expression `gsub()`, avoiding mis-mapping when level names are substrings of each other.
-  - Before calling `DESeq()`, the pipeline checks that the model matrix is full rank and raises a clear error when it is not (common when a covariate such as batch becomes confounded with the merged two-group contrast). This replaces the opaque DESeq2 `designAndArgChecker` rank-deficiency error in that situation.
+  - Before calling `DESeq()`, the pipeline assigns the design to the temporary `DESeqDataSet` and checks rank using the same `stats::model.matrix(design(object), ...)` construction as DESeq2’s `designAndArgChecker` (with `betaPrior = FALSE`). Pooled comparisons also error if any sample’s `var` level is not listed on either side of the contrast after merging.
+  - **Shared `dds` mutation:** each call to `run_diffexp()` now installs an independent `colData` copy on `temp_dds`. Pooled one-vs-rest used to collapse `var` on the same object reused by `run_diffexp_pip()`, which broke later pairwise contrasts (`cleanContrast` / missing `resultsNames` such as `Group1_DZc_vs_LZc`).
 
 ## v2.1.0 (2026-03-17)
 ### New Features

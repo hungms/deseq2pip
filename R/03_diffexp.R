@@ -92,10 +92,15 @@ generate_comparisons <- function(var_levels){
     return(comparison_vec)
 }
 
-#' Fail early with a clear message if the design matrix is rank-deficient
+#' Fail early with a clear message if the design matrix is rank-deficient.
+#' Uses the same construction as DESeq2::designAndArgChecker when betaPrior is FALSE.
 #' @noRd
-assert_full_rank_model_matrix <- function(dds_obj, design, comparison, group_var) {
-    mm <- stats::model.matrix(as.formula(design), data = as.data.frame(colData(dds_obj)))
+assert_full_rank_model_matrix <- function(dds_obj, comparison, group_var) {
+    des <- design(dds_obj)
+    if (!inherits(des, "formula")) {
+        return(invisible(NULL))
+    }
+    mm <- stats::model.matrix(des, data = as.data.frame(colData(dds_obj)))
     rk <- qr(mm)$rank
     nc <- ncol(mm)
     if (rk >= nc) {
@@ -157,8 +162,14 @@ run_diffexp <- function(dds, org, var, design, comparison, order, save_data = TR
     pair <- str_split(comparison, "_vs_") %>% unlist(.)
     contrast_vec <- c(var, pair[1], pair[2])
 
-    # reset dds to full dds
+    # Independent colData copy: pooled one-vs-rest must not mutate `dds`, which
+    # run_diffexp_pip() reuses for every comparison (would break later contrasts).
     temp_dds <- dds
+    cd_df <- as.data.frame(colData(dds))
+    if (!identical(rownames(cd_df), colnames(dds))) {
+        rownames(cd_df) <- colnames(dds)
+    }
+    colData(temp_dds) <- cd_df
 
     # fix groupings (one-vs-rest: merge levels using exact matches, not regex gsub)
     if (str_detect(pair[1], "\\+") | str_detect(pair[2], "\\+")) {
@@ -174,14 +185,25 @@ run_diffexp <- function(dds, org, var, design, comparison, order, save_data = TR
         }
         v[v %in% group1_vec] <- pair[1]
         v[v %in% group2_vec] <- pair[2]
+        if (!all(v %in% c(pair[1], pair[2]))) {
+            leftover <- setdiff(unique(v), c(pair[1], pair[2]))
+            stop(
+                "After merging levels for comparison \"", comparison, "\", some samples ",
+                "still have `", var, "` values not on either side of the contrast (e.g. ",
+                paste(leftover, collapse = ", "), "). ",
+                "Pooled comparisons must list every original level on one side or the other.",
+                call. = FALSE
+            )
+        }
         colData(temp_dds)[[var]] <- factor(v, levels = c(pair[2], pair[1]))
     }
 
-    assert_full_rank_model_matrix(temp_dds, design, comparison, var)
+    # Match DESeq2: design slot must be set before model.matrix rank checks
+    design(temp_dds) <- as.formula(design)
+    assert_full_rank_model_matrix(temp_dds, comparison, var)
 
     # fit DESeq2 model
     message("\t- fitting DESeq2 model...")
-    design(temp_dds) <- as.formula(design)
     temp_dds <- quiet(DESeq(temp_dds))
     
     # extract differential expression results

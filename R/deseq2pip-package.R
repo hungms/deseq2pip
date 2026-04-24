@@ -57,5 +57,6 @@
 #' gsea_results <- run_gsea(res)
 #' }
 #'
+#' @importFrom SummarizedExperiment colData `colData<-`
 #' @name deseq2pip-package
 NULL

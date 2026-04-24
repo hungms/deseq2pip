@@ -39,6 +39,7 @@ Imports:
     plotr,
     scales,
     stringr,
+    SummarizedExperiment,
     strpip,
     sva,
     tibble,
