@@ -33,8 +33,8 @@ sessionInfo()
     ## [8] methods   base     
     ## 
     ## other attached packages:
-    ##  [1] deseq2pip_2.1.0             ggprism_1.0.7              
-    ##  [3] renv_1.2.0                  enrichplot_1.30.5          
+    ##  [1] deseq2pip_2.1.1             ggprism_1.0.7              
+    ##  [3] renv_1.2.2                  enrichplot_1.30.5          
     ##  [5] ashr_2.2-63                 sva_3.58.0                 
     ##  [7] BiocParallel_1.44.0         genefilter_1.92.0          
     ##  [9] mgcv_1.9-4                  nlme_3.1-168               
@@ -52,7 +52,7 @@ sessionInfo()
     ## [33] RColorBrewer_1.1-3          wesanderson_0.3.7          
     ## [35] ggrepel_0.9.8               viridis_0.6.5              
     ## [37] viridisLite_0.4.3           cowplot_1.2.0              
-    ## [39] patchwork_1.3.2             ggplot2_4.0.2              
+    ## [39] patchwork_1.3.2             ggplot2_4.0.3              
     ## [41] strpip_0.1.4                biomaRt_2.66.2             
     ## [43] data.table_1.18.2.1         magrittr_2.0.5             
     ## [45] rlang_1.2.0                 stringr_1.6.0              
@@ -65,8 +65,8 @@ sessionInfo()
     ##   [7] httr2_1.2.2             mixsqp_0.3-54           rstatix_0.7.3          
     ##  [10] edgeR_4.8.2             lattice_0.22-9          MASS_7.3-65            
     ##  [13] backports_1.5.1         sass_0.4.10             rmarkdown_2.31         
-    ##  [16] jquerylib_0.1.4         yaml_2.3.12             ggtangle_0.1.1         
-    ##  [19] DBI_1.3.0               abind_1.4-8             purrr_1.2.1            
+    ##  [16] jquerylib_0.1.4         yaml_2.3.12             ggtangle_0.1.2         
+    ##  [19] DBI_1.3.0               abind_1.4-8             purrr_1.2.2            
     ##  [22] R.utils_2.13.0          yulab.utils_0.2.4       tweenr_2.0.3           
     ##  [25] rappdirs_0.3.4          gdtools_0.5.0           irlba_2.3.7            
     ##  [28] tidytree_0.4.7          annotate_1.88.0         pkgdown_2.2.0          
@@ -75,8 +75,8 @@ sessionInfo()
     ##  [37] farver_2.1.2            BiocFileCache_3.0.0     jsonlite_2.0.0         
     ##  [40] Formula_1.2-5           survival_3.8-6          systemfonts_1.3.2      
     ##  [43] tools_4.5.3             ggnewscale_0.5.2        progress_1.2.3         
-    ##  [46] treeio_1.34.0           ragg_1.5.2              Rcpp_1.1.1             
-    ##  [49] glue_1.8.0              gridExtra_2.3           SparseArray_1.10.10    
+    ##  [46] treeio_1.34.0           ragg_1.5.2              Rcpp_1.1.1-1.1         
+    ##  [49] glue_1.8.1              gridExtra_2.3           SparseArray_1.10.10    
     ##  [52] xfun_0.57               qvalue_2.42.0           withr_3.0.2            
     ##  [55] fastmap_1.2.0           truncnorm_1.0-9         digest_0.6.39          
     ##  [58] R6_2.6.1                gridGraphics_0.5-1      textshaping_1.0.5      
@@ -84,21 +84,21 @@ sessionInfo()
     ##  [64] fontLiberation_0.1.0    prettyunits_1.2.0       httr_1.4.8             
     ##  [67] htmlwidgets_1.6.4       S4Arrays_1.10.1         scatterpie_0.2.6       
     ##  [70] pkgconfig_2.0.3         gtable_0.3.6            blob_1.3.0             
-    ##  [73] S7_0.2.1                XVector_0.50.0          htmltools_0.5.9        
+    ##  [73] S7_0.2.2                XVector_0.50.0          htmltools_0.5.9        
     ##  [76] fontBitstreamVera_0.1.1 carData_3.0-6           png_0.1-9              
     ##  [79] ggfun_0.2.0             knitr_1.51              reshape2_1.4.5         
-    ##  [82] curl_7.0.0              cachem_1.1.0            parallel_4.5.3         
+    ##  [82] curl_7.1.0              cachem_1.1.0            parallel_4.5.3         
     ##  [85] AnnotationDbi_1.72.0    desc_1.4.3              pillar_1.11.1          
-    ##  [88] vctrs_0.7.2             car_3.1-5               tidydr_0.0.6           
+    ##  [88] vctrs_0.7.3             car_3.1-5               tidydr_0.0.6           
     ##  [91] dbplyr_2.5.2            xtable_1.8-8            cluster_2.1.8.2        
-    ##  [94] evaluate_1.0.5          invgamma_1.2            cli_3.6.5              
+    ##  [94] evaluate_1.0.5          invgamma_1.2            cli_3.6.6              
     ##  [97] locfit_1.5-9.12         compiler_4.5.3          crayon_1.5.3           
     ## [100] SQUAREM_2026.1          ggsignif_0.6.4          plyr_1.8.9             
-    ## [103] fs_2.0.1                ggiraph_0.9.6           stringi_1.8.7          
+    ## [103] fs_2.1.0                ggiraph_0.9.6           stringi_1.8.7          
     ## [106] assertthat_0.2.1        babelgene_22.9          Biostrings_2.78.0      
     ## [109] lazyeval_0.2.3          GOSemSim_2.36.0         fontquiver_0.2.1       
-    ## [112] Matrix_1.7-4            hms_1.1.4               bit64_4.6.0-1          
-    ## [115] statmod_1.5.1           KEGGREST_1.50.0         igraph_2.2.3           
+    ## [112] Matrix_1.7-4            hms_1.1.4               bit64_4.8.0            
+    ## [115] statmod_1.5.1           KEGGREST_1.50.0         igraph_2.3.0           
     ## [118] broom_1.0.12            memoise_2.0.1           bslib_0.10.0           
     ## [121] ggtree_4.0.5            fastmatch_1.1-8         bit_4.6.0              
     ## [124] ape_5.8-1               gson_0.1.0

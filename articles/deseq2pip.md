@@ -17,7 +17,7 @@ save_dir <- tempdir()
 dir.create(save_dir, recursive = TRUE)
 ```
 
-    ## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpuxUX6f' already
+    ## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpM90eJq' already
     ## exists
 
 Load DESeq2 object processed by nf-core/rnaseq.
@@ -70,14 +70,14 @@ dds <- run_rna_pip(
     ## The following package(s) will be updated in the lockfile:
     ## 
     ## # CRAN -----------------------------------------------------------------------
-    ## - renv   [* -> 1.2.0]
+    ## - renv   [* -> 1.2.2]
     ## 
     ## The version of R recorded in the lockfile will be updated:
     ## - R      [* -> 4.5.3]
     ## 
-    ## - Lockfile written to "/tmp/RtmpuxUX6f/logs/renv.lock".
+    ## - Lockfile written to "/tmp/RtmpM90eJq/logs/renv.lock".
 
-    ## Running RNA-seq pipeline with DESeq2pip v2.1.0
+    ## Running RNA-seq pipeline with DESeq2pip v2.1.1
 
     ## 
     ## ########################################################
@@ -690,7 +690,7 @@ save_dir <- tempdir()
 dir.create(save_dir, recursive = TRUE)
 ```
 
-    ## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpuxUX6f' already
+    ## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpM90eJq' already
     ## exists
 
 Load DESeq2 object processed by nf-core/atacseq
@@ -740,7 +740,7 @@ dds <- run_atac_pip(
 
     ## - The library is already synchronized with the lockfile.
 
-    ## Running ATAC-seq pipeline with DESeq2pip v2.1.0
+    ## Running ATAC-seq pipeline with DESeq2pip v2.1.1
 
     ## 
     ## ########################################################
