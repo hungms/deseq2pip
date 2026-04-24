@@ -17,7 +17,7 @@ save_dir <- tempdir()
 dir.create(save_dir, recursive = TRUE)
 ```
 
-    ## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpxM4lLS' already
+    ## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/Rtmpgf6YZ9' already
     ## exists
 
 Load DESeq2 object processed by nf-core/rnaseq.
@@ -75,7 +75,7 @@ dds <- run_rna_pip(
     ## The version of R recorded in the lockfile will be updated:
     ## - R      [* -> 4.5.3]
     ## 
-    ## - Lockfile written to "/tmp/RtmpxM4lLS/logs/renv.lock".
+    ## - Lockfile written to "/tmp/Rtmpgf6YZ9/logs/renv.lock".
 
     ## Running RNA-seq pipeline with DESeq2pip v2.1.1
 
@@ -690,7 +690,7 @@ save_dir <- tempdir()
 dir.create(save_dir, recursive = TRUE)
 ```
 
-    ## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/RtmpxM4lLS' already
+    ## Warning in dir.create(save_dir, recursive = TRUE): '/tmp/Rtmpgf6YZ9' already
     ## exists
 
 Load DESeq2 object processed by nf-core/atacseq
