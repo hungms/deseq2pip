@@ -158,12 +158,15 @@ run_gsea <- function(res, org, msigdbr = import_msigdbr(org), save_data = T, sav
 
 #' Plot GSEA Results
 #'
-#' This function creates a barplot to visualize GSEA results, showing the most significant
-#' gene sets in each direction (up and down-regulated).
+#' This function creates a barplot to visualize GSEA results. In both modes, the top
+#' `n` gene sets per direction (Up / Down) are chosen by **largest absolute NES**.
+#' If `signif = TRUE`, results are first restricted to `qvalue < 0.05`, then the same
+#' `n`-per-direction rule applies.
 #'
 #' @param gsea GSEA result data frame from run_gsea()
 #' @param n Number of top gene sets to show in each direction. Default is 10
-#' @param signif Logical. If TRUE, only shows gene sets with q-value < 0.05. Default is TRUE
+#' @param signif Logical. If TRUE, only gene sets with q-value < 0.05 are eligible, then
+#'   the top `n` per direction by absolute NES are shown. Default is FALSE.
 #' @param save_plot Logical. If TRUE, saves the plot to PDF. Default is TRUE
 #' @param save_dir Directory to save the plot. Default is current working directory
 #' @return A ggplot object showing the GSEA barplot
@@ -194,7 +197,7 @@ plot_gsea_barplot <- function(gsea, n = 10, signif = F, save_plot = T, save_dir 
             arrange(desc(NES^2)) %>% 
             mutate(direction = ifelse(NES > 0, "Up", "Down"), direction = factor(direction, c("Up", "Down"))) %>% 
             group_by(direction) %>% 
-            slice_min(n = n, order_by = qvalue, with_ties = F) %>% 
+            slice_max(n = n, order_by = abs(NES), with_ties = F) %>% 
             .$ID
 
         # get significant pathways
@@ -204,7 +207,7 @@ plot_gsea_barplot <- function(gsea, n = 10, signif = F, save_plot = T, save_dir 
                 arrange(desc(NES^2)) %>% 
                 mutate(direction = ifelse(NES > 0, "Up", "Down"), direction = factor(direction, c("Up", "Down"))) %>% 
                 group_by(direction) %>% 
-                slice_min(n = n, order_by = qvalue, with_ties = F) %>% 
+                slice_max(n = n, order_by = abs(NES), with_ties = F) %>% 
                 .$ID}
 
         # get selected gsea

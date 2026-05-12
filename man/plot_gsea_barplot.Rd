@@ -11,7 +11,8 @@ plot_gsea_barplot(gsea, n = 10, signif = F, save_plot = T, save_dir = getwd())
 
 \item{n}{Number of top gene sets to show in each direction. Default is 10}
 
-\item{signif}{Logical. If TRUE, only shows gene sets with q-value < 0.05. Default is TRUE}
+\item{signif}{Logical. If TRUE, only gene sets with q-value < 0.05 are eligible, then
+the top \code{n} per direction by absolute NES are shown. Default is FALSE.}
 
 \item{save_plot}{Logical. If TRUE, saves the plot to PDF. Default is TRUE}
 
@@ -21,8 +22,10 @@ plot_gsea_barplot(gsea, n = 10, signif = F, save_plot = T, save_dir = getwd())
 A ggplot object showing the GSEA barplot
 }
 \description{
-This function creates a barplot to visualize GSEA results, showing the most significant
-gene sets in each direction (up and down-regulated).
+This function creates a barplot to visualize GSEA results. In both modes, the top
+\code{n} gene sets per direction (Up / Down) are chosen by \strong{largest absolute NES}.
+If \code{signif = TRUE}, results are first restricted to \code{qvalue < 0.05}, then the same
+\code{n}-per-direction rule applies.
 }
 \examples{
 \dontrun{

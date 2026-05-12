@@ -1,4 +1,10 @@
 # NEWS
+## v2.1.2 (2026-05-12)
+
+### Minor Changes
+
+- **`plot_gsea_barplot()`:** the top `n` gene sets per direction (Up / Down) are now chosen by **largest absolute NES** (`slice_max(..., order_by = abs(NES))`) instead of smallest q-value. If `signif = TRUE`, pathways are first filtered to `qvalue < 0.05`, then the same top-`|NES|` rule is applied per direction.
+
 ## v2.1.1 (2026-04-24)
 
 ### Bug Fixes
